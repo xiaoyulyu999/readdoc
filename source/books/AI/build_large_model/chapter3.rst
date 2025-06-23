@@ -743,3 +743,239 @@ Compact Causal Attention Class
    #context_vecs.shape: torch.Size([2, 6, 2])
 
 .. image:: c3/22.png
+
+3.6 Extending single-head attention to multi-head attention
+-----------------------------------------------------------
+
+Multi-head: Dividing the attention mechanism into multiple heads, each operating independently.
+
+There is only ONE set of attention weights processing the input sequentially.
+
+3.6.1 Stacking multiple single-head attention layers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: c3/23.png
+
+The main idea behind multi-head attention is to run the attention mechanism multiple times (in parallel) with different, learned linear projections—the results of multiplying the input data (like the query, key, and value vectors in attention mechanisms) by a weight matrix.
+
+.. code-block:: python
+
+   class MultiHeadAttentionWrapper(nn.Module):
+     def __init__(self, d_in, d_out, context_length,
+                    dropout, num_heads, qkv_bias=False):
+       super().__init__()
+
+       self.heads = nn.ModuleList(
+               [CausalAttention(
+                     d_in, d_out, context_length, dropout, qkv_bias
+                 )
+                 for _ in range(num_heads)]
+           )
+
+     def forward(self, x):
+         return torch.cat([head(x) for head in self.heads], dim=-1)
+
+.. tip::
+
+   - self.heads -> A nn.ModuleList contains a list of CausalAttention, the length depend on the number of heads are needed.
+
+   - torch.cat -> merge ModeleList together base on dim requirement. CausalAttention's shape is (a, b, c), when dim=-1, the torch.cat should only consider c.
+
+.. image:: c3/24.png
+
+.. tip::
+   ♻️ num_heads = 2, d_out = 2
+
+.. code-block:: python
+
+   torch.manual_seed(123)
+   context_length = batch.shape[1]
+   d_in, d_out = 3, 2
+   mha = MultiHeadAttentionWrapper(
+       d_in, d_out, context_length, 0.0, num_heads=2
+   )
+   context_vecs = mha(batch)
+
+
+   batch.shape, mha, context_vecs, context_vecs.shape
+   '''
+   (torch.Size([2, 6, 3]),
+    MultiHeadAttentionWrapper(
+      (heads): ModuleList(
+        (0-1): 2 x CausalAttention(
+          (W_query): Linear(in_features=3, out_features=2, bias=False)
+          (W_key): Linear(in_features=3, out_features=2, bias=False)
+          (W_value): Linear(in_features=3, out_features=2, bias=False)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+      )
+    ),
+    tensor([[[-0.4519,  0.2216,  0.4772,  0.1063],
+             [-0.5874,  0.0058,  0.5891,  0.3257],
+             [-0.6300, -0.0632,  0.6202,  0.3860],
+             [-0.5675, -0.0843,  0.5478,  0.3589],
+             [-0.5526, -0.0981,  0.5321,  0.3428],
+             [-0.5299, -0.1081,  0.5077,  0.3493]],
+
+            [[-0.4519,  0.2216,  0.4772,  0.1063],
+             [-0.5874,  0.0058,  0.5891,  0.3257],
+             [-0.6300, -0.0632,  0.6202,  0.3860],
+             [-0.5675, -0.0843,  0.5478,  0.3589],
+             [-0.5526, -0.0981,  0.5321,  0.3428],
+             [-0.5299, -0.1081,  0.5077,  0.3493]]], grad_fn=<CatBackward0>),
+    torch.Size([2, 6, 4]))
+   '''
+.. tip::
+
+   The first dimension of the resulting context_vecs tensor is 2 since we have two input texts (the input texts are duplicated, which is why the context vectors are exactly the same for those). The second dimension refers to the 6 tokens in each input. The third dimension refers to the four-dimensional embedding of each token.
+
+   The first dim 也就是 0 位， 是2， 因为我们的input的数量是2个，【【1-matrix】， 【1-matrix】】。
+
+   1 位，第二维度的 6， 是说有 6 个tokens 在每一个 1-matrix
+
+   最后在 2 位，第三维度是 4， 因为每一个out 是2， 我们一共有两个input，所以是4。 和图示描述一致。
+
+   🔰 Exercise 3.2 Returning two-dimensional embedding vectors
+
+   ✅ d_out = 1
+
+
+3.6.2 Implementing multi-head attention with weight splits
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. admonition:: 🔰 An Efficient Multi-head Attention Class.
+
+   .. code-block:: python
+
+      class MultiHeadAttention(nn.Module):
+        '''
+        #1 Reduces the projection dim to match the desired output dim
+        #2 Uses a Linear layer to combine head outputs
+        #3 Tensor shape: (b, num_tokens, d_out)
+        #4 We implicitly split the matrix by adding a num_heads dimension. Then we unroll the last dim: (b, num_tokens, d_out) -&gt; (b, num_tokens, num_heads, head_dim).
+        #5 Transposes from shape (b, num_tokens, num_heads, head_dim) to (b, num_heads, num_tokens, head_dim)
+        #6 Computes dot product for each head
+        #7 Masks truncated to the number of tokens
+        #8 Uses the mask to fill attention scores
+        #9 Tensor shape: (b, num_tokens, n_heads, head_dim)
+        #10 Combines heads, where self.d_out = self.num_heads * self.head_dim
+        #11 Adds an optional linear projection
+        '''
+        def __init__(self, d_in, d_out, context_length, dropout, num_heads, qkv_bias=False):
+          super().__init__()
+
+          assert(d_out % num_heads == 0), "d_out must be divisible by num_heads"
+
+          self.d_out = d_out
+          self.num_heads = num_heads
+          self.head_dim = d_out #1
+          self.W_query = nn.Linear(d_in, d_out, bias=qkv_bias)
+          self.W_key = nn.Linear(d_in, d_out, bias=qkv_bias)
+          self.W_value = nn.Linear(d_in, d_out, bias=qkv_bias)
+          self.out_proj = nn.Linear(d_out, d_out) #2
+          self.dropout = nn.Dropout(dropout)
+          self.register_buffer(
+              "mask",
+              torch.triu(torch.ones(context_length, context_length),
+                          diagonal=1)
+          )
+
+        def forward(self, x):
+            b, num_tokens, d_in = x.shape
+            keys = self.W_key(x)         #3
+            queries = self.W_query(x)    #3
+            values = self.W_value(x)     #3
+
+            keys = keys.view(b, num_tokens, self.num_heads, self.head_dim)       #4
+            values = values.view(b, num_tokens, self.num_heads, self.head_dim)
+            queries = queries.view(
+                b, num_tokens, self.num_heads, self.head_dim
+            )
+
+            keys = keys.transpose(1, 2)          #5
+            queries = queries.transpose(1, 2)    #5
+            values = values.transpose(1, 2)      #5
+
+            attn_scores = queries @ keys.transpose(2, 3)   #6
+            mask_bool = self.mask.bool()[:num_tokens, :num_tokens]    #7
+
+            attn_scores.masked_fill_(mask_bool, -torch.inf)     #8
+
+            attn_weights = torch.softmax(
+                attn_scores / keys.shape[-1]**0.5, dim=-1)
+            attn_weights = self.dropout(attn_weights)
+
+            context_vec = (attn_weights @ values).transpose(1, 2)   #9
+      #10
+            context_vec = context_vec.contiguous().view(
+                b, num_tokens, self.d_out
+            )
+            context_vec = self.out_proj(context_vec)    #11
+            return context_vec
+
+.. image:: c3/25.png
+
+.. tip::
+
+   In the MultiHeadAttentionWrapper class with two attention heads, we initialized two weight matrices, Wq1 and Wq2, and computed two query matrices, Q1 and Q2 (top). In the MultiheadAttention class, we initialize one larger weight matrix Wq, only perform one matrix multiplication with the inputs to obtain a query matrix Q, and then split the query matrix into Q1 and Q2 (bottom). We do the same for the keys and values, which are not shown to reduce visual clutter.
+
+The splitting of the query, key, and value tensors is achieved through tensor reshaping and transposing operations using PyTorch’s .view and .transpose methods. The input is first transformed (via linear layers for queries, keys, and values) and then reshaped to represent multiple heads.
+
+The key operation is to split the d_out dimension into num_heads and head_dim, where head_dim = d_out / num_heads. This splitting is then achieved using the .view method: a tensor of dimensions (b, num_tokens, d_out) is reshaped to dimension (b, num_tokens, num_heads, head_dim).
+
+The tensors are then transposed to bring the num_heads dimension before the num_ tokens dimension, resulting in a shape of (b, num_heads, num_tokens, head_dim). This transposition is crucial for correctly aligning the queries, keys, and values across the different heads and performing batched matrix multiplications efficiently.
+
+.. code-block:: python
+
+   #1 The shape of this tensor is (b, num_heads, num_tokens, head_dim) = (1, 2, 3, 4).
+
+   a = torch.tensor([[[[0.2745, 0.6584, 0.2775, 0.8573],    #1
+                       [0.8993, 0.0390, 0.9268, 0.7388],
+                       [0.7179, 0.7058, 0.9156, 0.4340]],
+
+                      [[0.0772, 0.3565, 0.1479, 0.5331],
+                       [0.4066, 0.2318, 0.4545, 0.9737],
+                       [0.4606, 0.5159, 0.4220, 0.5786]]]])
+   '''
+   tensor([[[[1.3208, 1.1631, 1.2879],
+             [1.1631, 2.2150, 1.8424],
+             [1.2879, 1.8424, 2.0402]],
+
+            [[0.4391, 0.7003, 0.5903],
+             [0.7003, 1.3737, 1.0620],
+             [0.5903, 1.0620, 0.9912]]]])
+   '''
+
+.. tip::
+
+   In this case, the matrix multiplication implementation in PyTorch handles the four-dimensional input tensor so that the matrix multiplication is carried out between the two last dimensions (num_tokens, head_dim) and then repeated for the individual heads.
+
+.. code-block:: python
+
+   first_head = a[0, 0, :, :]
+   first_res = first_head @ first_head.T
+   print("First head:\n", first_res)
+
+   second_head = a[0, 1, :, :]
+   second_res = second_head @ second_head.T
+   print("\nSecond head:\n", second_res)
+
+   '''
+   First head:
+    tensor([[1.3208, 1.1631, 1.2879],
+           [1.1631, 2.2150, 1.8424],
+           [1.2879, 1.8424, 2.0402]])
+
+   Second head:
+    tensor([[0.4391, 0.7003, 0.5903],
+           [0.7003, 1.3737, 1.0620],
+           [0.5903, 1.0620, 0.9912]])
+   '''
+
+   torch.manual_seed(123)
+   batch_size, context_length, d_in = batch.shape
+   d_out = 2
+   mha = MultiHeadAttention(d_in, d_out, context_length, 0.0, num_heads=2)
+   context_vecs = mha(batch)
+   print(context_vecs)
+   print("context_vecs.shape:", context_vecs.shape)
