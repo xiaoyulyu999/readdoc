@@ -1,0 +1,9 @@
+
+/* Make the content block (right side) wider */
+.wy-nav-content {
+    max-width: 1800px !important;
+}
+
+img[alt="Avatar"] {
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
