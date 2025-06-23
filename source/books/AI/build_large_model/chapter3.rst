@@ -81,7 +81,7 @@ The goal of self-attention is to compute a context vector for each input element
    :alt: Description of the image
    :width: 600px
 
-.. admonition:: 1. The first step: Compute the intermediate values w (Attention scores)
+.. admonition:: 🔰 1. The first step: Compute the intermediate values w (Attention scores)
 
    Why we not use the token embedding?
    0.87 is truncated to 0.8. In this truncated version, the embeddings of the words “journey” and “starts” may appear similar by random chance.
@@ -104,7 +104,7 @@ The goal of self-attention is to compute a context vector for each input element
 
    the dot product is a measure of similarity because it quantifies how closely two vectors are aligned: a higher dot product indicates a greater degree of alignment or similarity between the vectors. In the context of self-attention mechanisms, the dot product determines the extent to which each element in a sequence focuses on, or “attends to,” any other element: the higher the dot product, the higher the similarity and attention score between two elements.
 
-.. admonition:: 2. The second step: Nomalize the weights.
+.. admonition:: 🔰 2. The second step: Nomalize the weights.
 
    This normalization is a convvention that is useful for interpretation and maintaining training stability in an LLM.
 
@@ -128,7 +128,7 @@ The goal of self-attention is to compute a context vector for each input element
    - tensor([0.1385, 0.2379, 0.2333, 0.1240, 0.1082, 0.1581])
    It becauses the Softmax takes exponation of each value. Softmax = exp(tensor_i) / sum (exp (tensor)) Make difference more obviously.
 
-.. admonition:: 3. Calculating the context vector z(2)
+.. admonition:: 🔰 3. Calculating the context vector z(2)
 
    by **multiplying** the embedded input tokens x(i), with the corresponding weights and then **summing** the resulting vecetors.
 
@@ -162,7 +162,7 @@ The goal of self-attention is to compute a context vector for each input element
 
    COMPUTE ATTENTION SCORES。=> matrix @ matrix.T
 
-.. admonition:: 3 steps:
+.. admonition:: 🔰 3-steps:
 
    - Token embedding for each of them.
    - Weight
@@ -239,13 +239,13 @@ The goal of self-attention is to compute a context vector for each input element
            [0.7700, 0.2500, 0.1000],
            [0.0500, 0.8000, 0.5500]])
 
-.. admonition:: Trainable weight matrices: Wq, Wk, and Wv.
+.. admonition:: 🔰 Trainable weight matrices: Wq, Wk, and Wv.
 
    In the first step of the self-attention mechanism with trainable weight matrices, we compute query (q), key (k), and value (v) vectors for input elements x. Similar to previous sections, we designate the second input, x(2), as the query input. The query vector q(2) is obtained via matrix multiplication between the input x(2) and the weight matrix Wq. Similarly, we obtain the key and value vectors via matrix multiplication involving the weight matrices Wk and Wv.
 
    Example, We start by computing only one context vector, z2, for illustration purposes. Just like the image.
 
-.. admonition:: Step - 1
+.. admonition:: 🔰 Step - 1
 
    Compute the query, key and value vectors
 
@@ -300,7 +300,7 @@ The goal of self-attention is to compute a context vector for each input element
    - Weight Parameters = model’s permanent knowledge
    - Attention Weights = model’s temporary focus on a specific input
 
-.. admonition:: Step - 2
+.. admonition:: 🔰 Step - 2
 
    Computing the attention scores.
 
@@ -344,7 +344,7 @@ The goal of self-attention is to compute a context vector for each input element
 
    The scaling by the square root of the embedding dimension is the reason why this self-attention mechanism is also called scaled-dot product attention.
 
-.. admonition:: Final step
+.. admonition:: 🔰 Final step
 
    Compute the context vectors.
 
