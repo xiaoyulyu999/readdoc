@@ -334,7 +334,7 @@ The goal of self-attention is to compute a context vector for each input element
     tensor([0.1500, 0.2264, 0.2199, 0.1311, 0.0906, 0.1820]))
    '''
 
-.. image:: c3/15.png
+.. image:: c3/16.png
 
 .. tip::
 
@@ -348,7 +348,7 @@ The goal of self-attention is to compute a context vector for each input element
 
    Compute the context vectors.
 
-.. image:: c3/16.png
+.. image:: c3/17.png
 
 .. code-block:: python
 
