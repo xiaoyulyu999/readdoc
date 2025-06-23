@@ -10,6 +10,8 @@
 
 AI随想 - 致敬:编程随想
 ===================
+AI Musings - A Tribute to: Ruan Xiaohuan
+
 .. epigraph::
 
    **民主制度在自由中寻求平等**
