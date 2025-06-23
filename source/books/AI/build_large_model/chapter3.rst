@@ -506,3 +506,240 @@ Steps:
    Attention(Q,K,V)=softmax(Q⋅K.T/√dk)⋅V
 
 
+3.5 Hiding future words with causal attention
+---------------------------------------------
+
+Causal attention, also known as masked attention, is a specialized form of self-attention. It restricts a model to only consider previous and current inputs in a squence when processing any given token when computing attention scores.
+[-> this is in CONTRAST to the standard self-attention mechanism.<-]
+
+.. tip::
+
+   # token_3 ↔ token_1, token_2, token_3, token_4, token_5 ✅
+
+   # 因果 attention（单向）：
+   # token_3 → token_1, token_2, token_3 ✅
+   #           ⛔ 不允许看到 token_4, token_5
+
+.. image:: c3/18.png
+
+In causal attention, we mask out the attention weights above the diagonal such that for a given input, the LLM can't access future tokens when computing the context vectors using the attention weights.
+
+.. tip::
+
+   "journey" in the second row, we only keep the attention weights for the words before "Your" and in the current position "journey".
+
+3.5.1 Applying a causal attention mask.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: c3/19.png
+
+.. code-block:: python
+
+   # 1. Attention scores -> softmax -> attention weights
+   values = sa_v2.w_value(inputs)
+   keys = sa_v2.w_key(inputs)
+   queries = sa_v2.w_query(inputs)
+   attention_scores = queries @ keys.T
+   attention_weights = torch.softmax(attention_scores / keys.shape[-1] ** 0.5, dim = -1)
+
+   # torch.tril
+   # PyTorch’s tril function to create a mask where the values above the diagonal are zero
+   mask_weights = torch.tril(attention_weights)
+   mask_weights
+
+   '''
+   tensor([[0.1766, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.1772, 0.1720, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.1769, 0.1719, 0.1716, 0.0000, 0.0000, 0.0000],
+        [0.1725, 0.1696, 0.1695, 0.1618, 0.0000, 0.0000],
+        [0.1687, 0.1694, 0.1692, 0.1637, 0.1634, 0.0000],
+        [0.1758, 0.1704, 0.1702, 0.1598, 0.1615, 0.1623]],
+       grad_fn=<TrilBackward0>)
+   '''
+
+   # Normalize the mask_weights
+   '''
+   Can't use torch.softmax straightly. all value 0.000s will be considered to be signed a value,
+   but we don't want to. We can signed with -infi to 0s, solution after this part.
+   '''
+   row_sum = mask_weights.sum(dim=-1, keepdim=True)
+   '''
+   keepdim: Ensure the output have the same dim with input. otherwise, it will be
+   1 dim.
+
+   tensor([[0.1921],
+           [0.3700],
+           [0.5357],
+           [0.6775],
+           [0.8415],
+           [1.0000]], grad_fn=<SumBackward1>)
+
+   vs.
+
+   tensor([0.1921, 0.3700, 0.5357, 0.6775, 0.8415, 1.0000],
+          grad_fn=<SumBackward1>)
+   '''
+   nlm_weight = mask_weights / row_sum
+   nlm_weight
+
+   '''
+   tensor([[1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.5075, 0.4925, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.3399, 0.3303, 0.3298, 0.0000, 0.0000, 0.0000],
+        [0.2562, 0.2519, 0.2517, 0.2402, 0.0000, 0.0000],
+        [0.2021, 0.2030, 0.2028, 0.1962, 0.1959, 0.0000],
+        [0.1758, 0.1704, 0.1702, 0.1598, 0.1615, 0.1623]],
+       grad_fn=<DivBackward0>)
+   '''
+
+.. admonition:: 🔰 Information leakage
+
+   After masking and renormalization, the distribution of attention weights is as if it was calculated only among the unmasked positions to begin with. This ensures there’s no information leakage from future (or otherwise masked) tokens as we intended.
+
+.. image:: c3/20.png
+
+.. code-block:: python
+
+   '''
+   -infi solutions: Reduce the overfitting
+   '''
+
+   length, height = attention_scores.shape
+   masks = torch.triu(torch.ones(length, height), diagonal=1)
+   # tensor([[0., 1., 1., 1., 1., 1.],
+   #         [0., 0., 1., 1., 1., 1.],
+   #         [0., 0., 0., 1., 1., 1.],
+   #         [0., 0., 0., 0., 1., 1.],
+   #         [0., 0., 0., 0., 0., 1.],
+   #         [0., 0., 0., 0., 0., 0.]])
+   inf_masks = attention_scores.masked_fill(masks.bool(), -torch.inf)
+   # tensor([[0.2899,   -inf,   -inf,   -inf,   -inf,   -inf],
+   #         [0.4656, 0.1723,   -inf,   -inf,   -inf,   -inf],
+   #         [0.4594, 0.1703, 0.1731,   -inf,   -inf,   -inf],
+   #         [0.2642, 0.1024, 0.1036, 0.0186,   -inf,   -inf],
+   #         [0.2183, 0.0874, 0.0882, 0.0177, 0.0786,   -inf],
+   #         [0.3408, 0.1270, 0.1290, 0.0198, 0.1290, 0.0078]],
+   #        grad_fn=<MaskedFillBackward0>)
+   attention_weights = torch.softmax(inf_masks / keys.shape[-1] ** 0.5, dim=-1)
+
+   context_v = attention_weights @ values
+   attention_weights, context_v
+
+   '''
+   (tensor([[1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+         [0.5075, 0.4925, 0.0000, 0.0000, 0.0000, 0.0000],
+         [0.3399, 0.3303, 0.3298, 0.0000, 0.0000, 0.0000],
+         [0.2562, 0.2519, 0.2517, 0.2402, 0.0000, 0.0000],
+         [0.2021, 0.2030, 0.2028, 0.1962, 0.1959, 0.0000],
+         [0.1758, 0.1704, 0.1702, 0.1598, 0.1615, 0.1623]],
+        grad_fn=<SoftmaxBackward0>),
+    tensor([[ 0.2482, -0.4838],
+            [ 0.3715, -0.4308],
+            [ 0.4156, -0.4117],
+            [ 0.3776, -0.3530],
+            [ 0.3981, -0.3243],
+            [ 0.3672, -0.3085]], grad_fn=<MmBackward0>))
+   '''
+
+.. tip::
+
+   A more efficient way to obtain the masked attention weight matrix in causal attention is to mask the attention scores with negative infinity values before applying the softmax function
+
+3.5.2 Masking additional attention weights with DROPOUT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: c3/21.png
+
+.. tip::
+
+   Dropout in deep learning is a technique where randomly selected hidden layer units are ignored during training. Effectively "dropping" them out. This method helps prevent overfitting by ensuring that a model does NOT become overly reliant on any specific set of hidden layer units.
+
+   In the transformer architecture, including models like GPT, dropout in the attention mechanism is typically applied at two specific times: after calculating the attention weights or after applying the attention weights to the value vectors
+
+.. code-block:: python
+
+   torch.manual_seed(123)
+   dropout = torch.nn.Dropout(0.5) # Dropout rate 50%
+   weights_dropout = dropout(attention_weights)
+   weights_dropout
+
+   '''
+   tensor([[2.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.0000, 0.9849, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.0000, 0.0000, 0.6595, 0.0000, 0.0000, 0.0000],
+        [0.5124, 0.5038, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.4043, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+        [0.0000, 0.3408, 0.0000, 0.0000, 0.0000, 0.0000]],
+       grad_fn=<MulBackward0>)
+   '''
+
+3.5.3 Implementing a compact causal attention class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Compact Causal Attention Class
+
+.. code-block:: python
+
+   import torch.nn as nn
+
+   class CausalAttention(nn.Module):
+     def __init__(self, d_in, d_out, context_length, dropout, qkv_bias = False):
+       super().__init__()
+
+       self.W_query = nn.Linear(d_in, d_out, bias = qkv_bias) # Note: 尽管parameters是d_in， d_out，但是，W 的 shape 是（d_out，d_in）
+       self.W_key = nn.Linear(d_in, d_out, bias=qkv_bias)
+       self.W_value = nn.Linear(d_in, d_out, bias=qkv_bias)
+       self.dropout = nn.Dropout(dropout)
+
+       self.register_buffer('mask', torch.triu(torch.ones(context_length, context_length), diagonal = 1))
+
+     def forward(self, vector):
+       _, num_tokens, d_in = vector.shape
+       keys = self.W_key(vector)
+       values = self.W_value(vector)
+       queries = self.W_query(vector)
+
+       attention_score = queries @ keys.transpose(1, 2)
+
+       attention_score.masked_fill_(
+           self.mask.bool()[:num_tokens, :num_tokens], -torch.inf
+           # 确保 mask has same size of the vector， otherwise raise a shape mismatch.
+       )
+
+       attention_weights = torch.softmax(
+           attention_score / keys.shape[-1] ** 0.5, dim=-1
+       )
+
+       attention_weights = self.dropout(attention_weights)
+
+       context_vector = attention_weights @ values
+
+       return context_vector
+
+
+   # inputs = torch.tensor(
+   #   [[0.43, 0.15, 0.89], # Your     (x^1)
+   #    [0.55, 0.87, 0.66], # journey  (x^2)
+   #    [0.57, 0.85, 0.64], # starts   (x^3)
+   #    [0.22, 0.58, 0.33], # with     (x^4)
+   #    [0.77, 0.25, 0.10], # one      (x^5)
+   #    [0.05, 0.80, 0.55]] # step     (x^6)
+   # )
+   # Create batch of size 2
+   batch = torch.stack((inputs, inputs), dim=0)  # shape = (2, 6, 3)
+
+   # Set dimensions
+   d_in = batch.shape[-1]
+   d_out = 2
+
+   # Create and run model
+   torch.manual_seed(123)
+   context_length = batch.shape[1]
+   ca = CausalAttention(d_in, d_out, context_length, dropout=0.0)
+   context_vecs = ca(batch)
+
+   print("context_vecs.shape:", context_vecs.shape)
+
+   #context_vecs.shape: torch.Size([2, 6, 2])
+
+.. image:: c3/22.png
