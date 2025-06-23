@@ -15,6 +15,22 @@ pip install sphinx sphinx-pdj-theme
 | 三级标题 | 小节     | `^`、`~`、`"`（任选其一） |
 | 四级标题 | 小小节    | `'` 或 `+`（任选）     |
 
+.. warning::
+
+   This is a warning box!
+
+.. tip::
+
+   This is a tip for the reader.
+
+.. important::
+
+   Important information goes here.
+
+.. caution::
+
+   This is a caution message.
+
 # 4. Copy paste button
  pip install sphinx-copybutton    
  
