@@ -21,7 +21,6 @@ extensions = [
     'nbsphinx',
 ]
 
-nbsphinx_execute = 'never'  # ✅ 正确关闭执行
 
 
 templates_path = ['_templates']
