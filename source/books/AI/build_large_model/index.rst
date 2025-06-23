@@ -32,4 +32,5 @@ Welcome to this guide...
    :maxdepth: 2
 
    chapter3
+   chapter4
 
