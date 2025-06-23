@@ -31,6 +31,5 @@ Welcome to this guide...
 .. toctree::
    :maxdepth: 2
 
-   chapter2
    chapter3
 
