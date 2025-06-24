@@ -97,5 +97,69 @@ Data
    | Need both: BI + ML + flexibility              | Data Lakehouse         |
    +-----------------------------------------------+------------------------+
 
+.. admonition:: Data Mesh
+
+   .. image:: images/data_1.png
+
+   - Definition:
+
+      - A data mesh is an organizational approach to data management, not a specific technology.
+
+      - Focuses on decentralized ownership of data and domain-based data management.
+
+   - Key Principles:
+
+      - Domain Ownership:
+
+         - Data is owned by the teams (or domains) that are closest to it.
+
+         - Each domain is responsible for maintaining and serving its data as a data product.
+
+      - Data as a Product:
+
+         - Teams treat their data as a product that others can discover and use.
+
+         - This promotes reusability, quality, and discoverability.
+
+      - Self-Service Infrastructure:
+
+         - Teams are supported with tools and infrastructure to publish and manage their data.
+
+         - This includes data lakes, data warehouses, and ETL tools.
+
+      - Federated Governance:
+
+         - While data is decentralized, central governance standards ensure:
+
+            - Security
+
+            - Access control
+
+            - Compliance
+
+            - Data quality
+
+   - AWS Tools in Data Mesh Implementation:
+
+      - S3 – Storage for raw and curated data.
+
+      - Lake Formation – For managing permissions, organizing, and securing data lakes.
+
+      - AWS Glue – For data cataloging and ETL.
+
+      - Athena – For querying data products in S3.
+
+      - IAM – For federated access control.
+
+      - Quicksight – For consuming and visualizing data products.
+
+   - Why It Matters:
+
+      - Promotes scalability by allowing teams to manage their own data.
+
+      - Encourages agility in analytics and data-driven decision making.
+
+      - Inspired by large-scale organizations like Amazon, which have long used decentralized models.
+
 
 

@@ -8,9 +8,9 @@
    :width: 50px
    :align: left
 
-AI随想 - 致敬:编程随想
-===================
 AI Musings - A Tribute to: Ruan Xiaohuan
+===================
+*AI随想 - 致敬:编程随想*
 
 .. epigraph::
 
@@ -21,8 +21,8 @@ AI Musings - A Tribute to: Ruan Xiaohuan
 
 *相关链接*
 
-- `编程随想的博客 <https://program-think.blogspot.com/>`_
-- `编程随想 - 维基百科 <https://zh.wikipedia.org/zh-hans/%E7%B7%A8%E7%A8%8B%E9%9A%A8%E6%83%B3>`_
+- `编程随想的博客 Ruan Xiaohuan's blog <https://program-think.blogspot.com/>`_
+- `编程随想 - 维基百科 Ruan Xiaohuan - wiki <https://zh.wikipedia.org/zh-hans/%E7%B7%A8%E7%A8%8B%E9%9A%A8%E6%83%B3>`_
 
 
 .. toctree::
