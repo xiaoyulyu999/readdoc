@@ -1,15 +1,13 @@
 AWS Certified Machine Learning Engineer - Associate Notes
 ==========================================================
 
-.. note::
+.. admonition:: Disclaimer
 
    This notes document is based on the course:
    **AWS Certified Machine Learning Engineer Associate: Hands On!**
    by `Sundog Education <https://www.udemy.com/user/frankkane/>`_ (Instructor: Frank Kane).
 
    All rights and credits belong to the original author. These notes are for personal study and review purposes only.
-
-.. important::
 
    Copyright Notice
 
