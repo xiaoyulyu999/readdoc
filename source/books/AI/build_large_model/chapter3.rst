@@ -1,5 +1,5 @@
-CHATPER 3
-=========
+CHATPER 3 Coding attention mechanisms
+=====================================
 
 3.1 The problem with modeling long sequence
 -------------------------------------------
