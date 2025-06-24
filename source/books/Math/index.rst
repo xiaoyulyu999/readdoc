@@ -14,4 +14,4 @@ Math Books
 .. toctree::
    :maxdepth: 1
 
-   MIT OCW Linear Algebra
+   MIT OCW Linear Algebra/index
