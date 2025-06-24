@@ -16,3 +16,5 @@ MIT OCW: `Gilbert Strang’s Linear Algebra (Spring 2010) <https://ocw.mit.edu/
 
 .. toctree::
    :maxdepth: 1
+
+   Introduction to Linear Algebra 6th edition
