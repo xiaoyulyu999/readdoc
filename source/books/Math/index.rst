@@ -14,4 +14,4 @@ Math Books
 .. toctree::
    :maxdepth: 1
 
-   MIT OCW: Gilbert Strang's Linear Algebra/index
+   MIT OCW Linear Algebra
