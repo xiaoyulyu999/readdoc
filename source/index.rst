@@ -30,6 +30,7 @@ AI Musings - A Tribute to: Ruan Xiaohuan
    :caption: Books
 
    books/AI/index
+   books/Math/index
 
 .. toctree::
    :maxdepth: 1
@@ -48,7 +49,7 @@ AI Musings - A Tribute to: Ruan Xiaohuan
    :maxdepth: 1
    :caption: Tools and Resources
 
-   tools_resources/math/index
+
 
 .. toctree::
    :maxdepth: 1
