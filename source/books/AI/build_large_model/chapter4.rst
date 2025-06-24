@@ -22,7 +22,7 @@ We are scaling up to the size of a small GPT-2 model, specifically the smallest 
 GPT-2 vs. GPT-3
    我们使用GPT-2 as it is usable。it would take 355 years to train GPT-3 on a single V100 datacenter GPU and 665 years on a consumer RTX 8000 GPU。
 
-.. admonition:: gpt-3 Configuration
+.. admonition:: gpt-2 Configuration
 
    .. code-block:: python
 
