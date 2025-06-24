@@ -162,4 +162,75 @@ Data
       - Inspired by large-scale organizations like Amazon, which have long used decentralized models.
 
 
+.. admonition:: 🔄 ETL vs. ELT Overview
 
+   ETL = Extract → Transform → Load (common in data warehouses)
+
+   ELT = Extract → Load → Transform (common in data lakes)
+
+   Both involve moving data, but differ in when/where data is transformed.
+
+   🟢 Extract (E) – Get the Raw Data
+
+   - Retrieve data from multiple sources:
+
+      - Databases, APIs, CRMs (e.g., Salesforce), flat files, logs, etc.
+
+   - Key considerations:
+
+      - Ensure data integrity during extraction
+
+      - Handle failures (e.g., retry on API failure)
+
+      - Manage data velocity (real-time, near real-time, batch)
+
+   🔵 Transform (T) – Clean & Shape the Data
+
+   - Cleanse data:
+
+      - Remove duplicates, fix errors, handle missing values
+
+   - Enrich/Join data from multiple sources
+
+   - Format changes (e.g., string to datetime)
+
+   - Perform aggregations/computations
+
+   - Encode/decode as needed (e.g., compress, encrypt, convert format)
+
+   - Handle missing data via:
+
+      - Dropping rows
+
+      - Imputing placeholder values
+
+      - Generating rejection reports
+
+   🟣 Load (L) – Store in Target System
+
+   - Load transformed data into:
+
+      - Data warehouse (ETL) or data lake (ELT)
+
+   - Load modes:
+
+      - Batch or streaming
+
+   - Again, ensure data integrity during this phase
+
+   - Monitor for failures (e.g., disk write errors)
+
+   ⚙️ ETL Pipeline Management
+   - Requires orchestration and automation across all steps
+
+   - AWS services to support this:
+
+      - AWS Glue – Managed ETL
+
+      - Amazon EventBridge, Step Functions, Lambda
+
+      - Managed Workflows for Apache Airflow
+
+   ✅ Summary Thought:
+
+   ETL/ELT is not just about moving data—it’s about reliable, secure, and structured processing of diverse data sources into actionable formats. AWS provides scalable tools to automate and monitor every step.
