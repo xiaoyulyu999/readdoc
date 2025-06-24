@@ -6,7 +6,7 @@ AI Books
 
    build_large_model/index
 
-.. note::
+.. important::
 
    All book notes provided in this section are for educational and reference purposes only.
    Content may include **citations**, **summaries**, or **paraphrased excerpts** from published works.
