@@ -303,3 +303,51 @@ An illustration of the dim parameter when calculating the mean of a tensor. For 
 .. attention::
 
    Historically, the ReLU activation function has been commonly used in deep learning due to its simplicity and effectiveness across various neural network architectures. However, in LLMs, several other activation functions are employed beyond the traditional ReLU. Two notable examples are GELU (Gaussian error linear unit) and SwiGLU (Swish-gated linear unit).
+
+   the exact version is defined as GELU(x) = x⋅𝛷(x), where 𝛷(x) is the cumulative distribution function of the standard Gaussian distribution.
+
+   it’s common to implement a computationally cheaper approximation (the original GPT-2 model was also trained with this approximation, which was found via curve fitting):
+
+   .. math::
+
+      \mathrm{GELU}(x) \approx 0.5 \cdot x \cdot \left(1 + \tanh \left[ \sqrt{\frac{2}{\pi}} \cdot \left(x + 0.044715 \cdot x^3 \right) \right] \right)
+
+**An implementation of the GELU activation function**
+
+   .. code-block:: python
+
+      class GELU(nn.Module):
+          def __init__(self):
+              super().__init__()
+
+          def forward(self, x):
+              return 0.5 * x * (1 + torch.tanh(
+                  torch.sqrt(torch.tensor(2.0 / torch.pi)) *
+                  (x + 0.044715 * torch.pow(x, 3))
+              ))
+
+**GELU VS ReLU**
+
+   .. code-block:: python
+
+      import matplotlib.pyplot as plt
+      gelu, relu = GELU(), nn.ReLU()
+
+      x = torch.linspace(-3, 3, 100)     #1
+      y_gelu, y_relu = gelu(x), relu(x)
+      plt.figure(figsize=(8, 3))
+      for i, (y, label) in enumerate(zip([y_gelu, y_relu], ["GELU", "ReLU"]), 1):
+          plt.subplot(1, 2, i)
+          plt.plot(x, y)
+          plt.title(f"{label} activation function")
+          plt.xlabel("x")
+          plt.ylabel(f"{label}(x)")
+          plt.grid(True)
+      plt.tight_layout()
+      plt.show()
+
+   .. image:: c4/8.png
+
+.. attention::
+
+   GELU allows for a small, non-zero output for negative values. This characteristic means that during the training process, neurons that receive negative input can still contribute to the learning process, albeit to a lesser extent than positive inputs.
