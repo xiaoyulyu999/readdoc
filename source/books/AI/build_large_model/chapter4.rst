@@ -301,45 +301,51 @@ An illustration of the dim parameter when calculating the mean of a tensor. For 
 
    - Step 1: Understand the Input
 
-   Suppose you're working with a neural network layer, and the input is a feature vector for a single sample.
+      Suppose you're working with a neural network layer, and the input is a feature vector for a single sample.
 
-   Let:
+      Let:
 
-   - :math:`x \in \mathbb{R}^d` be the input vector (e.g., :math:`x = [x_1, x_2, \dots, x_d]`)
+      - :math:`x \in \mathbb{R}^d` be the input vector (e.g., :math:`x = [x_1, x_2, \dots, x_d]`)
 
-   This input could come from:
-   - A feedforward layer
-   - An attention head
-   - A recurrent layer, etc.
+      This input could come from:
+
+         - A feedforward layer
+
+         - An attention head
+
+         - A recurrent layer, etc.
 
    - Step 2: Compute Mean and Variance (per sample)
 
-   Layer normalization computes the **mean** and **variance** over the **feature dimension** for each individual sample.
+      Layer normalization computes the **mean** and **variance** over the **feature dimension** for each individual sample.
 
-   .. math::
+      .. math::
 
-      \mu = \frac{1}{d} \sum_{i=1}^{d} x_i
+         \mu = \frac{1}{d} \sum_{i=1}^{d} x_i
 
-   .. math::
+      .. math::
 
-      \sigma^2 = \frac{1}{d} \sum_{i=1}^{d} (x_i - \mu)^2
+         \sigma^2 = \frac{1}{d} \sum_{i=1}^{d} (x_i - \mu)^2
 
-   Where:
-   - \( \mu \) is the mean of the input features
-   - \( \sigma^2 \) is the variance
+      Where:
 
-   Step 3: Normalize the Input
-   ---------------------------
+         - :math:`\mu` is the mean of the input features
 
-   Each feature is normalized to have zero mean and unit variance:
+         - :math:`\sigma^2` is the variance
 
-   .. math::
+   - Step 3: Normalize the Input
 
-      \hat{x}_i = \frac{x_i - \mu}{\sqrt{\sigma^2 + \epsilon}}
+      Each feature is normalized to have zero mean and unit variance:
 
-   Where:
-   - \( \epsilon \) is a small constant to avoid division by zero
-   - \( \hat{x}_i \) is the normalized feature value
+      .. math::
+
+         \hat{x}_i = \frac{x_i - \mu}{\sqrt{\sigma^2 + \epsilon}}
+
+      Where:
+
+         - :math:`\epsilon` is a small constant to avoid division by zero
+
+         - :math:`\hat{x}_i` is the normalized feature value
 
 
 4.3 Implementing a feed forward network with GELU activations
@@ -437,4 +443,45 @@ Input.shape == Output.shape
 --------------------------------
 
 .. image:: c4/11.png
+
+.. admonition:: Shortcut Connections
+
+   AKA `skip` or `residual connections`, it mitigates the challenge of vanishing gradients. Sometime it has ability to avoid or skip one or more layers. which is achieved by adding the output of one layer to the output of a later layer.
+   **Back Propagation**
+
+.. image:: c4/12.png
+
+**A neural network to illustrate shortcut connections**
+
+   .. code-block:: python
+
+      class ExampleDeepNeuralNetwork(nn.Module):
+          def __init__(self, layer_sizes, use_shortcut):
+              super().__init__()
+              self.use_shortcut = use_shortcut
+              self.layers = nn.ModuleList([       #1
+                  nn.Sequential(nn.Linear(layer_sizes[0], layer_sizes[1]),
+                                GELU()),
+                  nn.Sequential(nn.Linear(layer_sizes[1], layer_sizes[2]),
+                                GELU()),
+                  nn.Sequential(nn.Linear(layer_sizes[2], layer_sizes[3]),
+                                GELU()),
+                  nn.Sequential(nn.Linear(layer_sizes[3], layer_sizes[4]),
+                                GELU()),
+                  nn.Sequential(nn.Linear(layer_sizes[4], layer_sizes[5]),
+                                GELU())
+              ])
+
+          def forward(self, x):
+              for layer in self.layers:
+                  layer_output = layer(x)         #2
+                  if self.use_shortcut and x.shape == layer_output.shape:    #3
+                      x = x + layer_output
+                  else:
+                      x = layer_output
+              return x
+      #1 Implements five layers
+      #2 Compute the output of the current layer
+      #3 Check if shortcut can be applied
+
 

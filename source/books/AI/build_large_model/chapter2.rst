@@ -293,6 +293,7 @@ For a GPT model’s absolute embedding approach, we just need to create another 
    #torch.Size([4, 256])
 
 2.7 Start Input Embedding
+-------------------------
 
 .. code-block:: python
 
