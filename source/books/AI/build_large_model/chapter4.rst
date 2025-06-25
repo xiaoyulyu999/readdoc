@@ -351,3 +351,34 @@ An illustration of the dim parameter when calculating the mean of a tensor. For 
 .. attention::
 
    GELU allows for a small, non-zero output for negative values. This characteristic means that during the training process, neurons that receive negative input can still contribute to the learning process, albeit to a lesser extent than positive inputs.
+
+**A feed forward neural network module**
+
+   .. code-block:: python
+
+      class FeedForward(nn.Module):
+          def __init__(self, cfg):
+              super().__init__()
+              self.layers = nn.Sequential(
+                  nn.Linear(cfg["emb_dim"], 4 * cfg["emb_dim"]),
+                  GELU(),
+                  nn.Linear(4 * cfg["emb_dim"], cfg["emb_dim"]),
+              )
+
+          def forward(self, x):
+              return self.layers(x)
+
+   .. image:: c4/9.png
+
+Testing: Initialize a new FeedForward module with a token embedding size of 768 and feed it a batch input with two samples and three tokens each:
+
+   .. code-block:: python
+
+      ffn = FeedForward(GPT_CONFIG_124M)
+      x = torch.rand(2, 3, 768)          #1
+      out = ffn(x)
+      print(out.shape)
+      #torch.Size([2, 3, 768])
+
+Input.shape == Output.shape
+
