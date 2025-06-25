@@ -297,6 +297,51 @@ An illustration of the dim parameter when calculating the mean of a tensor. For 
 
 .. image:: c4/7.png
 
+.. admonition:: Extra Information about how layer narmalization works:
+
+   - Step 1: Understand the Input
+
+   Suppose you're working with a neural network layer, and the input is a feature vector for a single sample.
+
+   Let:
+
+   - :math:`x \in \mathbb{R}^d` be the input vector (e.g., :math:`x = [x_1, x_2, \dots, x_d]`)
+
+   This input could come from:
+   - A feedforward layer
+   - An attention head
+   - A recurrent layer, etc.
+
+   - Step 2: Compute Mean and Variance (per sample)
+
+   Layer normalization computes the **mean** and **variance** over the **feature dimension** for each individual sample.
+
+   .. math::
+
+      \mu = \frac{1}{d} \sum_{i=1}^{d} x_i
+
+   .. math::
+
+      \sigma^2 = \frac{1}{d} \sum_{i=1}^{d} (x_i - \mu)^2
+
+   Where:
+   - \( \mu \) is the mean of the input features
+   - \( \sigma^2 \) is the variance
+
+   Step 3: Normalize the Input
+   ---------------------------
+
+   Each feature is normalized to have zero mean and unit variance:
+
+   .. math::
+
+      \hat{x}_i = \frac{x_i - \mu}{\sqrt{\sigma^2 + \epsilon}}
+
+   Where:
+   - \( \epsilon \) is a small constant to avoid division by zero
+   - \( \hat{x}_i \) is the normalized feature value
+
+
 4.3 Implementing a feed forward network with GELU activations
 --------------------------------------------------------------
 
