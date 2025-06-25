@@ -382,3 +382,14 @@ Testing: Initialize a new FeedForward module with a token embedding size of 768 
 
 Input.shape == Output.shape
 
+.. admonition:: FeedForward
+
+   Although the dim is not changed between input and output, but the first linear layer, expend the embedding dimension into a higher-dimensional space.  This expansion is followed by a nonlinear GELU activation and then a contraction back to the original dimension with the second linear transformation. Such a design allows for the exploration of a richer representation space.
+
+   .. image:: c4/10.png
+
+4.4 Adding shortcut connections
+--------------------------------
+
+.. image:: c4/11.png
+
