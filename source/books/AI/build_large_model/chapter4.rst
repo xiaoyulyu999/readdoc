@@ -656,7 +656,7 @@ Each output vector directly corresponds to an input vector, maintaining a one-to
 
 
 4.6 Coding the GPT model
-========================
+------------------------
 
 Let’s now replace the DummyTransformerBlock and DummyLayerNorm placeholders with the real TransformerBlock and LayerNorm classes we coded previously to assemble a fully working version of the original 124-million-parameter version of GPT-2.
 
