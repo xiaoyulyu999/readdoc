@@ -1,6 +1,7 @@
 CHATPER 4 Implementing a GPT model from scratch to generate text
 ================================================================
 
+
 Can you believe we are still at stage 1.🥲
 
 
@@ -446,8 +447,10 @@ Input.shape == Output.shape
 
 .. admonition:: Shortcut Connections
 
+   这里就是我们所说的：遗忘。 有关“遗忘机制”更详细的解释，请参见 :ref:`statquest-josh-starmer`。
+
    AKA `skip` or `residual connections`, it mitigates the challenge of vanishing gradients. Sometime it has ability to avoid or skip one or more layers. which is achieved by adding the output of one layer to the output of a later layer.
-   **Back Propagation**
+   **Backpropagation**
 
 .. image:: c4/12.png
 
@@ -483,5 +486,199 @@ Input.shape == Output.shape
       #1 Implements five layers
       #2 Compute the output of the current layer
       #3 Check if shortcut can be applied
+
+下面我们假设，layer_sizes都是一样的为 3， 但是我们设定最后的layer输出是 size=1.
+
+   .. code-block:: python
+
+      layer_sizes = [3, 3, 3, 3, 3, 1]
+      sample_input = torch.tensor([[1., 0., -1.]])
+      torch.manual_seed(123)                            #1
+      model_without_shortcut = ExampleDeepNeuralNetwork(
+          layer_sizes, use_shortcut=False
+      )
+之后，我们设计一个可以进行 backpropagation function。
+
+   .. code-block:: python
+
+      def print_gradients(model, x):
+          output = model(x)             #1
+          target = torch.tensor([[0.]])
+
+          loss = nn.MSELoss()
+          loss = loss(output, target)    #2
+
+          loss.backward()          #3
+
+          for name, param in model.named_parameters():
+              if 'weight' in name:
+                  print(f"{name} has gradient mean of {param.grad.abs().mean().item()}")
+
+   .. tip::
+
+      A loss function that computes how close the model output and a user-specified target (here, for simplicity, the value 0) are.
+      简单的理解，loss function 就是一个可以用来评估模型输出和我们期待的结果差距有多大。这个function的主要作用是让backpropagation有据可依的修改weights。
+
+      See :ref:`daniel-bourke-pytorch-course` for a great beginner-friendly PyTorch course.
+
+   .. code-block:: python
+
+      print_gradients(model_without_shortcut, sample_input)
+      '''
+      layers.0.0.weight has gradient mean of 0.00020173587836325169
+      layers.1.0.weight has gradient mean of 0.0001201116101583466
+      layers.2.0.weight has gradient mean of 0.0007152041653171182
+      layers.3.0.weight has gradient mean of 0.001398873864673078
+      layers.4.0.weight has gradient mean of 0.005049646366387606
+      '''
+
+   .. tip::
+
+      the vanishing gradient problem.
+      随着我们的backpropagation的进度，从layer4 到 layer0， gradient 逐渐消失了。
+
+Use skip connection:
+
+   .. code-block:: python
+
+      torch.manual_seed(123)
+      model_with_shortcut = ExampleDeepNeuralNetwork(
+          layer_sizes, use_shortcut=True
+      )
+      print_gradients(model_with_shortcut, sample_input)
+
+      '''
+      layers.0.0.weight has gradient mean of 0.22169792652130127
+      layers.1.0.weight has gradient mean of 0.20694105327129364
+      layers.2.0.weight has gradient mean of 0.32896995544433594
+      layers.3.0.weight has gradient mean of 0.2665732502937317
+      layers.4.0.weight has gradient mean of 1.3258541822433472
+      '''
+
+Shortcut connections are important for overcoming the limitations posed by vanishing gradient problem. It is a core building block of very large model such as LLMs.
+
+4.5 Connecting attention and linear layers in a transformer block
+-----------------------------------------------------------------
+
+Transformer block, a fundamental building block of GPT and other LLM architectures.
+
+.. image:: c4/13.png
+
+.. admonition:: Something we need to understand.
+
+   - Something may explain how or why uses Self-Attention Mechanism.
+
+      “The animal didn’t cross the street because it was too tired,”, with self-attention especially multi-head attention, the model will know "it" is "animal".
+
+   - Feed-Forward Network (FFN).
+
+      Think of this as "refining" each word's representation after the relational context is captured.
+
+   Self-attention gives context-awareness: It learns how each word relates to the others.
+
+   Feed-forward gives position-wise transformation: It lets the model change the representation of each token after understanding context.
+
+   Together, this allows transformers to capture both inter-word dependencies and per-token transformation, which is powerful for complex patterns in natural language.
+
+**The transformer block component of GPT**
+
+   .. code-block:: python
+
+      from chapter03 import MultiHeadAttention
+
+      class TransformerBlock(nn.Module):
+          def __init__(self, cfg):
+              super().__init__()
+              self.att = MultiHeadAttention(
+                  d_in=cfg["emb_dim"],
+                  d_out=cfg["emb_dim"],
+                  context_length=cfg["context_length"],
+                  num_heads=cfg["n_heads"],
+                  dropout=cfg["drop_rate"],
+                  qkv_bias=cfg["qkv_bias"])
+              self.ff = FeedForward(cfg)
+              self.norm1 = LayerNorm(cfg["emb_dim"])
+              self.norm2 = LayerNorm(cfg["emb_dim"])
+              self.drop_shortcut = nn.Dropout(cfg["drop_rate"])
+
+          def forward(self, x):
+       #1
+              shortcut = x
+              x = self.norm1(x)
+              x = self.att(x)
+              x = self.drop_shortcut(x)
+              x = x + shortcut      #2
+
+              shortcut = x         #3
+              x = self.norm2(x)
+              x = self.ff(x)
+              x = self.drop_shortcut(x)
+              x = x + shortcut      #4
+              return x
+         #1 Shortcut connection for attention block
+         #2 Add the original input back
+         #3 Shortcut connection for feed forward block
+         #4 Adds the original input back
+
+   .. tip::
+
+      .. code-block:: python
+
+         class FeedForward(nn.Module):
+             def __init__(self, cfg):
+                 super().__init__()
+                 self.layers = nn.Sequential(
+                     nn.Linear(cfg["emb_dim"], 4 * cfg["emb_dim"]),
+                     GELU(),
+                     nn.Linear(4 * cfg["emb_dim"], cfg["emb_dim"]),
+                 )
+
+             def forward(self, x):
+                 return self.layers(x)
+
+Using the GPT_CONFIG_124M dictionary we defined earlier, let’s instantiate a transformer block and feed it some sample data:
+
+   .. code-block:: python
+
+      torch.manual_seed(123)
+      x = torch.rand(2, 4, 768)                   #1 Creates sample input of shape [batch_size, num_tokens, emb_dim]
+      block = TransformerBlock(GPT_CONFIG_124M)
+      output = block(x)
+
+      print("Input shape:", x.shape)
+      print("Output shape:", output.shape)
+      #Input shape: torch.Size([2, 4, 768])
+      #Output shape: torch.Size([2, 4, 768])
+
+
+
+
+
+
+----
+
+.. _statquest-josh-starmer:
+
+推荐资源：StatQuest 频道
+==========================
+
+在 `StatQuest with Josh Starmer <https://www.youtube.com/@statquest/>`_ 的 YouTube 频道上，有关于 **机器学习（ML）** 的详细介绍。
+其中提到了如何解决早期的 token 会随着“时间”的流逝变得不那么重要，或者说关联性逐渐消失的问题。
+
+该频道用清晰直观的方式讲解复杂的统计和机器学习概念，非常适合打好基础或查漏补缺。
+
+
+.. _daniel-bourke-pytorch-course:
+
+Recommended PyTorch Course
+==============
+
+I highly recommend the YouTube channel of **Daniel Bourke**.
+He offers a fantastic, full-length course on **PyTorch**, explaining key concepts like the **loss function** and **backpropagation** in exceptional detail.
+
+You can watch the course here:
+
+`Daniel Bourke – PyTorch Full Course on YouTube <https://www.youtube.com/watch?v=Z_ikDlimN6A>`_
+
 
 
