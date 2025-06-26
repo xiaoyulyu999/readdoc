@@ -356,7 +356,7 @@ An illustration of the dim parameter when calculating the mean of a tensor. For 
 
    Historically, the ReLU activation function has been commonly used in deep learning due to its simplicity and effectiveness across various neural network architectures. However, in LLMs, several other activation functions are employed beyond the traditional ReLU. Two notable examples are GELU (Gaussian error linear unit) and SwiGLU (Swish-gated linear unit).
 
-   the exact version is defined as GELU(x) = x⋅𝛷(x), where 𝛷(x) is the cumulative distribution function of the standard Gaussian distribution.
+   the exact version is defined as GELU(x) = x⋅𝛷(x), where "𝛷(x) is the cumulative distribution function of the standard Gaussian distribution.
 
    it’s common to implement a computationally cheaper approximation (the original GPT-2 model was also trained with this approximation, which was found via curve fitting):
 
@@ -650,6 +650,17 @@ Using the GPT_CONFIG_124M dictionary we defined earlier, let’s instantiate a t
       #Input shape: torch.Size([2, 4, 768])
       #Output shape: torch.Size([2, 4, 768])
 
+Each output vector directly corresponds to an input vector, maintaining a one-to-one relationship. However, the output is a context vector that encapsulates information from the entire input sequence (see chapter 3). This means that while the physical dimensions of the sequence (length and feature size) remain unchanged as it passes through the transformer block, the content of each output vector is re-encoded to integrate contextual information from across the entire input sequence.
+
+.. image:: c4/14.png
+
+
+4.6 Coding the GPT model
+========================
+
+Let’s now replace the DummyTransformerBlock and DummyLayerNorm placeholders with the real TransformerBlock and LayerNorm classes we coded previously to assemble a fully working version of the original 124-million-parameter version of GPT-2.
+
+.. image:: c4/15.png
 
 
 
@@ -660,18 +671,19 @@ Using the GPT_CONFIG_124M dictionary we defined earlier, let’s instantiate a t
 .. _statquest-josh-starmer:
 
 推荐资源：StatQuest 频道
-==========================
+----------------------
 
 在 `StatQuest with Josh Starmer <https://www.youtube.com/@statquest/>`_ 的 YouTube 频道上，有关于 **机器学习（ML）** 的详细介绍。
 其中提到了如何解决早期的 token 会随着“时间”的流逝变得不那么重要，或者说关联性逐渐消失的问题。
 
 该频道用清晰直观的方式讲解复杂的统计和机器学习概念，非常适合打好基础或查漏补缺。
 
+----
 
 .. _daniel-bourke-pytorch-course:
 
 Recommended PyTorch Course
-==============
+--------------------------
 
 I highly recommend the YouTube channel of **Daniel Bourke**.
 He offers a fantastic, full-length course on **PyTorch**, explaining key concepts like the **loss function** and **backpropagation** in exceptional detail.
@@ -682,3 +694,4 @@ You can watch the course here:
 
 
 
+"
