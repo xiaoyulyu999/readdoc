@@ -783,7 +783,7 @@ As we can see, the output tensor has the shape [2, 4, 50257], since we passed in
 
    These steps include decoding the output tensors, selecting tokens based on a probability distribution, and converting these tokens into human-readable text.
 
-.. image::c4/17.png
+.. image:: c4/17.png
 
 
 
