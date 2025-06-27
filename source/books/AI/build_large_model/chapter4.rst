@@ -662,7 +662,128 @@ Let’s now replace the DummyTransformerBlock and DummyLayerNorm placeholders wi
 
 .. image:: c4/15.png
 
+Starting from the bottom, tokenized text is first converted into token embeddings, which are then augmented with positional embeddings. This combined information forms a tensor that is passed through a series of transformer blocks shown in the center (each containing multi-head attention and feed forward neural network layers with dropout and layer normalization), which are stacked on top of each other and repeated 12 times.
 
+The output from the final transformer block then goes through a final layer normalization step before reaching the linear output layer. This layer maps the transformer’s output to a high-dimensional space (in this case, 50,257 dimensions, corresponding to the model’s vocabulary size) to predict the next token in the sequence.
+
+**The GPT model architecture implementation**
+
+   .. code-block:: python
+
+      class GPTModel(nn.Module):
+       def __init__(self, cfg):
+           super().__init__()
+           self.tok_emb = nn.Embedding(cfg["vocab_size"], cfg["emb_dim"])
+           self.pos_emb = nn.Embedding(cfg["context_length"], cfg["emb_dim"])
+           self.drop_emb = nn.Dropout(cfg["drop_rate"])
+
+           self.trf_blocks = nn.Sequential(
+               *[TransformerBlock(cfg) for _ in range(cfg["n_layers"])])
+
+           self.final_norm = LayerNorm(cfg["emb_dim"])
+           self.out_head = nn.Linear(
+               cfg["emb_dim"], cfg["vocab_size"], bias=False
+           )
+
+       def forward(self, in_idx):
+           batch_size, seq_len = in_idx.shape
+           tok_embeds = self.tok_emb(in_idx)
+         #1 The device setting will allow us to train the model on a CPU or GPU, depending on which device the input data sits on.
+           pos_embeds = self.pos_emb(
+               torch.arange(seq_len, device=in_idx.device)
+           )
+           x = tok_embeds + pos_embeds
+           x = self.drop_emb(x)
+           x = self.trf_blocks(x)
+           x = self.final_norm(x)
+           logits = self.out_head(x)
+           return logits
+
+      torch.manual_seed(123)
+      model = GPTModel(GPT_CONFIG_124M)
+
+      out = model(batch)
+      print("Input batch:\n", batch)
+      print("\nOutput shape:", out.shape)
+      print(out)
+      '''
+      Input batch:
+       tensor([[6109,  3626,  6100,   345],      #1
+               [6109,  1110,  6622,   257]])     #2
+
+      Output shape: torch.Size([2, 4, 50257])
+      tensor([[[ 0.3613,  0.4222, -0.0711,  ...,  0.3483,  0.4661, -0.2838],
+               [-0.1792, -0.5660, -0.9485,  ...,  0.0477,  0.5181, -0.3168],
+               [ 0.7120,  0.0332,  0.1085,  ...,  0.1018, -0.4327, -0.2553],
+               [-1.0076,  0.3418, -0.1190,  ...,  0.7195,  0.4023,  0.0532]],
+
+              [[-0.2564,  0.0900,  0.0335,  ...,  0.2659,  0.4454, -0.6806],
+               [ 0.1230,  0.3653, -0.2074,  ...,  0.7705,  0.2710,  0.2246],
+               [ 1.0558,  1.0318, -0.2800,  ...,  0.6936,  0.3205, -0.3178],
+               [-0.1565,  0.3926,  0.3288,  ...,  1.2630, -0.1858,  0.0388]]],
+             grad_fn=<UnsafeViewBackward0>)
+      '''
+
+As we can see, the output tensor has the shape [2, 4, 50257], since we passed in two input texts with four tokens each. The last dimension, 50257, corresponds to the vocabulary size of the tokenizer.
+
+   .. code-block:: python
+
+      total_params = sum(p.numel() for p in model.parameters())
+      print(f"Total number of parameters: {total_params:,}")
+      #Total number of parameters: 163,009,536
+
+.. admonition:: weight tying
+
+   Earlier, we spoke of initializing a 124-million-parameter GPT model, so why is the actual number of parameters 163 million?
+
+   The reason is a concept called weight tying, which was used in the original GPT-2 architecture. It means that the original GPT-2 architecture reuses the weights from the token embedding layer in its output layer. To understand better, let’s take a look at the shapes of the token embedding layer and linear output layer that we initialized on the model via the GPTModel earlier:
+
+   .. code-block:: python
+
+      print("Token embedding layer shape:", model.tok_emb.weight.shape)
+      print("Output layer shape:", model.out_head.weight.shape)
+      '''
+      Token embedding layer shape: torch.Size([50257, 768])
+      Output layer shape: torch.Size([50257, 768])
+      '''
+   The token embedding and output layers are very large due to the number of rows for the 50,257 in the tokenizer’s vocabulary. Let’s remove the output layer parameter count from the total GPT-2 model count according to the weight tying:
+
+   .. code-block:: python
+
+      total_params_gpt2 = (
+         total_params - sum(p.numel()
+         for p in model.out_head.parameters())
+      )
+      print(f"Number of trainable parameters "
+      f"considering weight tying: {total_params_gpt2:,}"
+      )
+      #Number of trainable parameters considering weight tying: 124,412,160
+
+   now only 124 million parameters large, matching the original size of the GPT-2 model.
+
+   Weight tying reduces the overall memory footprint and computational complexity of the model. However, in my experience, using separate token embedding and output layers results in better training and model performance; hence, we use separate layers in our GPTModel implementation. The same is true for modern LLMs. However, we will revisit and implement the weight tying concept later in chapter 6 when we load the pretrained weights from OpenAI.
+
+
+.. admonition:: Exercise
+
+   **4.2 Initializing larger GPT models**
+
+   We initialized a 124-million-parameter GPT model, which is known as “GPT-2 small.” Without making any code modifications besides updating the configuration file, use the GPTModel class to implement GPT-2 medium (using 1,024-dimensional embeddings, 24 transformer blocks, 16 multi-head attention heads), GPT-2 large (1,280-dimensional embeddings, 36 transformer blocks, 20 multi-head attention heads), and GPT-2 XL (1,600-dimensional embeddings, 48 transformer blocks, 25 multi-head attention heads). As a bonus, calculate the total number of parameters in each GPT model.
+
+4.7 Generating text
+-------------------
+
+**Converts the tensor outputs of the GPT model back into text**
+
+.. image:: c4/16.png
+
+.. note::
+
+   outputs tensors with shape [batch_size, num_token, vocab_size]
+
+   These steps include decoding the output tensors, selecting tokens based on a probability distribution, and converting these tokens into human-readable text.
+
+.. image::c4/17.png
 
 
 
