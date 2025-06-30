@@ -364,7 +364,7 @@ The goal of self-attention is to compute a context vector for each input element
    #(tensor([0.3061, 0.8210]), torch.Size([6]), torch.Size([6, 2]))
 
 .. danger::
-   REMEMBER THIS IS ONLY FOR A SINGLE CONTEXT VECTOR z_2
+   REMEMBER THIS IS ONLY FOR A SINGLE CONTEXT VECTOR x_2
 
 .. admonition:: 🔰 Why Query, Key and Value?
 
