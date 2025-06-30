@@ -268,6 +268,7 @@ The goal of self-attention is to compute a context vector for each input element
    W_key   = torch.nn.Parameter(torch.rand(d_in, d_out), requires_grad=False)
    W_value = torch.nn.Parameter(torch.rand(d_in, d_out), requires_grad=False)
 
+   '''
    Compute the query, key and value vectors, as showing in the image.
    '''
    query_2 = x_2 @ W_query
