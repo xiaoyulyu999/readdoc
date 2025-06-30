@@ -383,7 +383,7 @@ The goal of self-attention is to compute a context vector for each input element
 
    import torch.nn as nn
    class SelfAttention_v1(nn.Module):
-     def __init__(self, dim_in, dim_out) -> None:
+     def __init__(self, dim_in, dim_out):
        super().__init__()
        self.W_query = nn.Parameter(torch.rand(dim_in, dim_out))
        self.W_key = nn.Parameter(torch.rand(dim_in, dim_out))
