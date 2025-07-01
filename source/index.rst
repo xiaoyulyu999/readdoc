@@ -43,6 +43,7 @@ AI Musings - A Tribute to: Ruan Xiaohuan
    :caption: Projects
 
    projects/springboot_microservice/index
+   projects/SchedulerAIPowered/index
 
 
 .. toctree::
