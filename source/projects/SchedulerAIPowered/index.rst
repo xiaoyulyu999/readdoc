@@ -1,6 +1,8 @@
 SchedulerAIPowered
 ==================
 
+.. image:: images/Poster.jpeg
+
 Project Overview
 ----------------
 
