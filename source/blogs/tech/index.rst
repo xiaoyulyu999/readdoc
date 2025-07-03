@@ -5,3 +5,4 @@ Tech 技能
    :maxdepth: 2
 
    k9s/index
+   kafka/index
