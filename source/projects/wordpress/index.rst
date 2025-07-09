@@ -1,4 +1,4 @@
-Spring Boot Back / Wordpress Frontend.
+Spring Boot Backend / Wordpress Frontend.
 ======================================
 
 
