@@ -15,4 +15,5 @@ AI Books
    :maxdepth: 2
 
    build_large_model/index
+   statQuest/index
 
