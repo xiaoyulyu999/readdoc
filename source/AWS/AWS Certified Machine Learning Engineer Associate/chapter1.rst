@@ -1,8 +1,5 @@
-CHAPTER 1
-=========
-
 Data
-----
+====
 
 .. admonition:: Data Warehouses
 

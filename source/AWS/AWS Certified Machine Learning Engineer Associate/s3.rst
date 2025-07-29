@@ -1,0 +1,115 @@
+Amazon S3
+=========
+
+.. admonition:: What is Amazon S3?
+
+   - **Definition**:
+
+     - Amazon Simple Storage Service (S3) is AWS's scalable, durable object storage service.
+     - Used as a foundational building block for many AWS services and architectures.
+
+
+   - **Key Concepts**:
+
+     - Infinitely scalable storage with 99.999999999% (11 9's) durability.
+     - Object-based storage: Stores data as *objects* within *buckets*.
+     - Globally unique bucket names.
+     - Region-specific bucket deployment.
+
+
+   - **Naming Requirements**:
+
+     - No uppercase letters or underscores.
+     - Length: 3 to 63 characters.
+     - Must not resemble an IP address.
+     - Begin with a lowercase letter or number.
+
+.. admonition:: ✅ Use Cases for Amazon S3
+
+   - Backup and storage (files, disks, etc.)
+   - Disaster recovery (cross-region replication)
+   - Archival (e.g. S3 Glacier, cheaper long-term storage)
+   - Hybrid cloud storage (on-premise + cloud)
+   - Media hosting (video, images)
+   - Hosting static websites
+   - Delivering software updates
+   - Data lakes and big data analytics
+
+
+   **Real-World Examples**:
+
+   - Nasdaq uses S3 Glacier to archive 7 years of data.
+   - Sysco runs analytics to gain business insights via Amazon S3.
+
+.. admonition:: Buckets & Objects
+
+   - **Bucket**:
+
+     - Top-level container in S3.
+     - Created within a specific region.
+     - Must have a globally unique name.
+
+
+   - **Objects**:
+
+     - Stored within buckets.
+     - Each object has a *key* (full path name).
+     - Keys can simulate folders using "/" separators.
+     - Maximum object size: **5TB**.
+     - Objects > 5GB require **multi-part upload**.
+
+.. admonition:: Object Structure
+
+   - **Key**:
+
+     - Unique identifier for each object in the bucket.
+     - Example: `my-folder/another-folder/myfile.txt`
+
+
+   - **Value**:
+
+     - Actual content (binary or text).
+
+
+   - **Metadata**:
+
+     - System-defined and user-defined key-value pairs.
+     - Used to describe properties of the object.
+
+
+   - **Tags**:
+
+     - Up to 10 Unicode key-value pairs.
+     - Useful for lifecycle rules, access policies, and tracking.
+
+
+   - **Version ID**:
+
+     - Assigned when versioning is enabled on the bucket.
+
+.. admonition:: ✅ Storage & Upload Notes
+
+   - Multi-part Upload:
+
+     - Required for uploading large files efficiently.
+     - Especially for files > 5GB.
+
+
+   - Versioning:
+
+     - Enables multiple versions of the same object.
+     - Useful for recovery and rollback.
+
+.. admonition:: 🔍 Summary
+
+   - Amazon S3 is foundational to many AWS architectures.
+   - Offers scalable, durable, and flexible storage.
+   - Suitable for backup, archival, analytics, web hosting, and more.
+   - Buckets and objects are core concepts to understand.
+   - Follow naming rules and regional deployment considerations.
+
+.. admonition:: 🔗 To Learn More
+
+   - Hands-on with the AWS Console to create buckets, upload objects, enable versioning.
+   - Explore S3 lifecycle rules, S3 Glacier, and cross-region replication.
+   - Try integrating S3 with other services (e.g., Lambda, Athena, Redshift).

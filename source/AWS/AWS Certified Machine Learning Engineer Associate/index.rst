@@ -19,3 +19,4 @@ AWS Certified Machine Learning Engineer - Associate Notes
    :maxdepth: 1
 
    chapter1
+   s3
