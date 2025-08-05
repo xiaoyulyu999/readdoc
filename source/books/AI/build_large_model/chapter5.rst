@@ -78,3 +78,147 @@ How to measure the quality of model's output?
 
 We can use: **Cross-entropy and perplexity**
 
+Five-step procedure:
+
+.. image:: c5/5-4.png
+
+**Step 1: Generate text**
+
+.. code-block:: python
+
+   inputs = torch.tensor([[16833, 3626, 6100],   # ["every effort moves",
+                       [40,    1107, 588]])   #  "I really like"]
+
+   targets = torch.tensor([[3626, 6100, 345  ],  # [" effort moves you",
+                        [1107, 588, 11311]])  #  " really like choc
+
+   with torch.no_grad():     #1
+      logits = model(inputs)
+   probas = torch.softmax(logits, dim=-1)     #2
+   print(probas.shape)
+
+   # torch.Size([2, 3, 50257])
+
+   token_ids = torch.argmax(probas, dim=-1, keepdim=True)
+   print("Token IDs:\n", token_ids)
+
+   '''
+   Token IDs:
+    tensor([[[16657],       #1
+            [  339],
+            [42826]],
+           [[49906],        #2
+            [29669],
+            [41751]]])
+   '''
+
+   print(f"Targets batch 1: {token_ids_to_text(targets[0], tokenizer)}")
+   print(f"Outputs batch 1:"
+         f" {token_ids_to_text(token_ids[0].flatten(), tokenizer)}")
+
+   '''
+   Targets batch 1:  effort moves you
+   Outputs batch 1:  Armed heNetflix
+   '''
+
+**Step 2: Implement the text evaluation function.**
+
+.. image:: c5/5-5.png
+
+measure “how far” the generated tokens are from the correct predictions (targets). The training function we implement later will use this information to adjust the model weights to generate text that is more similar to (or, ideally, matches) the target text.
+
+.. image:: c5/5-6.png
+
+Before training, the model produces random next-token probability vectors. The goal of model training is to ensure that the probability values corresponding to the highlighted target token IDs are maximized.
+
+For each of the two input texts, we can print the initial softmax probability scores corresponding to the target tokens using the following code:
+
+.. code-block:: python
+
+   text_idx = 0
+   target_probas_1 = probas[text_idx, [0, 1, 2], targets[text_idx]]
+   print("Text 1:", target_probas_1)
+
+   text_idx = 1
+   target_probas_2 = probas[text_idx, [0, 1, 2], targets[text_idx]]
+   print("Text 2:", target_probas_2)
+
+   '''
+   Text 1: tensor([7.4541e-05, 3.1061e-05, 1.1563e-05])
+   Text 2: tensor([1.0337e-05, 5.6776e-05, 4.7559e-06])
+   '''
+
+How do we maximize the softmax probability values corresponding to the target tokens?
+
+**BACKPROPAGATION**
+
+.. note::
+   Backpropagation requires a loss function, which calculates the difference between the model’s predicted output (here, the probabilities corresponding to the target token IDs) and the actual desired output. This loss function measures how far off the model’s predictions are from the target values.
+
+These processes are following :
+
+.. code-block:: python
+
+   # We done step 1-3 so far
+   #4
+   log_probas = torch.log(torch.cat((target_probas_1, target_probas_2)))
+   print(log_probas)
+
+   #5
+   avg_log_probas = torch.mean(log_probas)
+   print(avg_log_probas)
+   # tensor(-10.7940)
+
+   #6
+   neg_avg_log_probas = avg_log_probas * -1
+   print(neg_avg_log_probas)
+   # tensor(10.7940)
+
+In deep learning, the term for turning this negative value, –10.7940, into 10.7940, is known as the cross entropy loss
+
+The logarithm to the probability scores:
+
+.. image:: c5/5-7.png
+
+**CROSS ENTROPY LOSS [What we normally use, it is easy way.]**
+
+.. note::
+
+   Logits shape: torch.Size([2, 3, 50257])
+   Targets shape: torch.Size([2, 3])
+
+   To apply the cross_entropy loos function in PyTorch, we want to flatten these tensors by combining them over the batch dimension.
+
+.. code-block:: python
+
+   logits_flat = logits.flatten(0, 1)
+   targets_flat = targets.flatten()
+   print("Flattened logits:", logits_flat.shape)
+   print("Flattened targets:", targets_flat.shape)
+
+   '''
+   Flattened logits: torch.Size([6, 50257])
+   Flattened targets: torch.Size([6])
+   '''
+
+   loss = torch.nn.functional.cross_entropy(logits_flat, targets_flat)
+   print(loss)
+   #tensor(10.7940)
+
+Result is same as manually.
+
+**PERPLEXITY**
+
+Perplexity is a measure often used alongside cross entropy loss to evaluate the performance of models in tasks like language modeling.
+
+.. note::
+
+   Perplexity measures how well the probability distribution predicted by the model matches the actual distribution of the words in the dataset. Similar to the loss, a lower perplexity indicates that the model predictions are closer to the actual distribution.
+   <br>
+   Perplexity can be calculated as perplexity = torch.exp(loss), which returns tensor(48725.8203) when applied to the previously calculated loss
+
+5.1.3 Calculating the training and validation set losses
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
