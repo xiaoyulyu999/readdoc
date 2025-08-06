@@ -157,11 +157,23 @@ Amazon S3
 
    - **CRR Use Cases:**
 
-     - Compliance and disaster recovery
-     - Lower latency data access in another region
-     - Cross-account replication
+      - Compliance and disaster recovery
+      - Lower latency data access in another region
+      - Cross-account replication
 
    - **SRR Use Cases:**
 
      - Log aggregation across multiple buckets
      - Live replication between production and test environments
+
+   - **Only new objects** are replicated after enabling replication.
+   - To replicate **existing objects** and previously **failed replications**, use **S3 Batch Replication**.
+   - **Delete markers** can optionally be replicated from source to destination.
+
+     - **Permanent deletions with version ID** are *not* replicated to avoid propagating malicious deletes.
+
+   - **Replication chaining is not supported**:
+
+     - If Bucket A replicates to Bucket B, and Bucket B replicates to Bucket C, objects from A will *not* reach C.
+
+
