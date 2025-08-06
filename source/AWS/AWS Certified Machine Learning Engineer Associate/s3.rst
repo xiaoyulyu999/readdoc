@@ -140,3 +140,28 @@ Amazon S3
    - Know the difference between on and off "Show versions".
    - Off: To delete an object with a specific version, enable 'Show versions' to view versioned keys. You can reverse a deletion by removing the delete marker (version key).
    - On: Delete permenently.
+
+.. admonition:: Amazon S3 Replication
+
+   - Two types:
+
+     - **CRR (Cross-Region Replication)**: Replicates objects to a bucket in a *different* region
+     - **SRR (Same-Region Replication)**: Replicates objects to a bucket in the *same* region
+
+   - **Requirements:**
+
+     - Versioning must be enabled on both source and destination buckets
+     - Proper IAM permissions are required for S3 to perform replication
+     - Buckets can be in different AWS accounts
+     - Replication is asynchronous (runs in the background)
+
+   - **CRR Use Cases:**
+
+     - Compliance and disaster recovery
+     - Lower latency data access in another region
+     - Cross-account replication
+
+   - **SRR Use Cases:**
+
+     - Log aggregation across multiple buckets
+     - Live replication between production and test environments
