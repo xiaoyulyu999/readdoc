@@ -143,7 +143,7 @@ Amazon S3
 
 .. admonition:: Amazon S3 Replication
 
-   - Two types:
+   - **Two types:**
 
      - **CRR (Cross-Region Replication)**: Replicates objects to a bucket in a *different* region
      - **SRR (Same-Region Replication)**: Replicates objects to a bucket in the *same* region
