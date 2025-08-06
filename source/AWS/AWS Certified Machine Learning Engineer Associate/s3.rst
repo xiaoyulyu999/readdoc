@@ -134,3 +134,8 @@ Amazon S3
    - Actions: Set of API to Allow or Deny
    - Principal: The account or user to apply the policy to
    - If your bucket should never be public, leave the Block Public Access on.
+
+.. admonition::  S3 Version
+
+   - Know the difference between on and off "Show versions".
+   - Off: To delete an object with a specific version, enable 'Show versions' to view versioned keys. You can reverse a deletion by removing the delete marker (version key).
