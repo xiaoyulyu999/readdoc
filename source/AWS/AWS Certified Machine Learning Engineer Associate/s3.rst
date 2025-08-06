@@ -17,13 +17,6 @@ Amazon S3
      - Region-specific bucket deployment.
 
 
-   - **Naming Requirements**:
-
-     - No uppercase letters or underscores.
-     - Length: 3 to 63 characters.
-     - Must not resemble an IP address.
-     - Begin with a lowercase letter or number.
-
 .. admonition:: ✅ Use Cases for Amazon S3
 
    - Backup and storage (files, disks, etc.)
@@ -49,6 +42,13 @@ Amazon S3
      - Created within a specific region.
      - Must have a globally unique name.
 
+   - **Naming Requirements**:
+
+     - No uppercase letters or underscores.
+     - Length: 3 to 63 characters.
+     - Must not resemble an IP address.
+     - Begin with a lowercase letter or number.
+     - Not start with prefix "xn- -", or end with suffix "-s3alia"
 
    - **Objects**:
 
@@ -63,12 +63,15 @@ Amazon S3
    - **Key**:
 
      - Unique identifier for each object in the bucket.
-     - Example: `my-folder/another-folder/myfile.txt`
-
+     - Example: s3://my-bucket/my-folder/another-folder/myfile.txt
+               kye is 'my-folder/another-folder/myfile.txt'. Prefix: my_folder/another_folder/, Object name: my_file.txt
 
    - **Value**:
 
      - Actual content (binary or text).
+     - 5TB max.
+     - Multi-part Upload: > 5TB max.
+
 
 
    - **Metadata**:
@@ -113,3 +116,21 @@ Amazon S3
    - Hands-on with the AWS Console to create buckets, upload objects, enable versioning.
    - Explore S3 lifecycle rules, S3 Glacier, and cross-region replication.
    - Try integrating S3 with other services (e.g., Lambda, Athena, Redshift).
+
+.. admonition::  Security
+
+   - User-Based:
+      IAM Policies - which API calls should be allowed for a specific user from IAM.
+   - Resource-Based:
+      Bucket Policies - bucket wide rules from the S3 console - allows across account.
+      Object Access Control List (ACL) - finer grain (can be disabled)
+      Bucket Access Control List (ACL) - less common (can be disabled)
+
+.. admonition::  S3 Bucket Policies
+
+   - JSON based
+   - Resources: buckets and objects
+   - Effect: Allow/Deny
+   - Actions: Set of API to Allow or Deny
+   - Principal: The account or user to apply the policy to
+   - If your bucket should never be public, leave the Block Public Access on.
