@@ -177,3 +177,84 @@ Amazon S3
      - If Bucket A replicates to Bucket B, and Bucket B replicates to Bucket C, objects from A will *not* reach C.
 
 
+S3 Storage
+----------
+
+.. admonition:: Storage Classes
+
+   Can move manually or S3 lifecycle configurations
+
+   - Amazon S3 Standard - General Purpose
+   - Amazon S3 Standard - Infrequent Access (IA)
+   - Amazon S3 One Zone - IA
+   - Amazon S3 Glacier Instant Retrieval
+   - Amazon S3 Glacier Flexible Retrieval
+   - Amazon S3 Glacier Deep Archive
+   - Amazon S3 Intelligent Tiering
+
+.. image:: images/table-1.png
+
+.. admonition:: Use Cases
+
+   **S3 Standard (General Purpose):**
+      - Big data analytics - For frequently accessed datasets requiring high throughput
+      - Mobile and gaming applications - Low latency access for app data and user content
+      - Content distribution - Serving websites, media files, and frequently downloaded content
+      - Primary storage - Default choice for active workloads and frequently accessed data
+
+   **S3 Standard-Infrequent Access (Standard-IA)**
+
+      - Disaster recovery - Backup data that needs rapid access during emergencies
+      - Long-term backups - Data accessed less frequently but requiring quick retrieval when needed
+      - File synchronization - Secondary copies of important files
+      - Data archiving - Medium-term storage where occasional access is required
+
+   **S3 One Zone-Infrequent Access (One Zone-IA)**
+
+      - Secondary backup copies - Non-critical backups where you can tolerate AZ loss
+      - On-premises data replicas - Storing copies of data that exists elsewhere
+      - Recreatable data - Data that can be regenerated if lost (processed datasets, thumbnails)
+      - Cost-sensitive archiving - When you need lower costs and can accept higher risk
+
+   **Glacier Instant Retrieval**
+
+      - Medical imaging archives - Patient records accessed quarterly for compliance
+      - Financial records - Regulatory data requiring instant access but infrequent use
+      - Legal documents - Case files that may need immediate retrieval
+      - Quarterly reporting data - Business intelligence data accessed once per quarter
+
+   **Glacier Flexible Retrieval**
+
+      - Media archives - Video/audio content for production companies
+      - Scientific data - Research datasets for periodic analysis
+      - Compliance archives - Regulatory data with flexible retrieval requirements
+      - Backup restoration - System backups where you can wait hours for recovery
+
+   **Glacier Deep Archive**
+
+      - Long-term compliance - 7-10 year regulatory retention requirements
+      - Digital preservation - Libraries, museums, historical records
+      - Tape replacement - Migrating from physical tape storage systems
+      - Rarely accessed archives - Data kept for legal/compliance but almost never accessed
+
+   **S3 Intelligent-Tiering**
+
+      - Unknown access patterns - New applications where usage isn't predictable
+      - Changing workloads - Data that transitions between frequent and infrequent access
+      - Cost optimization - Automatic savings without operational overhead
+      - Mixed datasets - Large datasets with varying access frequencies
+      - Set-and-forget archiving - When you want automatic optimization without manual management
+
+   Key Decision Factors:
+      - Choose based on:
+         - Access frequency - How often you need the data
+         - Retrieval time tolerance - How quickly you need access (milliseconds to days)
+         - Cost sensitivity - Balance between storage cost and retrieval cost
+         - Durability requirements - Whether you can tolerate AZ-level failures
+         - Operational overhead - Whether you want manual control or automatic optimization
+
+   Common Migration Patterns:
+      - Active data → S3 Standard
+      - Aging data → Standard-IA (after 30 days)
+      - Archive data → Glacier classes (after 90+ days)
+      - Long-term retention → Deep Archive (after 180+ days)
