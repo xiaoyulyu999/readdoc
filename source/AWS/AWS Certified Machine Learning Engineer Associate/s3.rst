@@ -1,6 +1,9 @@
 Amazon S3
 =========
 
+General
+-------
+
 .. admonition:: What is Amazon S3?
 
    - **Definition**:
@@ -258,3 +261,5 @@ S3 Storage
       - Aging data → Standard-IA (after 30 days)
       - Archive data → Glacier classes (after 90+ days)
       - Long-term retention → Deep Archive (after 180+ days)
+
+   You can find more information here:`Amazon S3 Storage Classes <https://aws.amazon.com/s3/storage-classes/#topic-6>`_
