@@ -262,5 +262,24 @@ S3 Storage
       - Archive data → Glacier classes (after 90+ days)
       - Long-term retention → Deep Archive (after 180+ days)
 
-You can find more information here:`Amazon S3 Storage Classes <https://aws.amazon.com/s3/storage-classes/#topic-6>`_
+   You can find more information here:`Amazon S3 Storage Classes <https://aws.amazon.com/s3/storage-classes/#topic-6>`_
 
+.. admonition:: Lifecycle Rules
+
+   - **Transsition Actions - configure objects to transition to another storeage class.**
+      - Move objs to Standard IA class 60 days after creation.
+      - Move to Glacier for archiving after 6 months.
+
+   - **Expireation actions - configure objects to expire / delete after some time.**
+      - Access log files can be set to delete after a 365 days.
+      - Can be used to delete old versions of files (if versioning is enabled).
+      - Can be used to delete incomplete Multi-Part uploads
+
+   - **Rules can be created for a certain prefix (s3://mybucket/mp3/*)**
+   - **Rules can be created for certain objecs Tags (Department:Finance)**
+
+.. admonition:: Scenario
+
+   - Your application on EC2 creates images thumbnails after profile photos are uploaded to Amazon S3. These thumbnails can be easily recreated, and only need to be kept for 60 days. The source images should be able to be immediately retrieved for these 60 days, and afterwards, the user can wait up to 6 hours.
+      - S3 source images can be on Standard, with a lifecycle configuration to transition them to Glacier after 60 days.
+      - S3 thumbnails can be on One-Zone IA, with a lifecycle configuration to expire them (delete them) after 60 days.
