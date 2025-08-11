@@ -291,3 +291,15 @@ S3 Storage
    - Your application on EC2 creates images thumbnails after profile photos are uploaded to Amazon S3. These thumbnails can be easily recreated, and only need to be kept for 60 days. The source images should be able to be immediately retrieved for these 60 days, and afterwards, the user can wait up to 6 hours.
       - S3 source images can be on Standard, with a lifecycle configuration to transition them to Glacier after 60 days.
       - S3 thumbnails can be on One-Zone IA, with a lifecycle configuration to expire them (delete them) after 60 days.
+
+   - A rule in your company states that you should be able to recover your delete S3 objecs immediately for 30 days, although this may happen rarely. After this time, and for up to 365 days, delete objects should be recoverable within 48 hrs.
+      - Enable S3 versioning in order to have object versions, so that "deleted objects" are in fact hidden by a "delete marker" and can be recovered.
+      - Transition the "noncurrent versions" of the objects to Standard IA
+      - Transition afterwards the "noncurrent versions" to Glacier Deep Archive
+
+.. admonition:: Storage Class Analysis
+
+   - when to transition objects to the right storages class
+   - Recommendations for Standard and Standard IA (NOT work for One-Zone IA or Glacier)
+   - Report is updated daily
+   - 24 - 48 hours to start seeing data analysis
