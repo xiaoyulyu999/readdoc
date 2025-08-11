@@ -188,6 +188,8 @@ S3 Storage
    Can move manually or S3 lifecycle configurations
 
    - Amazon S3 Standard - General Purpose
+   - Amazon S3 Intelligent-Tiering*
+   - S3 Express One Zone**
    - Amazon S3 Standard - Infrequent Access (IA)
    - Amazon S3 One Zone - IA
    - Amazon S3 Glacier Instant Retrieval
@@ -199,41 +201,47 @@ S3 Storage
 
 .. admonition:: Use Cases
 
-   **S3 Standard (General Purpose):**
+   **S3 Standard (General Purpose): General purpose storage for frequently accessed data**
       - Big data analytics - For frequently accessed datasets requiring high throughput
       - Mobile and gaming applications - Low latency access for app data and user content
       - Content distribution - Serving websites, media files, and frequently downloaded content
       - Primary storage - Default choice for active workloads and frequently accessed data
 
-   **S3 Standard-Infrequent Access (Standard-IA)**
+   **S3 Intelligent-Tiering*: Automatic cost savings for data with unknown or changing access patterns**
+      - New, check the link below.
+
+   **S3 Express One Zone: High performance storage for your most frequently accessed data**
+      - New, check the link below.
+
+   **S3 Standard-Infrequent Access (Standard-IA): Infrequently accessed data that needs millisecond access**
 
       - Disaster recovery - Backup data that needs rapid access during emergencies
       - Long-term backups - Data accessed less frequently but requiring quick retrieval when needed
       - File synchronization - Secondary copies of important files
       - Data archiving - Medium-term storage where occasional access is required
 
-   **S3 One Zone-Infrequent Access (One Zone-IA)**
+   **S3 One Zone-Infrequent Access (One Zone-IA): Re-creatable infrequently accessed data**
 
       - Secondary backup copies - Non-critical backups where you can tolerate AZ loss
       - On-premises data replicas - Storing copies of data that exists elsewhere
       - Recreatable data - Data that can be regenerated if lost (processed datasets, thumbnails)
       - Cost-sensitive archiving - When you need lower costs and can accept higher risk
 
-   **Glacier Instant Retrieval**
+   **Glacier Instant Retrieval: Long-lived data that is accessed a few times per year with instant retrievals**
 
       - Medical imaging archives - Patient records accessed quarterly for compliance
       - Financial records - Regulatory data requiring instant access but infrequent use
       - Legal documents - Case files that may need immediate retrieval
       - Quarterly reporting data - Business intelligence data accessed once per quarter
 
-   **Glacier Flexible Retrieval**
+   **Glacier Flexible Retrieval: Backup and archive data that is rarely accessed and low cost**
 
       - Media archives - Video/audio content for production companies
       - Scientific data - Research datasets for periodic analysis
       - Compliance archives - Regulatory data with flexible retrieval requirements
       - Backup restoration - System backups where you can wait hours for recovery
 
-   **Glacier Deep Archive**
+   **Glacier Deep Archive: Archive data that is very rarely accessed and very low cost**
 
       - Long-term compliance - 7-10 year regulatory retention requirements
       - Digital preservation - Libraries, museums, historical records
