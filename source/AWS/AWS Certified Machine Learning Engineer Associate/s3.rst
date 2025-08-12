@@ -303,3 +303,35 @@ S3 Storage
    - Recommendations for Standard and Standard IA (NOT work for One-Zone IA or Glacier)
    - Report is updated daily
    - 24 - 48 hours to start seeing data analysis
+
+S3 Event Notifications
+----------------------
+
+S3 event notification is a feature of Amazon S3 that automatically sends notifications when specific events occur in the S3 buckets. This allows you to trigger automated workflows and processes in reponse to changes in the S3 data.
+   - Object creation (PUT, POST, COPY, or multipart upload completion)
+   - Object deletion
+   - Object restoration from Glacier
+   - Relication events
+
+.. admonition:: Supported Destinations
+
+   - Amazon SQS queues
+   - Amazon SNS topics
+   - AWS Lambda functions
+
+In order to make S3 Event Notifications work, IAM Permissions will be needed.
+
+.. admonition:: IAM Permissions
+
+   - SQS Resource (Access) Policy
+   - SNS Resource (Access) Policy
+   - Lambda Resource Policy
+
+S3 Event Notifications with Amazon EventBridge.
+
+   - EventBridge is AWS's managed event routing service that provides real-time access to changes in data from AWS services, custom applications, and SaaS applications without writing code. It acts as a central hub for routing events between different systems and services.
+   - All events go to EventBridge.
+   - Over 18 AWS services as destinations
+   - Adanced filtering options with JSON rules (metadata, object size, name ...)
+   - Multiple Destinations - ex Step Functions, Kinesis Streams/ Firehose ...
+   - EventBridge Capabilities - Archive, Replay Events, Reliable delivery
