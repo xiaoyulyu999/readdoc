@@ -306,6 +306,7 @@ S3 Storage
 
 S3 Event Notifications
 ----------------------
+You can find more information here:`Amazon S3Event Notifications Hands On <https://www.udemy.com/course/aws-certified-machine-learning-engineer-associate-mla-c01/learn/lecture/45356569#content>`_
 
 S3 event notification is a feature of Amazon S3 that automatically sends notifications when specific events occur in the S3 buckets. This allows you to trigger automated workflows and processes in reponse to changes in the S3 data.
    - Object creation (PUT, POST, COPY, or multipart upload completion)
