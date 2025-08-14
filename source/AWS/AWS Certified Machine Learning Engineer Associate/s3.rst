@@ -336,3 +336,32 @@ S3 Event Notifications with Amazon EventBridge.
    - Adanced filtering options with JSON rules (metadata, object size, name ...)
    - Multiple Destinations - ex Step Functions, Kinesis Streams/ Firehose ...
    - EventBridge Capabilities - Archive, Replay Events, Reliable delivery
+
+S3 Performance
+--------------
+
+.. admonition:: Baseline Performance
+
+   - Automatically scales
+   - 3500 PUT/COPY/POST/DELETE,5500 GET/HEAD, per sec per prefix
+   - NO Limits to the number of prefixs in a bucket
+      - bucket/foldeer1/sub1/file => prefix: /folder1/sub1/
+
+.. admonition:: Performance upload transfer
+
+   - Multi-Part Upload
+      - recoomended > 100mb
+      - MUST > 5GB
+      - Parallelize uploads
+
+   - Transfer Acceleration
+      - Increase transfer speed by transferring file to an AWS edge location which will forward the data to the S3 bucket in the target region.
+      - Compatible with multi-part upload.
+
+.. admonition:: Performance - S3 Byte-Range Fetches
+
+   - Parallelize GET by requesting specific byte ranges.
+   - Better resilience in case of faailures
+   - Can be used to speed up downloads.
+   - Can be use to retrieve only partial data (etc, head of a file)
+
