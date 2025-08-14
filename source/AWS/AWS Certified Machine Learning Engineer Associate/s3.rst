@@ -393,18 +393,27 @@ Amazon S3 Object Encryption
    - Object is encrypted server side
    - Must set header "x-amz-server-side-encryption":"aws:kms"
    - Need API call to generate KMS key for de-en crypt, so there is a traffic limitation
+   - Count towards the KMS quota per second
 
 .. admonition:: SSE-C
 
+   - Server-side Encryption using keys fully managed by the customer outside of AWS
+   - Not store the Key on S3
+   - HTTPS must be used (of course, action to the key)
+   - Key must provided in HTTP headers , for every HTTP request made.
 
+.. admonition:: Cline-side Encryption
 
+   - Use client libraries (Amazon S3 Client-Side Encryption Library)
+   - Client must en-de crypt data themself before / after
+   - Users fully manage the keys and encryption cycle.
 
+.. admonition:: Transit (SSL/TLS)
 
-
-
-
-
-
+   - 2 endpoints HTTP/HTTPS
+   - HTTPS is recommended
+   - HTTPS is mandatory for SSE-C
+   - Most clients use HTTPS as default
 
 
 
