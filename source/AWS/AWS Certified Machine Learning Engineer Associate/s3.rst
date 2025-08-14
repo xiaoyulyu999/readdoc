@@ -368,6 +368,8 @@ S3 Performance
 Amazon S3 Object Encryption
 ---------------------------
 
+You can find more information here:`Amazon S3 Encryption Hands On <https://www.udemy.com/course/aws-certified-machine-learning-engineer-associate-mla-c01/learn/lecture/45356611#content>`_
+
 .. admonition:: Encrypt objects in S3 buckets using one of 4 methods
 
    - Server-Side Encription (SSE):
@@ -414,9 +416,8 @@ Amazon S3 Object Encryption
    - HTTPS is recommended
    - HTTPS is mandatory for SSE-C
    - Most clients use HTTPS as default
-
-
-
+   - Force Encryption in Transit, Aws:SecureTransport
+      - This can be done in the Bucket Policy: Condition
 
 
 
