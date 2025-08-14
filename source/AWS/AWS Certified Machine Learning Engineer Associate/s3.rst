@@ -365,3 +365,51 @@ S3 Performance
    - Can be used to speed up downloads.
    - Can be use to retrieve only partial data (etc, head of a file)
 
+Amazon S3 Object Encryption
+---------------------------
+
+.. admonition:: Encrypt objects in S3 buckets using one of 4 methods
+
+   - Server-Side Encription (SSE):
+      - SSE-S3, Enabled by default
+      - SSE-KMS
+      - SSE-C customer-keys
+   - Client-Side Encryption
+
+**When and Where to use:**
+
+.. admonition:: Amazon S3 Encryption
+
+   - Encryption using keys handled, managed and owned by AWS
+   - Object is encrypted server-side
+   - Encryption type is AES-256
+   - Must set header "x-amz-server-dide-encryption":"AES256"
+   - Enabled by default for new buckets and new objects
+
+.. admonition:: SSE-KMS
+
+   - Encryption using keys handled and managed by AWS KMS
+   - user control + audit key usage using CloudTrail
+   - Object is encrypted server side
+   - Must set header "x-amz-server-side-encryption":"aws:kms"
+   - Need API call to generate KMS key for de-en crypt, so there is a traffic limitation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
