@@ -394,6 +394,8 @@ Amazon S3 Object Encryption
    - Must set header "x-amz-server-side-encryption":"aws:kms"
    - Need API call to generate KMS key for de-en crypt, so there is a traffic limitation
 
+.. admonition:: SSE-C
+
 
 
 
