@@ -424,6 +424,8 @@ S3 Access Points
 
 - Access Points should enforce role-based access control (RBAC), so that users’ network access is restricted according to their role. Just like bucket policy.
 
+- Each Access Point has its own DNS name (Internet Origin or VPC origin)
+
 .. image:: images/access.png
 
 
