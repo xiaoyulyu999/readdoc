@@ -419,6 +419,12 @@ You can find more information here:`Amazon S3 Encryption Hands On <https://www.u
    - Force Encryption in Transit, Aws:SecureTransport
       - This can be done in the Bucket Policy: Condition
 
+S3 Access Points
+----------------
+
+- Access Points should enforce role-based access control (RBAC), so that users’ network access is restricted according to their role. Just like bucket policy.
+
+.. image:: images/access.png
 
 
 
