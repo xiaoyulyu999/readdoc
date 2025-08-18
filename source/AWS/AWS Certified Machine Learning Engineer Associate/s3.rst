@@ -432,7 +432,7 @@ S3 Access Points
 
    - Define the access point to be accessible only from within the VPC
    - Must create a VPC Endpoint to access the Gateway or Interface Endpoint
-   - VPC endpoint Policy MUST allow access to **BOTH bucket and access point**
+   - VPC endpoint Policy MUST allow access to **BOTH bucket and access point**, end
 
 
 .. admonition:: Object Lambda
