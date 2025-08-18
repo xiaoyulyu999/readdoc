@@ -436,7 +436,6 @@ S3 Access Points
 
 .. admonition:: Object Lambda
 
-   .. image:: images/lambda.png
    - Use AWS Lambda Functions to change the object before it is retrieved by the caller application
 
    - Only one S3 bucket is needed, on top of which we create **S3 Access Point and S3 Object Lambda Access Points**
@@ -445,4 +444,5 @@ S3 Access Points
    - Converting across data formats, such as converting XML to JSON.
    - Resizing and watermarking images on the fly using caller-specific details, such as the user who requested the project.
 
+   .. image:: images/lambda.png
 
