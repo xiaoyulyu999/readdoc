@@ -434,8 +434,6 @@ S3 Access Points
    - Must create a VPC Endpoint to access the Gateway or Interface Endpoint
    - VPC endpoint Policy MUST allow access to **BOTH bucket and access point**
 
-.. image:: images/lambda.png
-
 .. admonition:: Object Lambda
 
    - Use AWS Lambda Functions to change the object before it is retrieved by the caller application
