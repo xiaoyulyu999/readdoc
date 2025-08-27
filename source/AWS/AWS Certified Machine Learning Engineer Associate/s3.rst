@@ -447,5 +447,19 @@ S3 Access Points
       - Converting across data formats, such as converting XML to JSON.
       - Resizing and watermarking images on the fly using caller-specific details, such as the user who requested the project.
 
+Amazon EBS
+----------
+
+**What is an EBSVolume?**
+   - An EBS(Elastic Block Store) Volume is a network drive that you can attach to your instances while they run.
+   - It allows your instances to persist data, even after their termination.
+   - They can only be mounted to one instance at a time (at the CCP level).
+   - They are bound to a specific availablility zone
+   - Think of them as a "Network USB stick"
+      - Uses the network to communicate the instance (latency)
+      - Detached/attached to another EC2 instance quickly
+      - Locked to ana Availability Zone (AZ)
+      - To move a volume across, need to snapshot it.
+      - Have a provisioned capacity (size in GBs, and IOPS)
 
 
