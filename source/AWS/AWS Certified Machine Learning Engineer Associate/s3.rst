@@ -468,3 +468,5 @@ You can find more information here:`EBS Hands On <https://www.udemy.com/course/a
       - By default, any other attached EBS volume is not deleted (attribute disabled)
    - This can be controlled by the AWS console / AWS CLI
 
+**Amazon EBS Elastic Volumes**
+   - Don't have to detach a volume or restart instance to chanage it
