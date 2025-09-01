@@ -521,3 +521,5 @@ You can find more information here:`EBS Hands On <https://www.udemy.com/course/a
          - One zone: One AZ, great for dev, backup enabled by default, compatible with IA (EFS One Zone-IA)
 
       - Over 90% in cost savings.
+
+   You can find more information here:`EFS Hands On <https://www.udemy.com/course/aws-certified-machine-learning-engineer-associate-mla-c01/learn/lecture/45356675#content>`_
