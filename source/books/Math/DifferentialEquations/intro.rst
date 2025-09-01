@@ -1,3 +1,3 @@
-o_O|| Inttroduction to Differential Equations
+Inttroduction to Differential Equations
 ==============================================
 
