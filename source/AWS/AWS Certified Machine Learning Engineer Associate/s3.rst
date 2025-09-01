@@ -508,3 +508,16 @@ You can find more information here:`EBS Hands On <https://www.udemy.com/course/a
       - Elastic - Automatically scales throughput up or down based on your workloads.
          - Up to 3GiB/s for reads and 1 GiB/s for writes
          - Used for unpredictable workloads.
+
+   - EFS Storage Classes
+      - Storage Tiers (lifecycle management feature move file after N days)
+         - Sandard: for frequently accessed files
+         - Infrequent access (EFS-IA): cost to retrieve files, lower price to store
+         - Archive: rarely accessed data (few times each year) 50% cheaper
+         - Implement lifecycle policies to move files between storage tiers
+
+      - Availablility and durability
+         - Standard: multi-AZ, great for production
+         - One zone: One AZ, great for dev, backup enabled by default, compatible with IA (EFS One Zone-IA)
+
+      - Over 90% in cost savings.
