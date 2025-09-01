@@ -7,5 +7,3 @@ MIT OCW: `Differential Equations <https://www.youtube.com/watch?v=QbkWlNf2Xtw&li
 
 .. toctree::
    :maxdepth: 1
-
-   intro

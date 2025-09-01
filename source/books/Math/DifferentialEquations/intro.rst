@@ -1,3 +1,0 @@
-Inttroduction to Differential Equations
-==============================================
-
