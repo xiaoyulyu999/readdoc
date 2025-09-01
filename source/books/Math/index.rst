@@ -15,3 +15,4 @@ Math Books
    :maxdepth: 1
 
    MIT OCW Linear Algebra/index
+   DifferentialEquations/index
