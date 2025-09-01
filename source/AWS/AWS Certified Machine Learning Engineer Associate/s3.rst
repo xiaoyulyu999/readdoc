@@ -548,6 +548,6 @@ Amazon EFS - Elastic File System
    - Only for Linux
    - EFS has a higher price point than EBS
    - Can leverage Storage Tiers for cost savings
-   .. image::images/accEFS.png
+   .. image:: images/accEFS.png
 
 **Know difference: EFS, EBS, Insance Store**
