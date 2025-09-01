@@ -481,5 +481,30 @@ You can find more information here:`EBS Hands On <https://www.udemy.com/course/a
    - Managed NFS (network file system) that can be mounted on many EC2
    - EFS works with EC2 instances in multi-AZ
    - Highly available, scalable, expensive (3 times cost to gp2), pay per use.
+   - Use cases:
+      - Content management
+      - Web serving
+      - Data sharing
+      - Wordpress
+   - Uses NFSv4.1 protocol
+   - Uses security group to control access to EFS
+   - Compatible with Linux based AMI (NOT Windows)
+   - Encryption at rest using KMS
+   - POSIX file system that has a standard file API
+   - FIle system scales automatically, pay-per-use, no capacity planning.
 
    .. image:: images/efs.png
+
+**Amazon EFS - Performance & Storage Classes**
+   - EFS Scale
+      - 1000s of concurrent NFS clients, 10GB+ /s throughput
+      - Grow to Petabyte-scale network file system, automatically
+   - Performance Mode (Set at EFS creation time)
+      - General Purpose(default) - webserver (latency-sensitive)
+      - Max I/O - high latency, throughput, highly parallel (big data, media processing)
+   - Troughput Mode
+      - Busting - 1TB = 50MiB/s + burst of up to 100MiB/s
+      - Provisioned - set your throughput regardless of storage size, ex: 1GiB/s for 1TB storage
+      - Elastic - Automatically scales throughput up or down based on your workloads.
+         - Up to 3GiB/s for reads and 1 GiB/s for writes
+         - Used for unpredictable workloads.
