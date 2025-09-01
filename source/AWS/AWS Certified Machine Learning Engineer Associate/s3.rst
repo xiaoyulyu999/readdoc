@@ -476,3 +476,10 @@ You can find more information here:`EBS Hands On <https://www.udemy.com/course/a
       - Specify desired IOPS or throughput performance
    - Adjust performance
       - Increase / decrease
+
+**Amazon EFS - Elastic File System**
+   - Managed NFS (network file system) that can be mounted on many EC2
+   - EFS works with EC2 instances in multi-AZ
+   - Highly available, scalable, expensive (3 times cost to gp2), pay per use.
+
+   .. image:: images/efs.png
