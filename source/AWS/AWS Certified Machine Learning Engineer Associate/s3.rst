@@ -502,7 +502,7 @@ You can find more information here:`EBS Hands On <https://www.udemy.com/course/a
    - Performance Mode (Set at EFS creation time)
       - General Purpose(default) - webserver (latency-sensitive)
       - Max I/O - high latency, throughput, highly parallel (big data, media processing)
-   - Troughput Mode
+   - Troughput Mode [3 modes]
       - Busting - 1TB = 50MiB/s + burst of up to 100MiB/s
       - Provisioned - set your throughput regardless of storage size, ex: 1GiB/s for 1TB storage
       - Elastic - Automatically scales throughput up or down based on your workloads.
@@ -523,3 +523,16 @@ You can find more information here:`EBS Hands On <https://www.udemy.com/course/a
       - Over 90% in cost savings.
 
    You can find more information here:`EFS Hands On <https://www.udemy.com/course/aws-certified-machine-learning-engineer-associate-mla-c01/learn/lecture/45356675#content>`_
+
+**EBS VS EFS**
+
+.. admonition:: EBS
+
+   - EBS volumes:
+      - One instance (except multi-attach io1/io2)
+      - Are locked at the availablility Zone (AZ) level
+      - gp2: IO increase if the disk size increses
+      - gp3 & io1: can increase IO independently
+   - To migrate an EBS volume across AZ
+      - Take a snapshot
+      - Restore the snapshot to another AZ
