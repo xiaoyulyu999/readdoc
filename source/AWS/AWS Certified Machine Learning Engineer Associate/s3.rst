@@ -477,7 +477,8 @@ You can find more information here:`EBS Hands On <https://www.udemy.com/course/a
    - Adjust performance
       - Increase / decrease
 
-**Amazon EFS - Elastic File System**
+Amazon EFS - Elastic File System
+-----------------------------------
    - Managed NFS (network file system) that can be mounted on many EC2
    - EFS works with EC2 instances in multi-AZ
    - Highly available, scalable, expensive (3 times cost to gp2), pay per use.
@@ -539,3 +540,14 @@ You can find more information here:`EBS Hands On <https://www.udemy.com/course/a
       - EBS backups use IO and you shouldn't run them while your application is handling a lot of traffic
          .. image:: images/moveEBS.png
    - Root EBS Volumes of instances get terminated by default if the EC2 instance gets terminated.(option to disable)
+
+.. admonition:: EFS
+
+   - Mounting 100s of instances across AZ
+   - EFS share website files (WordPress)
+   - Only for Linux
+   - EFS has a higher price point than EBS
+   - Can leverage Storage Tiers for cost savings
+   .. image::images/accEFS.png
+
+**Know difference: EFS, EBS, Insance Store**
