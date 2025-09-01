@@ -538,4 +538,4 @@ You can find more information here:`EBS Hands On <https://www.udemy.com/course/a
       - Restore the snapshot to another AZ (This is how to move instance between AZ)
       - EBS backups use IO and you shouldn't run them while your application is handling a lot of traffic
          .. image:: images/moveEBS.png
-   - ROot EBS Volumes of instances get terminated by default if the EC2 instance gets terminated.(option to disable)
+   - Root EBS Volumes of instances get terminated by default if the EC2 instance gets terminated.(option to disable)
