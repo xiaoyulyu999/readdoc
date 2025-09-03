@@ -605,3 +605,34 @@ Overview:
       - Replace failed files within minutes
       - Useage: Long-term processing, sensitive data
       .. image:: images/FSx-2.png
+
+.. admonition:: NetApp ONTAP
+
+   - Managed NetApp ONTAP on AWS
+   - File system compatible with NFS, SMB, iSCSI protocol
+   - Move workloads running on ONTAP or NAS to AWS
+   - Works with:
+      - Linux, Windows, MacOS
+      - VMware Cloud on AWS
+      - Amazon Workspaces / AppStream 2.0
+      - Amazon EC2, ECS and EKS
+   - Storage shrinks and grows automatically
+   - Snapshotss, replication, low-cost, compression and data de-duplication
+   - Point-in-time instantaneous cloing (for testing new workloads)
+
+.. admonition:: OpenZFS
+
+   - Managed OpenZFS file system on AWS
+   - File system compatible with NFS
+   - Move workloads running on ZFS to AWS
+   - Wokrs with:
+      - Linux, Windows, MacOS
+      - VMware Cloud on AWS
+      - Amazon Workspaces / AppStream 2.0
+      - Amazon EC2, ECS and EKS
+   - Up to 1,000,000 IOPS with <0.5ms latency
+   - Snapshots, compression and low-cost
+   - Point-in-time instantaneous cloing (for testing new workloads)
+
+You can find more information here:`FSx Hands On <https://www.udemy.com/course/aws-certified-machine-learning-engineer-associate-mla-c01/learn/lecture/45356709#content>`_
+
