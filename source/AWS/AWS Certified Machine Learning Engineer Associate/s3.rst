@@ -525,7 +525,8 @@ Amazon EFS - Elastic File System
 
    You can find more information here:`EFS Hands On <https://www.udemy.com/course/aws-certified-machine-learning-engineer-associate-mla-c01/learn/lecture/45356675#content>`_
 
-**EBS VS EFS**
+EBS VS EFS
+----------
 
 .. admonition:: EBS
 
