@@ -592,9 +592,16 @@ Overview:
 
 .. admonition:: FSx Deployment Options
 
- - Scratch file system:
-   - Temporary
-   - Not replicated
-   - High burst
-   - Usage: short-term processing, optimize costs
-   .. image:: images/FSx.png
+   - Scratch file system:
+      - Temporary
+      - Not replicated
+      - High burst
+      - Usage: short-term processing, optimize costs
+      .. image:: images/FSx.png
+
+   - Persistent file system:
+      - Long-term storage
+      - Replicated within same AZ
+      - Replace failed files within minutes
+      - Useage: Long-term processing, sensitive data
+      .. image:: images/FSx-2.png
