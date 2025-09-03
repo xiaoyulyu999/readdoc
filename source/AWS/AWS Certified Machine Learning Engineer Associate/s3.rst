@@ -589,3 +589,12 @@ Overview:
       - can read S3 as a file ssystem (through FSx)
       - can write the output of the computations back to S3 (through FSx)
    - Can be used from on-premises servers (VPN or Direct Connect)
+
+.. admonition:: FSx Deployment Options
+
+ - Scratch file system:
+   - Temporary
+   - Not replicated
+   - High burst
+   - Usage: short-term processing, optimize costs
+   .. image:: images/FSx.png
