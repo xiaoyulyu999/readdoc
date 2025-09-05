@@ -643,14 +643,14 @@ Collect and store streaming data in **Real-Time**
 
 .. image:: images/kinesis.png
 
-   - Retention between up to 365 days
-   - Ability to reprocess data by consumers
-   - Data can't be deleted from Kinesis (Until it expires)
-   - Data up to 1 MB (typical use case is lot of "small" real-time data)
-   - Data ordering guarantee for data with the same "Partition ID"
-   - At-rest KMS encryption, in-flight HTTPS encryption
-   - Kinesis Producer Library (KPL) to write an optimized producer application
-   - Kinesis Client Library (KCL) to write an optimized consumer application
+- Retention between up to 365 days
+- Ability to reprocess data by consumers
+- Data can't be deleted from Kinesis (Until it expires)
+- Data up to 1 MB (typical use case is lot of "small" real-time data)
+- Data ordering guarantee for data with the same "Partition ID"
+- At-rest KMS encryption, in-flight HTTPS encryption
+- Kinesis Producer Library (KPL) to write an optimized producer application
+- Kinesis Client Library (KCL) to write an optimized consumer application
 
 .. admonition:: Kinesis Data Streams - Capacity Modes
 
