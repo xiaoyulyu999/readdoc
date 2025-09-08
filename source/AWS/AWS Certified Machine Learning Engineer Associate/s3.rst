@@ -666,3 +666,6 @@ Collect and store streaming data in **Real-Time**
       - Default capacity provisioned (4 MB/s in or 4000 records per second)
       - Scales automatically based on observed throughput peak during the last 30 days
       - Pay per stream per hour and data in/out per GB
+
+You can find more information here:`Kinesis Hands On <https://www.udemy.com/course/aws-certified-machine-learning-engineer-associate-mla-c01/learn/lecture/45356733#content>`_
+
