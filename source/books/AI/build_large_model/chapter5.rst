@@ -220,5 +220,12 @@ Perplexity is a measure often used alongside cross entropy loss to evaluate the 
 5.1.3 Calculating the training and validation set losses
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. image:: c5/5-8.png
+
+.. image:: c5/5-9.png
+
+   When preparing the data loaders, we split the input text into training and validation set portions. Then we tokenize the text (only shown for the training set portion for simplicity) and divide the tokenized text into chunks of a user-specified length (here, 6). Finally, we shuffle the rows and organize the chunked text into batches (here, batch size 2), which we can use for model training.
+
+
 
 
