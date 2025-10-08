@@ -229,6 +229,82 @@ Having completed steps 1 and 2, including computing the cross entropy loss, we c
 
 When preparing the data loaders, we split the input text into training and validation set portions. Then we tokenize the text (only shown for the training set portion for simplicity) and divide the tokenized text into chunks of a user-specified length (here, 6). Finally, we shuffle the rows and organize the chunked text into batches (here, batch size 2), which we can use for model training.
 
+.. code-block:: python
+
+   file_path = "the-verdict.txt"
+   with open(file_path, "r", encoding="utf-8") as file:
+       text_data = file.read()
+
+   total_characters = len(text_data)
+   total_tokens = len(tokenizer.encode(text_data))
+   print("Characters:", total_characters)
+   print("Tokens:", total_tokens)
+   #Characters: 20479
+   #Tokens: 5145
+
+   train_ratio = 0.90
+   split_idx = int(train_ratio * len(text_data))
+   train_data = text_data[:split_idx]
+   val_data = text_data[split_idx:]
+
+
+   # DataLoader: training and validate
+   from chapter02 import create_dataloader_v1
+   torch.manual_seed(123)
+
+   train_loader = create_dataloader_v1(
+       train_data,
+       batch_size=2,
+       max_length=GPT_CONFIG_124M["context_length"],
+       stride=GPT_CONFIG_124M["context_length"],
+       drop_last=True,
+       shuffle=True,
+       num_workers=0
+   )
+   val_loader = create_dataloader_v1(
+       val_data,
+       batch_size=2,
+       max_length=GPT_CONFIG_124M["context_length"],
+       stride=GPT_CONFIG_124M["context_length"],
+       drop_last=False,
+       shuffle=False,
+       num_workers=0
+   )
+
+   # Cross entropy loss
+   def calc_loss_batch(input_batch, target_batch, model, device):
+       input_batch = input_batch.to(device)         #1
+       target_batch = target_batch.to(device)
+       logits = model(input_batch)
+       loss = torch.nn.functional.cross_entropy(
+           logits.flatten(0, 1), target_batch.flatten()
+       )
+       return loss
+
+   #Function to compute the training and validation loss
+   def calc_loss_loader(data_loader, model, device, num_batches=None):
+
+      #1 Iteratives over all batches if no fixed num_batches is specified
+      #2 Reduces the number of batches to match the total number of batches in the data loader if num_batches exceeds the number of batches in the data loader
+      #3 Sums loss for each batch
+      #4 Averages the loss over all batches
+
+      total_loss = 0.
+       if len(data_loader) == 0:
+           return float("nan")
+       elif num_batches is None:
+           num_batches = len(data_loader)     #1
+       else:
+           num_batches = min(num_batches, len(data_loader))   #2
+       for i, (input_batch, target_batch) in enumerate(data_loader):
+           if i < num_batches:
+               loss = calc_loss_batch(
+                   input_batch, target_batch, model, device
+               )
+               total_loss += loss.item()    #3
+           else:
+               break
+       return total_loss / num_batches    #4
 
 
 
