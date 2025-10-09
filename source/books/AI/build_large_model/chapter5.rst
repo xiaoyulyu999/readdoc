@@ -295,7 +295,23 @@ When preparing the data loaders, we split the input text into training and valid
        shuffle=False,
        num_workers=0
    )
+   '''
+   Train loader:
+   torch.Size([2, 256]) torch.Size([2, 256])
+   torch.Size([2, 256]) torch.Size([2, 256])
+   torch.Size([2, 256]) torch.Size([2, 256])
+   torch.Size([2, 256]) torch.Size([2, 256])
+   torch.Size([2, 256]) torch.Size([2, 256])
+   torch.Size([2, 256]) torch.Size([2, 256])
+   torch.Size([2, 256]) torch.Size([2, 256])
+   torch.Size([2, 256]) torch.Size([2, 256])
+   torch.Size([2, 256]) torch.Size([2, 256])
 
+   Validation loader:
+   torch.Size([2, 256]) torch.Size([2, 256])
+
+   we have nine training set batches with two samples and 256 tokens each. Since we allocated only 10% of the data for validation, there is only one validation batch consisting of two input examples. As expected, the input data (x) and target data (y) have the same shape (the batch size times the number of tokens in each batch) since the targets are the inputs shifted by one position
+   '''
    # Cross entropy loss
    def calc_loss_batch(input_batch, target_batch, model, device):
        input_batch = input_batch.to(device)         #1
