@@ -231,9 +231,21 @@ When preparing the data loaders, we split the input text into training and valid
 
 .. code-block:: python
 
+   import os
+   import requests
+
    file_path = "the-verdict.txt"
-   with open(file_path, "r", encoding="utf-8") as file:
-       text_data = file.read()
+   url = "https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/ch02/01_main-chapter-code/the-verdict.txt"
+
+   if not os.path.exists(file_path):
+       response = requests.get(url, timeout=30)
+       response.raise_for_status()
+       text_data = response.text
+       with open(file_path, "w", encoding="utf-8") as file:
+           file.write(text_data)
+   else:
+       with open(file_path, "r", encoding="utf-8") as file:
+           text_data = file.read()
 
    total_characters = len(text_data)
    total_tokens = len(tokenizer.encode(text_data))
@@ -249,7 +261,20 @@ When preparing the data loaders, we split the input text into training and valid
 
 
    # DataLoader: training and validate
-   from chapter02 import create_dataloader_v1
+   def create_dataloader_v1(txt, batch_size=4, max_length=256,
+                         stride=128, shuffle=True, drop_last=True, num_workers=0):
+       # Initialize the tokenizer
+       tokenizer = tiktoken.get_encoding("gpt2")
+
+       # Create dataset
+       dataset = GPTDatasetV1(txt, tokenizer, max_length, stride)
+
+       # Create dataloader
+       dataloader = DataLoader(
+           dataset, batch_size=batch_size, shuffle=shuffle, drop_last=drop_last, num_workers=num_workers)
+
+       return dataloader
+
    torch.manual_seed(123)
 
    train_loader = create_dataloader_v1(
