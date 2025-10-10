@@ -370,6 +370,17 @@ Interested readers can learn about more advanced techniques, including learning 
       def train_model_simple(model, train_loader, val_loader,
                           optimizer, device, num_epochs,
                           eval_freq, eval_iter, start_context, tokenizer):
+          '''
+
+            #1 Initializes lists to track losses and tokens seen
+            #2 Starts the main training loop
+            #3 Resets loss gradients from the previous batch iteration
+            #4 Calculates loss gradients
+            #5 Updates model weights using loss gradients
+            #6 Optional evaluation step
+            #7 Prints a sample text after each epoch
+
+          '''
           train_losses, val_losses, track_tokens_seen = [], [], []    #1
           tokens_seen, global_step = 0, -1
 
