@@ -356,3 +356,50 @@ When preparing the data loaders, we split the input text into training and valid
    print("Validation loss:", val_loss)
 
 
+5.2 Training an LLM
+-------------------
+
+Interested readers can learn about more advanced techniques, including learning rate warmup, cosine annealing, and gradient clipping
+
+.. image:: c5/5-11.png
+
+.. admonition:: Train model
+
+   .. code-block:: python
+
+   def train_model_simple(model, train_loader, val_loader,
+                       optimizer, device, num_epochs,
+                       eval_freq, eval_iter, start_context, tokenizer):
+       train_losses, val_losses, track_tokens_seen = [], [], []    #1
+       tokens_seen, global_step = 0, -1
+
+       for epoch in range(num_epochs):    #2
+           model.train()
+           for input_batch, target_batch in train_loader:
+               optimizer.zero_grad()   #3
+               loss = calc_loss_batch(
+                   input_batch, target_batch, model, device
+               )
+               loss.backward()                     #4
+               optimizer.step()                    #5
+               tokens_seen += input_batch.numel()
+               global_step += 1
+
+               if global_step % eval_freq == 0:    #6
+                   train_loss, val_loss = evaluate_model(
+                       model, train_loader, val_loader, device, eval_iter)
+                   train_losses.append(train_loss)
+                   val_losses.append(val_loss)
+                   track_tokens_seen.append(tokens_seen)
+                   print(f"Ep {epoch+1} (Step {global_step:06d}): "
+                         f"Train loss {train_loss:.3f}, "
+                         f"Val loss {val_loss:.3f}"
+                   )
+
+           generate_and_print_sample(                      #7
+               model, tokenizer, device, start_context
+           )
+       return train_losses, val_losses, track_tokens_seen
+
+
+
