@@ -547,3 +547,7 @@ After 2 epoches, the validation loss becomes stable. This is a sign that the mod
        Every effort moves you know," was one of the axioms he laid down across the Sevres and silver of an exquisitely appointed lun
       '''
 
+.. note::
+
+   As explained earlier, the generated token is selected at each generation step corresponding to the largest probability score among all tokens in the vocabulary. This means that the LLM will always generate the same outputs even if we run the preceding generate_text_simple function multiple times on the same start context (Every effort moves you).
+
