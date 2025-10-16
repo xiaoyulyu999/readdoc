@@ -556,6 +556,7 @@ After 2 epoches, the validation loss becomes stable. This is a sign that the mod
 A technique that adds a probabilistic selection process to the next-token generation task.
 
 Assuming we have:
+
 .. code-block:: python
 
    vocab = {
@@ -573,6 +574,7 @@ Assuming we have:
    num_to_vocab = {key: value for value, key in vocab.items()}
 
 Assume the LLM is given "every effort moves you", and generates the following next-token logits:
+
 .. code-block:: python
 
    next_token_logits = torch.tensor(
