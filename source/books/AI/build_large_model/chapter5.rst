@@ -526,3 +526,24 @@ After 2 epoches, the validation loss becomes stable. This is a sign that the mod
 5.3 Decoding strategies to control randomness
 ----------------------------------------------
 
+.. admonition:: Decode
+
+   .. code-block:: python
+
+      model.to("cpu")
+      model.eval()
+
+      tokenizer = tiktoken.get_encoding("gpt2")
+      token_ids = generate_text_simple(
+          model=model,
+          idx=text_to_token_ids("Every effort moves you", tokenizer),
+          max_new_tokens=25,
+          context_size=GPT_CONFIG_124M["context_length"]
+      )
+      print("Output text:\n", token_ids_to_text(token_ids, tokenizer))
+
+      '''
+      Output text:
+       Every effort moves you know," was one of the axioms he laid down across the Sevres and silver of an exquisitely appointed lun
+      '''
+
