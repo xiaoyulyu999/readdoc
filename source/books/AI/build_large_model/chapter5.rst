@@ -519,4 +519,7 @@ Show in Plot:
 
 .. image:: c5/5-12.png
 
-After 2 epoches, the validation loss becomes stable.
+After 2 epoches, the validation loss becomes stable. This is a sign that the model is still learning, but it’s overfitting to the training set past epoch 2.
+
+.. image:: c5/5-13.png
+
