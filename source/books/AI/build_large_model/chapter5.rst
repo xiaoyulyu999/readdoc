@@ -461,3 +461,34 @@ Interested readers can learn about more advanced techniques, including learning 
           start_context="Every effort moves you", tokenizer=tokenizer
       )
 
+      '''
+      Ep 1 (Step 000000): Train loss 9.781, Val loss 9.933
+      Ep 1 (Step 000005): Train loss 8.111, Val loss 8.339
+      Every effort moves you,,,,,,,,,,,,.
+      Ep 2 (Step 000010): Train loss 6.661, Val loss 7.048
+      Ep 2 (Step 000015): Train loss 5.961, Val loss 6.616
+      Every effort moves you, and, and, and, and, and, and, and, and, and, and, and, and, and, and, and, and, and, and, and, and, and, and,, and, and,
+      Ep 3 (Step 000020): Train loss 5.726, Val loss 6.600
+      Ep 3 (Step 000025): Train loss 5.201, Val loss 6.348
+      Every effort moves you, and I had been.
+      Ep 4 (Step 000030): Train loss 4.417, Val loss 6.278
+      Ep 4 (Step 000035): Train loss 4.069, Val loss 6.226
+      Every effort moves you know the                          "I he had the donkey and I had the and I had the donkey and down the room, I had
+      Ep 5 (Step 000040): Train loss 3.732, Val loss 6.160
+      Every effort moves you know it was not that the picture--I had the fact by the last I had been--his, and in the            "Oh, and he said, and down the room, and in
+      Ep 6 (Step 000045): Train loss 2.850, Val loss 6.179
+      Ep 6 (Step 000050): Train loss 2.427, Val loss 6.141
+      Every effort moves you know," was one of the picture. The--I had a little of a little: "Yes, and in fact, and in the picture was, and I had been at my elbow and as his pictures, and down the room, I had
+      Ep 7 (Step 000055): Train loss 2.104, Val loss 6.134
+      Ep 7 (Step 000060): Train loss 1.882, Val loss 6.233
+      Every effort moves you know," was one of the picture for nothing--I told Mrs.  "I was no--as! The women had been, in the moment--as Jack himself, as once one had been the donkey, and were, and in his
+      Ep 8 (Step 000065): Train loss 1.320, Val loss 6.238
+      Ep 8 (Step 000070): Train loss 0.985, Val loss 6.242
+      Every effort moves you know," was one of the axioms he had been the tips of a self-confident moustache, I felt to see a smile behind his close grayish beard--as if he had the donkey. "strongest," as his
+      Ep 9 (Step 000075): Train loss 0.717, Val loss 6.293
+      Ep 9 (Step 000080): Train loss 0.541, Val loss 6.393
+      Every effort moves you?"  "Yes--quite insensible to the irony. She wanted him vindicated--and by me!"  He laughed again, and threw back the window-curtains, I had the donkey. "There were days when I
+      Ep 10 (Step 000085): Train loss 0.391, Val loss 6.452
+      Every effort moves you know," was one of the axioms he laid down across the Sevres and silver of an exquisitely appointed luncheon-table, when, on a later day, I had again run over from Monte Carlo; and Mrs. Gis
+      '''
+
