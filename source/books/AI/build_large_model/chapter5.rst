@@ -518,3 +518,5 @@ Show in Plot:
    plot_losses(epochs_tensor, tokens_seen, train_losses, val_losses)
 
 .. image:: c5/5-12.png
+
+After 2 epoches, the validation loss becomes stable.
