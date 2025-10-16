@@ -440,3 +440,24 @@ Interested readers can learn about more advanced techniques, including learning 
        decoded_text = token_ids_to_text(token_ids, tokenizer)
        print(decoded_text.replace("\n", " "))      #1
        model.train()
+
+.. admonition:: Adam Optimizers
+
+   In out training loop, we opt for the AdamW optimizer. It is a variant of Adam that improves the weight decay approach, which aims to minimize model complexity and prevent overfitting by penalizing larger weights.
+
+   .. code-block:: python
+
+      torch.manual_seed(123)
+      model = GPTModel(GPT_CONFIG_124M)
+      model.to(device)
+      optimizer = torch.optim.AdamW(
+           model.parameters(),           #1
+          lr=0.0004, weight_decay=0.1
+      )
+      num_epochs = 10
+      train_losses, val_losses, tokens_seen = train_model_simple(
+          model, train_loader, val_loader, optimizer, device,
+          num_epochs=num_epochs, eval_freq=5, eval_iter=5,
+          start_context="Every effort moves you", tokenizer=tokenizer
+      )
+
