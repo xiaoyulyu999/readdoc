@@ -523,3 +523,6 @@ After 2 epoches, the validation loss becomes stable. This is a sign that the mod
 
 .. image:: c5/5-13.png
 
+5.3 Decoding strategies to control randomness
+----------------------------------------------
+
