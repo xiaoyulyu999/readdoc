@@ -551,3 +551,31 @@ After 2 epoches, the validation loss becomes stable. This is a sign that the mod
 
    As explained earlier, the generated token is selected at each generation step corresponding to the largest probability score among all tokens in the vocabulary. This means that the LLM will always generate the same outputs even if we run the preceding generate_text_simple function multiple times on the same start context (Every effort moves you).
 
+5.3.1 Temperature scaling
+~~~~~~~~~~~~~~~~~~~~~~~~~
+A technique that adds a probabilistic selection process to the next-token generation task.
+
+Assuming we have:
+.. code-block:: python
+
+   vocab = {
+       "closer": 0,
+       "every": 1,
+       "effort": 2,
+       "forward": 3,
+       "inches": 4,
+       "moves": 5,
+       "pizza": 6,
+       "toward": 7,
+       "you": 8,
+   }
+
+   num_to_vocab = {key: value for value, key in vocab.items()}
+
+Assume the LLM is given "every effort moves you", and generates the following next-token logits:
+.. code-block:: python
+
+   next_token_logits = torch.tensor(
+    [4.51, 0.89, -1.90, 6.75, 1.63, -1.62, -1.89, 6.28, 1.79]
+   )
+
