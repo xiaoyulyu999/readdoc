@@ -600,3 +600,26 @@ To implement a **probabilistic sampling**:
 
    The printed output is "forward" just like before. What happened? The multinomial function samples the next token proportional to its probability score. In other words, "forward" is still the most likely token and will be selected by multinomial most of the time but not all the time.
 
+   .. code-block:: python
+
+      torch.manual_seed(123)
+      next_token_id = [torch.multinomial(probas, num_samples=1).item() for _ in range(1000)]
+
+      ids = torch.tensor(next_token_id)
+      counter_ids = torch.bincount(ids)
+      print(counter_ids)
+
+      for index, value in enumerate(counter_ids):
+          print(f"{num_to_vocab[index]}: {value}")
+      '''
+      tensor([ 73,   0,   0, 582,   2,   0,   0, 343])
+      closer: 73
+      every: 0
+      effort: 0
+      forward: 582
+      inches: 2
+      moves: 0
+      pizza: 0
+      toward: 343
+      '''
+
