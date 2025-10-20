@@ -7,3 +7,7 @@
 img[alt="Avatar"] {
   box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
+
+.note p {
+  text-align: justify;
+}
