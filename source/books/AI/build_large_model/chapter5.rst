@@ -671,5 +671,36 @@ Top-k sampling, when combined with probabilistic sampling and temperature scalin
 
 Using top-k sampling with k = 3, we focus on the three tokens associated with the highest logits and mask out all other tokens with negative infinity (–inf) before applying the softmax function. This results in a probability distribution with a probability value 0 assigned to all non-top-k tokens. (The numbers in this figure are truncated to two digits after the decimal point to reduce visual clutter. The values in the “Softmax” row should add up to 1.0.)
 
+.. code-block:: python
+
+   '''
+      next_token_logits = torch.tensor(
+    [4.51, 0.89, -1.90, 6.75, 1.63, -1.62, -1.89, 6.28, 1.79]
+   )
+   '''
+   top_k = 3 # top 3 token logits
+   top_logits, top_pos = torch.topk(next_token_logits, top_k)
+   print("Top logits:", top_logits)print("Top positions:", top_pos)
+
+   #Top logits: tensor([6.7500, 6.2800, 4.5100])
+   #Top positions: tensor([3, 7, 0])
+
+   '''
+   we apply PyTorch’s where function to set the logit values of tokens that are below the lowest logit value within our top-three selection to negative infinity (-inf)
+   '''
+   new_logits = torch.where(
+    condition=next_token_logits < top_logits[-1],    #1 Identifies logits less than the minimum in the top 3
+    input=torch.tensor(float('-inf')),     #2 Assigns –inf to these lower logits
+    other=next_token_logits     #3 Retains the original logits for all other tokens
+   )
+   print(new_logits)
+   #tensor([4.5100,   -inf,   -inf, 6.7500,   -inf,   -inf,   -inf, 6.2800, -inf])
+
+   '''
+   Apply softmax, just as the graph
+   '''
+   topk_probas = torch.softmax(new_logits, dim=0)
+   print(topk_probas)
+   #tensor([0.0615, 0.0000, 0.0000, 0.5775, 0.0000, 0.0000, 0.0000, 0.3610, 0.0000])
 
 
