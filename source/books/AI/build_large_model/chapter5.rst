@@ -623,3 +623,18 @@ To implement a **probabilistic sampling**:
       toward: 343
       '''
 
+.. admonition:: Temperature Scaling
+
+   We can further control the distribution and selection process via **Temperature Scaling**. It is just a fancy description for dividing the logits by a number greater than 0.
+
+   .. code-block:: python
+
+      def softmax_with_temperature(logits, temperature):
+         scaled_logits = logits / temperature
+         return torch.softmax(scaled_logits, dim = 0)
+
+.. warning::
+
+   Temperatures greater than 1 result in more uniformly distributed token probabilities, and temperatures smaller than 1 will result in more confident (sharper or more peaky) distributions.
+
+
