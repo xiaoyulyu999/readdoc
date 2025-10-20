@@ -637,4 +637,26 @@ To implement a **probabilistic sampling**:
 
    Temperatures greater than 1 result in more uniformly distributed token probabilities, and temperatures smaller than 1 will result in more confident (sharper or more peaky) distributions.
 
+.. code-block:: python
+
+   temperatures = [1, 0.1, 5]                                     #1
+   scaled_probas = [softmax_with_temperature(next_token_logits, T)
+                   for T in temperatures]
+   x = torch.arange(len(vocab))
+   bar_width = 0.15
+   fig, ax = plt.subplots(figsize=(5, 3))
+   for i, T in enumerate(temperatures):
+       rects = ax.bar(x + i * bar_width, scaled_probas[i],
+                      bar_width, label=f'Temperature = {T}')
+   ax.set_ylabel('Probability')
+   ax.set_xticks(x)
+   ax.set_xticklabels(vocab.keys(), rotation=90)
+   ax.legend()
+   plt.tight_layout()
+   plt.show()
+
+A temperature of 1 represents the unscaled probability scores for each token in the vocabulary. Decreasing the temperature to 0.1 sharpens the distribution, so the most likely token (here, “forward”) will have an even higher probability score. Likewise, increasing the temperature to 5 makes the distribution more uniform.
+
+.. image:: c5/5-14.png
+
 
