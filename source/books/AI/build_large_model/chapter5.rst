@@ -703,4 +703,13 @@ Using top-k sampling with k = 3, we focus on the three tokens associated with th
    print(topk_probas)
    #tensor([0.0615, 0.0000, 0.0000, 0.5775, 0.0000, 0.0000, 0.0000, 0.3610, 0.0000])
 
+We apply the temperature scaling and multinomial function for probabilistic sampling to select the next token among these three non-zero probability scores to generate the next token by **modifying the text generation function.**
+
+
+Listing 5.4 A modified text generation function with more diversity
+-------------------------------------------------------------------
+
+
+
+
 
