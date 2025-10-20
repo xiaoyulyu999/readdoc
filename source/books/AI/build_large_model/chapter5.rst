@@ -660,7 +660,7 @@ A temperature of 1 represents the unscaled probability scores for each token in 
 .. image:: c5/5-14.png
 
 .. note::
-   我们发现，更高的温度值会导致更均匀分布的下一个标记概率，从而导致更多样化的输出，因为它降低了模型重复选择最可能标记的可能性。这种方法允许在生成过程中探索那些可能性较小但可能更有趣、更有创意的路径。然而，这种方法的一个缺点是，它有时会导致语法错误或完全无意义的输出，例如“every effort moves you pizza”（每次努力都会让你披萨动起来）。运用小于0的值，可以突出最有可能性token的几率，会降低选择的多样性。
+   We saw that higher temperature values result in more uniformly distributed next-token probabilities, which result in more diverse outputs as it reduces the likelihood of the model repeatedly selecting the most probable token. This method allows for the exploring of less likely but potentially more interesting and creative paths in the generation process. However, one downside of this approach is that it sometimes leads to grammatically incorrect or completely nonsensical outputs such as every effort moves you pizza.
 
 5.3.2 Top-k sampling
 ~~~~~~~~~~~~~~~~~~~~~~~~~
