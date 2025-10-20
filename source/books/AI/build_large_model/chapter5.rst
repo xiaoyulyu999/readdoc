@@ -665,3 +665,11 @@ A temperature of 1 represents the unscaled probability scores for each token in 
 5.3.2 Top-k sampling
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. image:: c5/5-15.png
+
+Top-k sampling, when combined with probabilistic sampling and temperature scaling.
+
+Using top-k sampling with k = 3, we focus on the three tokens associated with the highest logits and mask out all other tokens with negative infinity (–inf) before applying the softmax function. This results in a probability distribution with a probability value 0 assigned to all non-top-k tokens. (The numbers in this figure are truncated to two digits after the decimal point to reduce visual clutter. The values in the “Softmax” row should add up to 1.0.)
+
+
+
