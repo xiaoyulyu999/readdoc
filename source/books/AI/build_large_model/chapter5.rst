@@ -659,7 +659,8 @@ A temperature of 1 represents the unscaled probability scores for each token in 
 
 .. image:: c5/5-14.png
 
-我们可以认为,通过对temperature数值的改变，尤其是运用小于0的值，可以大大突出最有可能性token的几率，避免了未使用时候多个token都有不是差别非常大的几率，从而出现错误token的出现。
+我们发现，更高的温度值会导致更均匀分布的下一个标记概率，从而导致更多样化的输出，因为它降低了模型重复选择最可能标记的可能性。
+运用小于0的值，可以突出最有可能性token的几率，会降低选择的多样性。
 
 
 5.3.2 Top-k sampling
