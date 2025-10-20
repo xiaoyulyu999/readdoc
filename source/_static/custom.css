@@ -11,3 +11,15 @@ img[alt="Avatar"] {
 .note p {
   text-align: justify;
 }
+
+p {
+  text-align: justify;
+}
+
+.admonition p {
+  text-align: justify;
+}
+
+.warning p {
+  text-align: justify;
+}
