@@ -765,3 +765,43 @@ What does the result look like?
    '''
 
 
+5.4 Loading and saving model weights in PyTorch
+------------------------------------------------
+
+.. image:: c5/5-16.png
+
+.. code-block:: python
+
+   #Save the weights [Optimizer not be saved]
+   torch.save(model.state_dict(), "model.pth")
+
+   #Load the weights
+   model = GPTModel(GPT_CONFIG_124M)
+   model.load_state_dict(torch.load("model.pth", map_location=device))
+   model.eval()
+   #Using model.eval() switches the model to evaluation mode for inference, disabling the dropout layers of the model
+
+Adaptive optimizers such as AdamW store additional parameters for each model weight. AdamW uses historical data to adjust learning rates for each model parameter dynamically. Without it, the optimizer resets, and the model may learn suboptimally or even fail to converge properly, which means it will lose the ability to generate coherent text.
+
+.. code-block:: python
+
+   torch.save({
+       "model_state_dict": model.state_dict(),
+       "optimizer_state_dict": optimizer.state_dict(),
+       },
+       "model_and_optimizer.pth"
+   )
+
+   #Weights loader
+   checkpoint = torch.load("model_and_optimizer.pth", map_location=device)
+   model = GPTModel(GPT_CONFIG_124M)
+   model.load_state_dict(checkpoint["model_state_dict"])
+   optimizer = torch.optim.AdamW(model.parameters(), lr=5e-4, weight_decay=0.1)
+   optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+   model.train();
+
+
+
+
+
+
