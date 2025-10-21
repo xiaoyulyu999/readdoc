@@ -828,3 +828,135 @@ GPT-2 LLMs come in several different model sizes, ranging from 124 million to 1,
 
 .. image:: c5/5-17.png
 
+Transfer them from the settings and params dictionaries into our GPTModel instance.
+
+1.
+.. code-block:: python
+
+   #we create a dictionary that lists the differences between the different GPT model sizes
+   model_configs = {
+       "gpt2-small (124M)": {"emb_dim": 768, "n_layers": 12, "n_heads": 12},
+       "gpt2-medium (355M)": {"emb_dim": 1024, "n_layers": 24, "n_heads": 16},
+       "gpt2-large (774M)": {"emb_dim": 1280, "n_layers": 36, "n_heads": 20},
+       "gpt2-xl (1558M)": {"emb_dim": 1600, "n_layers": 48, "n_heads": 25},
+   }
+
+   #Suppose we are interested in loading the smallest model, "gpt2-small (124M)"
+   model_name = "gpt2-small (124M)"
+   NEW_CONFIG = GPT_CONFIG_124M.copy()
+   NEW_CONFIG.update(model_configs[model_name])
+
+   #we used a 256-token length earlier, but the original GPT-2 models from OpenAI were trained with a 1,024-token length, so we have to update the NEW_CONFIG accordingly
+   NEW_CONFIG.update({"context_length": 1024})
+   #also
+   NEW_CONFIG.update({"qkv_bias": True})
+
+   gpt = GPTModel(NEW_CONFIG)
+   gpt.eval()
+
+   #Override these random weights with the weights we loaded into the params dictionary
+
+   #checks whether two tensors or arrays (left and right) have the same dimensions or shape and returns the right tensor as trainable PyTorch parameters:
+   def assign(left, right):
+       if left.shape != right.shape:
+           raise ValueError(f"Shape mismatch. Left: {left.shape}, "
+                             "Right: {right.shape}"
+           )
+       return torch.nn.Parameter(torch.tensor(right))
+
+   #Next, we define a load_weights_into_gpt function that loads the weights from the params dictionary into a GPTModel instance gpt.
+
+   import numpy as np
+
+   def load_weights_into_gpt(gpt, params):           #1
+
+      '''
+
+      #1 Sets the model’s positional and token embedding weights to those specified in params.
+      #2 Iterates over each transformer block in the model
+      #3 The np.split function is used to divide the attention and bias weights into three equal parts for the query, key, and value components.
+      #4 The original GPT-2 model by OpenAI reused the token embedding weights in the output layer to reduce the total number of parameters, which is a concept known as weight tying.
+
+      '''
+       gpt.pos_emb.weight = assign(gpt.pos_emb.weight, params['wpe'])
+       gpt.tok_emb.weight = assign(gpt.tok_emb.weight, params['wte'])
+
+       for b in range(len(params["blocks"])):     #2
+           q_w, k_w, v_w = np.split(                            #3
+               (params["blocks"][b]["attn"]["c_attn"])["w"], 3, axis=-1)
+           gpt.trf_blocks[b].att.W_query.weight = assign(
+               gpt.trf_blocks[b].att.W_query.weight, q_w.T)
+           gpt.trf_blocks[b].att.W_key.weight = assign(
+               gpt.trf_blocks[b].att.W_key.weight, k_w.T)
+           gpt.trf_blocks[b].att.W_value.weight = assign(
+               gpt.trf_blocks[b].att.W_value.weight, v_w.T)
+
+           q_b, k_b, v_b = np.split(
+               (params["blocks"][b]["attn"]["c_attn"])["b"], 3, axis=-1)
+           gpt.trf_blocks[b].att.W_query.bias = assign(
+               gpt.trf_blocks[b].att.W_query.bias, q_b)
+           gpt.trf_blocks[b].att.W_key.bias = assign(
+               gpt.trf_blocks[b].att.W_key.bias, k_b)
+           gpt.trf_blocks[b].att.W_value.bias = assign(
+               gpt.trf_blocks[b].att.W_value.bias, v_b)
+
+           gpt.trf_blocks[b].att.out_proj.weight = assign(
+               gpt.trf_blocks[b].att.out_proj.weight,
+               params["blocks"][b]["attn"]["c_proj"]["w"].T)
+           gpt.trf_blocks[b].att.out_proj.bias = assign(
+               gpt.trf_blocks[b].att.out_proj.bias,
+               params["blocks"][b]["attn"]["c_proj"]["b"])
+
+           gpt.trf_blocks[b].ff.layers[0].weight = assign(
+               gpt.trf_blocks[b].ff.layers[0].weight,
+               params["blocks"][b]["mlp"]["c_fc"]["w"].T)
+           gpt.trf_blocks[b].ff.layers[0].bias = assign(
+               gpt.trf_blocks[b].ff.layers[0].bias,
+               params["blocks"][b]["mlp"]["c_fc"]["b"])
+           gpt.trf_blocks[b].ff.layers[2].weight = assign(
+               gpt.trf_blocks[b].ff.layers[2].weight,
+               params["blocks"][b]["mlp"]["c_proj"]["w"].T)
+           gpt.trf_blocks[b].ff.layers[2].bias = assign(
+               gpt.trf_blocks[b].ff.layers[2].bias,
+               params["blocks"][b]["mlp"]["c_proj"]["b"])
+
+           gpt.trf_blocks[b].norm1.scale = assign(
+               gpt.trf_blocks[b].norm1.scale,
+               params["blocks"][b]["ln_1"]["g"])
+           gpt.trf_blocks[b].norm1.shift = assign(
+               gpt.trf_blocks[b].norm1.shift,
+               params["blocks"][b]["ln_1"]["b"])
+           gpt.trf_blocks[b].norm2.scale = assign(
+               gpt.trf_blocks[b].norm2.scale,
+               params["blocks"][b]["ln_2"]["g"])
+           gpt.trf_blocks[b].norm2.shift = assign(
+               gpt.trf_blocks[b].norm2.shift,
+               params["blocks"][b]["ln_2"]["b"])
+
+       gpt.final_norm.scale = assign(gpt.final_norm.scale, params["g"])
+       gpt.final_norm.shift = assign(gpt.final_norm.shift, params["b"])
+       gpt.out_head.weight = assign(gpt.out_head.weight, params["wte"])    #4
+
+   load_weights_into_gpt(gpt, params)
+   gpt.to(device)
+
+   torch.manual_seed(123)
+   token_ids = generate(
+       model=gpt,
+       idx=text_to_token_ids("Every effort moves you", tokenizer).to(device),
+       max_new_tokens=25,
+       context_size=NEW_CONFIG["context_length"],
+       top_k=50,
+       temperature=1.5
+   )
+   print("Output text:\n", token_ids_to_text(token_ids, tokenizer))
+
+.. admonition:: Summary
+
+   - When LLMs generate text, they output one token at a time.
+   - By default, the next token is generated by converting the model outputs into probability scores and selecting the token from the vocabulary that corresponds to the highest probability score, which is known as “greedy decoding.”
+   - Using probabilistic sampling and temperature scaling, we can influence the diversity and coherence of the generated text.
+   - Training and validation set losses can be used to gauge the quality of text generated by LLM during training.
+   - Pretraining an LLM involves changing its weights to minimize the training loss.
+   - The training loop for LLMs itself is a standard procedure in deep learning, using a conventional cross entropy loss and AdamW optimizer.
+   - Pretraining an LLM on a large text corpus is time- and resource-intensive, so we can load openly available weights as an alternative to pretraining the model on a large dataset ourselves.
