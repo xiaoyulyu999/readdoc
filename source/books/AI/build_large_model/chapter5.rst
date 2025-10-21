@@ -801,7 +801,25 @@ Adaptive optimizers such as AdamW store additional parameters for each model wei
    model.train();
 
 
+5.5 Loading pretrained weights from OpenAI
+------------------------------------------
 
+.. code-block:: python
 
+   pip install tensorflow>=2.15.0  tqdm>=4.66
 
+   #Download model
+   import urllib.request
+   url = (
+       "https://raw.githubusercontent.com/rasbt/"
+       "LLMs-from-scratch/main/ch05/"
+       "01_main-chapter-code/gpt_download.py"
+   )
+   filename = url.split('/')[-1]
+   urllib.request.urlretrieve(url, filename)
 
+   #Load the weights
+   from gpt_download import download_and_load_gpt2
+   settings, params = download_and_load_gpt2(
+       model_size="124M", models_dir="gpt2"
+   )
