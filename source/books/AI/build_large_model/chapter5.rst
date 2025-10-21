@@ -743,5 +743,25 @@ We apply the temperature scaling and multinomial function for probabilistic samp
    #4 Carries out greedy next-token selection as before when temperature scaling is disabled
    #5 Stops generating early if end-of-sequence token is encountered
 
+What does the result look like?
+
+.. code-block:: python
+
+   torch.manual_seed(123)
+   token_ids = generate(
+       model=model,
+       idx=text_to_token_ids("Every effort moves you", tokenizer),
+       max_new_tokens=15,
+       context_size=GPT_CONFIG_124M["context_length"],
+       top_k=25,
+       temperature=1.4
+   )
+   print("Output text:\n", token_ids_to_text(token_ids, tokenizer))
+
+   '''
+   Output text:
+    Every effort moves you stand to work on surprise, a one of us had gone
+    with random-
+   '''
 
 
