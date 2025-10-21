@@ -823,3 +823,8 @@ Adaptive optimizers such as AdamW store additional parameters for each model wei
    settings, params = download_and_load_gpt2(
        model_size="124M", models_dir="gpt2"
    )
+
+GPT-2 LLMs come in several different model sizes, ranging from 124 million to 1,558 million parameters. The core architecture is the same, with the only difference being the embedding sizes and the number of times individual components like the attention heads and transformer blocks are repeated.
+
+.. image:: c5/5-17.png
+
