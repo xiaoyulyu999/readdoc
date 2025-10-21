@@ -830,7 +830,6 @@ GPT-2 LLMs come in several different model sizes, ranging from 124 million to 1,
 
 Transfer them from the settings and params dictionaries into our GPTModel instance.
 
-1.
 .. code-block:: python
 
    #we create a dictionary that lists the differences between the different GPT model sizes
