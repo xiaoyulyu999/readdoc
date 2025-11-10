@@ -12,6 +12,7 @@ This chapter focuses on the pretraining the LLM.
 
 An overview of the topics coverd in this chapter.
 
+
 .. image:: c5/5-2.png
 
 5.1.1 Using GPT to generate text
