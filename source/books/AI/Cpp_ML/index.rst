@@ -1,5 +1,9 @@
 Hands-On Machine Learning with C++ - Second Edition
 ===================================================
+By Kirill Kolodiazhnyi
+
+Published by Packt Publishing
+
 
 .. admonition:: Disclaimer
 
