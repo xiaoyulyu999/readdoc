@@ -1,5 +1,5 @@
-AI Books
-========
+Hands-On Machine Learning with C++ - Second Edition
+===================================================
 
 .. admonition:: Disclaimer
 
@@ -14,7 +14,4 @@ AI Books
 .. toctree::
    :maxdepth: 2
 
-   build_large_model/index
-   statQuest/index
-   Cpp_ML/index
-
+   chapter1
