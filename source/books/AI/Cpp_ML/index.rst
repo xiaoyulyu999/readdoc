@@ -19,3 +19,4 @@ Published by Packt Publishing
    :maxdepth: 2
 
    chapter1
+   chapter2
