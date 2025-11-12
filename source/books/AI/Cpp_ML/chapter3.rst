@@ -116,3 +116,31 @@ Performance metrics for ML models
    - :math:`R^2 < 0` → model performs worse than predicting the mean
 
 .. admonition:: **Adjusted R-squared**
+
+   Adjusted R-squared (:math:`\bar{R}^2`) is a modified version of the coefficient of determination (:math:`R^2`)
+   that adjusts for the number of independent variables (predictors) in the model.
+   It accounts for the possibility that simply adding more variables can artificially inflate the value of :math:`R^2`,
+   even if those variables do not actually improve the model’s predictive power.
+
+   The formula for Adjusted R-squared is given by:
+
+   .. math::
+
+      \bar{R}^2 = 1 - (1 - R^2) \frac{n - 1}{n - p - 1}
+
+   Where:
+
+   - :math:`R^2` is the coefficient of determination
+   - :math:`n` is the number of observations (data points)
+   - :math:`p` is the number of independent variables (predictors)
+
+   **Interpretation:**
+
+   - Adjusted R-squared increases only if the new predictor improves the model
+     more than would be expected by chance.
+   - If an added predictor does not contribute useful information,
+     Adjusted R-squared will decrease.
+   - A higher Adjusted R-squared indicates a model that fits the data better,
+     while penalizing unnecessary model complexity.
+
+   In general, Adjusted R-squared provides a more reliable measure than :math:`R^2` when comparing models with different numbers of predictors.
