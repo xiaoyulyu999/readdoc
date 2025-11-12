@@ -6,7 +6,7 @@ Performance metrics for ML models
 
 1. Regression Metrics
 ~~~~~~~~~~~~~~~~~~~~~
-.. admonition:: MSE & RMSE
+.. admonition:: **MSE**
 
    **Mean Squared Error (MSE)** is a widely used metric for regression algorithms to estimate their quality.
    It represents the average of the squared differences between the predicted and the actual (ground truth) values.
