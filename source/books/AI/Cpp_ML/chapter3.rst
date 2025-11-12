@@ -66,3 +66,51 @@ Performance metrics for ML models
 
    MAE is simple to interpret since it gives the average absolute difference between predictions and actual observations.
    A smaller MAE indicates a better model fit.
+
+
+.. admonition::**R-squared**
+
+   R-squared (:math:`R^2`) measures how well a regression model explains the variability of the
+   dependent variable. It compares the variance captured by the model with the total variance
+   present in the data.
+
+   It is defined in terms of two quantities:
+
+   1. **Total Sum of Squares (SStot)** — measures the total variance in the data:
+
+      .. math::
+
+         SS_{tot} = \sum_i (y_i - \bar{y})^2
+
+   2. **Residual Sum of Squares (SSres)** — measures the variance that is not explained by the model:
+
+      .. math::
+
+         SS_{res} = \sum_i (y_i - \hat{y}_i)^2
+
+   The coefficient of determination is then calculated as:
+
+   .. math::
+
+      R^2 = 1 - \frac{SS_{res}}{SS_{tot}}
+
+   Equivalently, this can be expressed as:
+
+   .. math::
+
+      R^2 = 1 -
+      \frac{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
+           {\frac{1}{n} \sum_{i=1}^{n} (y_i - \bar{y})^2}
+
+   Where:
+
+   - :math:`y_i` is the ground truth (actual) value for the *i*-th item
+   - :math:`\hat{y}_i` is the predicted value for the *i*-th item
+   - :math:`\bar{y}` is the mean of all ground truth values
+   - :math:`n` is the total number of data points
+
+   **Interpretation:**
+
+   - :math:`R^2 = 1` → perfect prediction
+   - :math:`R^2 = 0` → model predicts no better than the mean
+   - :math:`R^2 < 0` → model performs worse than predicting the mean
