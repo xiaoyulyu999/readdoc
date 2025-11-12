@@ -46,3 +46,23 @@ Performance metrics for ML models
    RMSE penalizes larger errors more heavily than smaller ones due to the squaring operation.
    A lower RMSE value indicates a better fit between the model predictions and the actual values.
 
+.. admonition::**MAE** - quality
+
+   Mean Absolute Error (MAE) is a commonly used metric for evaluating the performance of regression models.
+   It measures the average magnitude of the errors between predicted and actual values, without considering their direction.
+   In other words, it represents how far the predictions are from the true values on average.
+
+   The formula for MAE is given by:
+
+   .. math::
+
+      \text{MAE} = \frac{1}{N} \sum_{i=1}^{N} |y_i - \hat{y}_i|
+
+   Where:
+
+   - :math:`N` is the total number of predictions (or data points)
+   - :math:`y_i` is the ground truth (actual) value for the *i*-th item
+   - :math:`\hat{y}_i` is the predicted value for the *i*-th item
+
+   MAE is simple to interpret since it gives the average absolute difference between predictions and actual observations.
+   A smaller MAE indicates a better model fit.
