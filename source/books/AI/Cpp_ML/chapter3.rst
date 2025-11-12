@@ -46,7 +46,7 @@ Performance metrics for ML models
    RMSE penalizes larger errors more heavily than smaller ones due to the squaring operation.
    A lower RMSE value indicates a better fit between the model predictions and the actual values.
 
-.. admonition::**MAE** - quality
+.. admonition:: **MAE** - quality
 
    Mean Absolute Error (MAE) is a commonly used metric for evaluating the performance of regression models.
    It measures the average magnitude of the errors between predicted and actual values, without considering their direction.
@@ -68,7 +68,7 @@ Performance metrics for ML models
    A smaller MAE indicates a better model fit.
 
 
-.. admonition::**R-squared**
+.. admonition:: **R-squared**
 
    R-squared (:math:`R^2`) measures how well a regression model explains the variability of the
    dependent variable. It compares the variance captured by the model with the total variance
@@ -114,3 +114,5 @@ Performance metrics for ML models
    - :math:`R^2 = 1` → perfect prediction
    - :math:`R^2 = 0` → model predicts no better than the mean
    - :math:`R^2 < 0` → model performs worse than predicting the mean
+
+.. admonition:: **Adjusted R-squared**
