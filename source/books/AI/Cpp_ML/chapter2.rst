@@ -6,5 +6,7 @@ HDF5 is a specialized file format for storing scientific data. This file format 
 .. image:: images/2_1.jpg
 
 .. note::
-   The advantages of this format are its high read-and-write speed, fast access to distinct elements, and its ability to support data with a complex structure and various types of data.
+   - The advantages of this format are its high read-and-write speed, fast access to distinct elements, and its ability to support data with a complex structure and various types of data.
+
+   - Disadvantages are the requirement of specialized tools for editing and viewing by users, the limited support of type conversions among different platforms, and using a single file for the whole dataset.
 
