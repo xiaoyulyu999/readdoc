@@ -50,7 +50,7 @@ Performance metrics for ML models
 
    Mean Absolute Error (MAE) is a commonly used metric for evaluating the performance of regression models.
    It measures the average magnitude of the errors between predicted and actual values, without considering their direction.
-   In other words, it represents how far the predictions are from the true values on average.
+   In other words, it represents how far the predictions are from the true values on average. Which can be problematic in some cases. For example, if a model consistently underestimates or overestimates the true value, the MAE will still give a low score, even though the model may not be performing well. But this metric is more robust for outliers than RMSE.
 
    The formula for MAE is given by:
 
