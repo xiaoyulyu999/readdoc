@@ -173,7 +173,6 @@ Performance metrics for ML models
    From this matrix, we can derive several key metrics.
 
    **Accuracy**
-   ------------
 
    Accuracy measures the overall correctness of the model:
 
