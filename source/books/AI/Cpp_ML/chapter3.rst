@@ -392,3 +392,4 @@ Variance is a prediction characteristic that tells us about the variability of m
    .. image:: images/3_6.jpg
 
    We can see that after approximately 75 learning iterations, the model began to predict training data much better, and the error value became lower. However, for the validation data, the MAE values began to increase. To deal with high variance, we can use special regularization techniques, which we will discuss in the following sections. We can also increase the number of training samples and decrease the number of features in one sample to reduce high variance.
+
