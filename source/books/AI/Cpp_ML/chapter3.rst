@@ -366,7 +366,7 @@ Bias is a prediction characteristic that tells us about the distance between mod
 
 .. admonition:: Regression model predictions with the polynomial degree equal to 1
 
-   .. image:: 3_3.jpg
+   .. image:: images/3_3.jpg
 
    This graph shows the original values, the values used for validation, and a line that represents the polynomial regression model output. iIn this case, the polynomial degree is equal to 1. We can see that the predictied values do not describe the original data at all, so we can say that this model has a high bias. Also, we can plot validation metrics for each training cycle to get more information about the training process and the model's behavior.
 
