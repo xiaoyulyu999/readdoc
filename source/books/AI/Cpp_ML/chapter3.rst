@@ -204,15 +204,51 @@ Performance metrics for ML models
 
    High recall indicates that the model successfully detects most positive instances.
 
-   **F1-Score**
+   **F-Score (F-Measure)**
 
-   The F1-score is the harmonic mean of Precision and Recall, balancing both metrics:
+   The F-score, also known as the F-measure, is a classification metric that combines **Precision**
+   and **Recall** into a single value. It represents the harmonic mean of Precision and Recall,
+   providing a balance between the two.
+
+   The general formula for the F-score is:
 
    .. math::
 
-      F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+      F_\beta = (1 + \beta^2) \times \frac{\text{Precision} \times \text{Recall}}
+                                     {(\beta^2 \times \text{Precision}) + \text{Recall}}
 
-   It is particularly useful when the dataset is imbalanced, as it accounts for both false positives and false negatives.
+   Where:
+
+   - :math:`\text{Precision}` = :math:`\frac{TP}{TP + FP}`
+   - :math:`\text{Recall}` = :math:`\frac{TP}{TP + FN}`
+   - :math:`\beta` is a weighting factor that determines the importance of Recall relative to Precision
+
+   **Special Cases**
+
+   - **F1-Score:** when :math:`\beta = 1`, Precision and Recall are equally weighted:
+
+     .. math::
+
+        F_1 = 2 \times \frac{\text{Precision} \times \text{Recall}}
+                          {\text{Precision} + \text{Recall}}
+
+   - **F0.5-Score:** gives more weight to **Precision** than Recall.
+   - **F2-Score:** gives more weight to **Recall** than Precision.
+
+   Interpretation
+   --------------
+
+   - A **higher F-score** indicates better model performance in terms of balancing Precision and Recall.
+   - F-score is especially useful when dealing with **imbalanced datasets**, where relying solely on Accuracy can be misleading.
+
+   Comparison with Other Metrics
+   -----------------------------
+
+   - **Precision** alone ignores false negatives.
+   - **Recall** alone ignores false positives.
+   - **F-score** provides a single number that reflects both kinds of errors, making it suitable for tasks like information retrieval or medical diagnosis.
+
+
 
    **Macro**, **Micro**, and **Weighted Averages**
 
