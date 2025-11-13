@@ -370,7 +370,7 @@ Bias is a prediction characteristic that tells us about the distance between mod
 
    This graph shows the original values, the values used for validation, and a line that represents the polynomial regression model output. iIn this case, the polynomial degree is equal to 1. We can see that the predictied values do not describe the original data at all, so we can say that this model has a high bias. Also, we can plot validation metrics for each training cycle to get more information about the training process and the model's behavior.
 
-.. admonition:: MAE metric values for the training process of the polynomial regression model
+   ** MAE metric values for the training process of the polynomial regression model**
 
    .. image:: images/3_4.jpg
 
@@ -386,3 +386,9 @@ Variance is a prediction characteristic that tells us about the variability of m
 
    .. image:: images/3_5.jpg
       The training data is indicated as Orig in the plot's legend, while the data used for validation is indicated as val in the plot's legend. We can see that these two sets of data - training data and validation data - are somehow distant from each other and that our model misses the validation data because of a lack of approximation.
+
+   **MAE values for the learning process, Validation error**
+
+   .. image:: images/3_6.jpg
+
+   We can see that after approximately 75 learning iterations, the model began to predict training data much better, and the error value became lower. However, for the validation data, the MAE values began to increase. To deal with high variance, we can use special regularization techniques, which we will discuss in the following sections. We can also increase the number of training samples and decrease the number of features in one sample to reduce high variance.
