@@ -382,3 +382,7 @@ Variance
 
 Variance is a prediction characteristic that tells us about the variability of model predictions; in other words, how big the range of output values can be. Usually, we use the term high variance or overfitting in the case when a model tries to incorporate many training samples very precisely. In such a case, the model cannot provide a good approximation for new data but has excellent performance on the training data.
 
+.. admonition:: Regression model predictions with the polynomial degree equal to 15
+
+   .. image:: images/3_5.jpg
+      The training data is indicated as Orig in the plot's legend, while the data used for validation is indicated as val in the plot's legend. We can see that these two sets of data - training data and validation data - are somehow distant from each other and that our model misses the validation data because of a lack of approximation.
