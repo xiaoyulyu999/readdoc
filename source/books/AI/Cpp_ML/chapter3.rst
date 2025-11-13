@@ -181,9 +181,9 @@ Performance metrics for ML models
       \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
 
    It represents the proportion of correctly classified samples among all samples.
+   In general, this metric is not very useful because it doesn’t show us the real picture in terms of cases with an odd number of classes. Let’s consider a spam classification task and assume we have 10 spam letters and 100 non-spam letters. Our algorithm predicted 90 of them correctly as non-spam and classified only 5 spam letters correctly. In this case, the accuracy = 86.4 However, if the algorithm predicts all letters as non-spam, then its accuracy should be 90.9. This is showing that our model doesn't work because it is unable to predict all spam letters, but the accuracy value is good enough.
 
    **Precision**
-   -------------
 
    Precision measures the proportion of correctly predicted positive instances
    among all instances predicted as positive:
@@ -195,7 +195,6 @@ Performance metrics for ML models
    High precision indicates that the model produces few false positives.
 
    **Recall** (Sensitivity or True Positive Rate)
-   ----------------------------------------------
 
    Recall measures the proportion of actual positives that were correctly identified:
 
@@ -206,7 +205,6 @@ Performance metrics for ML models
    High recall indicates that the model successfully detects most positive instances.
 
    **F1-Score**
-   ------------
 
    The F1-score is the harmonic mean of Precision and Recall, balancing both metrics:
 
@@ -217,7 +215,6 @@ Performance metrics for ML models
    It is particularly useful when the dataset is imbalanced, as it accounts for both false positives and false negatives.
 
    **Macro**, **Micro**, and **Weighted Averages**
-   -----------------------------------------------
 
    For multi-class classification problems:
 
