@@ -4,7 +4,7 @@ Measuring Performance and Selecting Models
 Performance metrics for ML models
 ---------------------------------
 
-1. Regression Metrics
+Regression Metrics
 ~~~~~~~~~~~~~~~~~~~~~
 .. admonition:: **MSE** - quality
 
@@ -355,4 +355,23 @@ Performance metrics for ML models
    * A perfect model achieves a log-loss of ``0``.
    * It works best when predictions are expressed as probabilities,
      not hard class labels.
+
+Understanding bias and variance characteristics
+-----------------------------------------------
+
+Bias
+~~~~
+
+Bias is a prediction characteristic that tells us about the distance between model predictions and ground truth values. Usually, we use the term high bias or underfitting to say that model prediction is too far from the ground truth values, which means that the model generalization ability is weak.
+
+.. admonition:: Regression model predictions with the polynomial degree equal to 1
+
+   .. image:: 3_3.jpg
+
+   This graph shows the original values, the values used for validation, and a line that represents the polynomial regression model output. iIn this case, the polynomial degree is equal to 1. We can see that the predictied values do not describe the original data at all, so we can say that this model has a high bias. Also, we can plot validation metrics for each training cycle to get more information about the training process and the model's behavior.
+
+Variance
+~~~~~~~~
+
+Variance is a prediction characteristic that tells us about the variability of model predictions; in other words, how big the range of output values can be. Usually, we use the term high variance or overfitting in the case when a model tries to incorporate many training samples very precisely. In such a case, the model cannot provide a good approximation for new data but has excellent performance on the training data.
 
