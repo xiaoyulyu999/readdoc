@@ -144,3 +144,84 @@ Performance metrics for ML models
      while penalizing unnecessary model complexity.
 
    In general, Adjusted R-squared provides a more reliable measure than :math:`R^2` when comparing models with different numbers of predictors.
+
+.. admonition:: **Classification metrics**
+
+   Classification metrics are used to evaluate the performance of classification algorithms —
+   models that assign input data to discrete categories (e.g., spam vs. not spam, positive vs. negative sentiment).
+
+   These metrics quantify how well the predicted class labels match the true labels.
+
+
+   A confusion matrix is a table that summarizes the performance of a classification model by comparing
+   predicted and actual class labels.
+
+   .. math::
+
+      \begin{bmatrix}
+      TP & FP \\
+      FN & TN
+      \end{bmatrix}
+
+   Where:
+
+   - **TP (True Positive):** correctly predicted positive instances
+   - **TN (True Negative):** correctly predicted negative instances
+   - **FP (False Positive):** negative instances incorrectly predicted as positive
+   - **FN (False Negative):** positive instances incorrectly predicted as negative
+
+   From this matrix, we can derive several key metrics.
+
+   Accuracy
+   --------
+
+   Accuracy measures the overall correctness of the model:
+
+   .. math::
+
+      \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
+
+   It represents the proportion of correctly classified samples among all samples.
+
+   Precision
+   ---------
+
+   Precision measures the proportion of correctly predicted positive instances
+   among all instances predicted as positive:
+
+   .. math::
+
+      \text{Precision} = \frac{TP}{TP + FP}
+
+   High precision indicates that the model produces few false positives.
+
+   Recall (Sensitivity or True Positive Rate)
+   ------------------------------------------
+
+   Recall measures the proportion of actual positives that were correctly identified:
+
+   .. math::
+
+      \text{Recall} = \frac{TP}{TP + FN}
+
+   High recall indicates that the model successfully detects most positive instances.
+
+   F1-Score
+   --------
+
+   The F1-score is the harmonic mean of Precision and Recall, balancing both metrics:
+
+   .. math::
+
+      F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+
+   It is particularly useful when the dataset is imbalanced, as it accounts for both false positives and false negatives.
+
+   Macro, Micro, and Weighted Averages
+   -----------------------------------
+
+   For multi-class classification problems:
+
+   - **Macro-average:** computes the metric independently for each class and takes the average (treats all classes equally).
+   - **Micro-average:** aggregates the contributions of all classes to compute the metric globally.
+   - **Weighted-average:** like macro-average but weights each class by its support (number of true instances).
