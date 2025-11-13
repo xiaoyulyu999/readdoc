@@ -172,7 +172,7 @@ Performance metrics for ML models
 
    From this matrix, we can derive several key metrics.
 
-   **Accuracy**
+.. admonition:: **Accuracy**
 
    Accuracy measures the overall correctness of the model:
 
@@ -183,7 +183,7 @@ Performance metrics for ML models
    It represents the proportion of correctly classified samples among all samples.
    In general, this metric is not very useful because it doesn’t show us the real picture in terms of cases with an odd number of classes. Let’s consider a spam classification task and assume we have 10 spam letters and 100 non-spam letters. Our algorithm predicted 90 of them correctly as non-spam and classified only 5 spam letters correctly. In this case, the accuracy = 86.4 However, if the algorithm predicts all letters as non-spam, then its accuracy should be 90.9. This is showing that our model doesn't work because it is unable to predict all spam letters, but the accuracy value is good enough.
 
-   **Precision**
+.. admonition:: **Precision**, **Recall**
 
    Precision measures the proportion of correctly predicted positive instances
    among all instances predicted as positive:
@@ -204,7 +204,7 @@ Performance metrics for ML models
 
    High recall indicates that the model successfully detects most positive instances.
 
-   **F-Score (F-Measure)**
+.. admonition:: **F-Score (F-Measure)**
 
    The F-score, also known as the F-measure, is a classification metric that combines **Precision**
    and **Recall** into a single value. It represents the harmonic mean of Precision and Recall,
@@ -257,3 +257,62 @@ Performance metrics for ML models
    - **Macro-average:** computes the metric independently for each class and takes the average (treats all classes equally).
    - **Micro-average:** aggregates the contributions of all classes to compute the metric globally.
    - **Weighted-average:** like macro-average but weights each class by its support (number of true instances).
+
+.. admonition:: **AUC-ROC** (Under the Receiver Operating Characteristic Curve)
+
+   The **Receiver Operating Characteristic (ROC)** curve and its associated **Area Under the Curve (AUC)**
+   are important metrics for evaluating the performance of classification models, especially
+   binary classifiers.
+
+   ROC Curve
+   ----------
+
+   The ROC curve plots the **True Positive Rate (TPR)** against the **False Positive Rate (FPR)**
+   at various classification thresholds.
+
+   .. math::
+
+      \text{TPR} = \frac{TP}{TP + FN}
+      \qquad
+      \text{FPR} = \frac{FP}{FP + TN}
+
+   Where:
+
+   - :math:`TP` — True Positives
+   - :math:`TN` — True Negatives
+   - :math:`FP` — False Positives
+   - :math:`FN` — False Negatives
+
+   The ROC curve shows the trade-off between sensitivity (recall) and specificity as the threshold varies.
+
+   Area Under the Curve (AUC)
+   --------------------------
+
+   The **AUC** represents the area under the ROC curve, providing a single scalar value
+   that summarizes the model’s ability to distinguish between positive and negative classes.
+
+   .. math::
+
+      \text{AUC} = \int_0^1 TPR(FPR) \, d(FPR)
+
+   **Interpretation:**
+
+   - :math:`AUC = 1.0` → perfect classification
+   - :math:`AUC = 0.5` → random guessing
+   - :math:`AUC < 0.5` → model performs worse than random guessing
+
+   In practice, a higher AUC value indicates a better performing classifier across different threshold settings.
+
+   Advantages
+   ----------
+
+   - AUC–ROC is **threshold-independent**, meaning it evaluates model performance across all classification thresholds.
+   - Useful when the dataset is **imbalanced**, since it considers both the true positive rate and false positive rate.
+
+   Limitations
+   -----------
+
+   - AUC–ROC can be **overly optimistic** when classes are highly imbalanced.
+   - For such cases, the **Precision–Recall (PR) curve** and **AUC–PR** metric may provide a more informative view.
+
+
