@@ -172,8 +172,8 @@ Performance metrics for ML models
 
    From this matrix, we can derive several key metrics.
 
-   Accuracy
-   --------
+   **Accuracy**
+   ------------
 
    Accuracy measures the overall correctness of the model:
 
@@ -183,8 +183,8 @@ Performance metrics for ML models
 
    It represents the proportion of correctly classified samples among all samples.
 
-   Precision
-   ---------
+   **Precision**
+   -------------
 
    Precision measures the proportion of correctly predicted positive instances
    among all instances predicted as positive:
@@ -195,8 +195,8 @@ Performance metrics for ML models
 
    High precision indicates that the model produces few false positives.
 
-   Recall (Sensitivity or True Positive Rate)
-   ------------------------------------------
+   **Recall** (Sensitivity or True Positive Rate)
+   ----------------------------------------------
 
    Recall measures the proportion of actual positives that were correctly identified:
 
@@ -206,8 +206,8 @@ Performance metrics for ML models
 
    High recall indicates that the model successfully detects most positive instances.
 
-   F1-Score
-   --------
+   **F1-Score**
+   ------------
 
    The F1-score is the harmonic mean of Precision and Recall, balancing both metrics:
 
@@ -217,8 +217,8 @@ Performance metrics for ML models
 
    It is particularly useful when the dataset is imbalanced, as it accounts for both false positives and false negatives.
 
-   Macro, Micro, and Weighted Averages
-   -----------------------------------
+   **Macro**, **Micro**, and **Weighted Averages**
+   -----------------------------------------------
 
    For multi-class classification problems:
 
