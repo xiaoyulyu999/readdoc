@@ -315,4 +315,44 @@ Performance metrics for ML models
    - AUC–ROC can be **overly optimistic** when classes are highly imbalanced.
    - For such cases, the **Precision–Recall (PR) curve** and **AUC–PR** metric may provide a more informative view.
 
+.. admonition:: **Log-Loss**
+
+   Log-loss, also known as *cross-entropy loss*, is a performance metric
+   commonly used in binary and multi-class classification problems. It
+   measures the uncertainty of your predictions based on how far they
+   are from the true labels. Lower log-loss indicates a better predictive
+   model.
+
+   Binary Log-Loss Function
+   ------------------------
+
+   For a binary classification problem, the log-loss for a single sample is
+   defined as:
+
+   .. math::
+
+       L(y, p) = - \left[ y \log(p) + (1 - y) \log(1 - p) \right]
+
+   Where:
+
+   * ``y`` is the true label (0 or 1)
+   * ``p`` is the predicted probability that ``y = 1``
+
+   Average Log-Loss
+   ----------------
+
+   For ``N`` samples, the overall log-loss is:
+
+   .. math::
+
+       \text{LogLoss} = -\frac{1}{N} \sum_{i=1}^{N}
+       \left[ y_i \log(p_i) + (1 - y_i) \log(1 - p_i) \right]
+
+   Notes
+   -----
+
+   * Log-loss heavily penalizes confident but wrong predictions.
+   * A perfect model achieves a log-loss of ``0``.
+   * It works best when predictions are expressed as probabilities,
+     not hard class labels.
 
