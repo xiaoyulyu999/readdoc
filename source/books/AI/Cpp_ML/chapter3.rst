@@ -415,66 +415,66 @@ It is a technique that is used to reduce model overfitting.
 
 .. admonition:: regularization – Lasso
 
-Lasso Regularization
-===================
+   Lasso Regularization
+   ===================
 
-Introduction
-------------
+   Introduction
+   ------------
 
-Lasso (Least Absolute Shrinkage and Selection Operator) is a regularization technique used in linear regression to prevent overfitting and improve model generalization. It works by adding a penalty to the absolute value of the coefficients. This encourages some coefficients to become exactly zero, effectively performing feature selection.
+   Lasso (Least Absolute Shrinkage and Selection Operator) is a regularization technique used in linear regression to prevent overfitting and improve model generalization. It works by adding a penalty to the absolute value of the coefficients. This encourages some coefficients to become exactly zero, effectively performing feature selection.
 
-Mathematical Formulation
-------------------------
+   Mathematical Formulation
+   ------------------------
 
-   The Lasso regression optimizes the following objective function:
+      The Lasso regression optimizes the following objective function:
 
-   .. math::
+      .. math::
 
-       \text{Minimize} \quad
-       \frac{1}{2n} \sum_{i=1}^{n} \left(y_i - \sum_{j=1}^{p} x_{ij} \beta_j \right)^2
-       + \alpha \sum_{j=1}^{p} |\beta_j|
+          \text{Minimize} \quad
+          \frac{1}{2n} \sum_{i=1}^{n} \left(y_i - \sum_{j=1}^{p} x_{ij} \beta_j \right)^2
+          + \alpha \sum_{j=1}^{p} |\beta_j|
 
-   Where:
+      Where:
 
-   - :math:`n` is the number of samples
-   - :math:`p` is the number of features
-   - :math:`y_i` is the target value
-   - :math:`x_{ij}` is the feature value
-   - :math:`\beta_j` is the coefficient
-   - :math:`\alpha` is the regularization parameter controlling the strength of the penalty
+      - :math:`n` is the number of samples
+      - :math:`p` is the number of features
+      - :math:`y_i` is the target value
+      - :math:`x_{ij}` is the feature value
+      - :math:`\beta_j` is the coefficient
+      - :math:`\alpha` is the regularization parameter controlling the strength of the penalty
 
-   Python Example
-   --------------
+      Python Example
+      --------------
 
-   Here is a simple example of using Lasso regression in Python with scikit-learn:
+      Here is a simple example of using Lasso regression in Python with scikit-learn:
 
-   .. code-block:: python
+      .. code-block:: python
 
-       from sklearn.linear_model import Lasso
-       from sklearn.model_selection import train_test_split
-       from sklearn.datasets import load_boston
+          from sklearn.linear_model import Lasso
+          from sklearn.model_selection import train_test_split
+          from sklearn.datasets import load_boston
 
-       # Load dataset
-       X, y = load_boston(return_X_y=True)
+          # Load dataset
+          X, y = load_boston(return_X_y=True)
 
-       # Split into training and test sets
-       X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+          # Split into training and test sets
+          X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-       # Initialize Lasso with alpha=0.1
-       lasso = Lasso(alpha=0.1)
+          # Initialize Lasso with alpha=0.1
+          lasso = Lasso(alpha=0.1)
 
-       # Fit model
-       lasso.fit(X_train, y_train)
+          # Fit model
+          lasso.fit(X_train, y_train)
 
-       # Print coefficients
-       print("Lasso coefficients:", lasso.coef_)
+          # Print coefficients
+          print("Lasso coefficients:", lasso.coef_)
 
-       # Model score
-       print("R^2 score:", lasso.score(X_test, y_test))
+          # Model score
+          print("R^2 score:", lasso.score(X_test, y_test))
 
-   Key Points
-   ----------
+      Key Points
+      ----------
 
-   - Lasso can shrink some coefficients to exactly zero.
-   - Useful for feature selection in high-dimensional datasets.
-   - The regularization parameter :math:`\alpha` controls the strength of penalty.
+      - Lasso can shrink some coefficients to exactly zero.
+      - Useful for feature selection in high-dimensional datasets.
+      - The regularization parameter :math:`\alpha` controls the strength of penalty.
