@@ -544,3 +544,11 @@ It is a technique that is used to reduce model overfitting.
    - Ridge shrinks coefficients but does not set them exactly to zero.
    - Useful when many small/medium effects contribute to the output.
    - The regularization parameter :math:`\alpha` controls the amount of shrinkage.
+
+Data Augmentation
+~~~~~~~~~~~~~~~~~~
+
+This approach is common in computer vision (CV). When we can see that the model begins to overfit and does not have enough training data, we can augment the images we already have to increase the size of our dataset and provide more distinct training samples. Image augmentations are random image rotations, cropping and translations, mirroroing flips, scaling, and proportion changes. But it should be carefully designed for:
+   - If the generated data is too similar to the original data, it can lead to overfitting.
+   - It can introduce noise or artifacts into the dataset, which can degrade the quality of the ressulting models.
+   - The augmented data may not accurately reflect the real-world distribution of data, leading to a domain shift between the training and test sets. THis can result in poor generalization performance.
