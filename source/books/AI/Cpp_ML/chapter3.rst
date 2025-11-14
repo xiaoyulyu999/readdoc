@@ -478,3 +478,69 @@ It is a technique that is used to reduce model overfitting.
       - Lasso can shrink some coefficients to exactly zero.
       - Useful for feature selection in high-dimensional datasets.
       - The regularization parameter :math:`\alpha` controls the strength of penalty.
+
+.. admonition:: L2 regularization – Ridge
+
+   Ridge Regularization
+   ===================
+
+   Introduction
+   ------------
+
+   Ridge regression, also known as L2 regularization, is a technique used to prevent overfitting in linear regression models by adding a penalty proportional to the square of the coefficients. Unlike Lasso, Ridge does not set coefficients to exactly zero but shrinks them towards zero, which is useful when all features are relevant.
+
+   Mathematical Formulation
+   ------------------------
+
+   The Ridge regression objective function is:
+
+   .. math::
+
+       \text{Minimize} \quad
+       \frac{1}{2n} \sum_{i=1}^{n} \left(y_i - \sum_{j=1}^{p} x_{ij} \beta_j \right)^2
+       + \alpha \sum_{j=1}^{p} \beta_j^2
+
+   Where:
+
+   - :math:`n` is the number of samples
+   - :math:`p` is the number of features
+   - :math:`y_i` is the target value
+   - :math:`x_{ij}` is the feature value
+   - :math:`\beta_j` is the coefficient
+   - :math:`\alpha` is the regularization parameter controlling the penalty strength
+
+   Python Example
+   --------------
+
+   Here is a simple example of using Ridge regression in Python with scikit-learn:
+
+   .. code-block:: python
+
+       from sklearn.linear_model import Ridge
+       from sklearn.model_selection import train_test_split
+       from sklearn.datasets import load_boston
+
+       # Load dataset
+       X, y = load_boston(return_X_y=True)
+
+       # Split into training and test sets
+       X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+       # Initialize Ridge with alpha=1.0
+       ridge = Ridge(alpha=1.0)
+
+       # Fit model
+       ridge.fit(X_train, y_train)
+
+       # Print coefficients
+       print("Ridge coefficients:", ridge.coef_)
+
+       # Model score
+       print("R^2 score:", ridge.score(X_test, y_test))
+
+   Key Points
+   ----------
+
+   - Ridge shrinks coefficients but does not set them exactly to zero.
+   - Useful when many small/medium effects contribute to the output.
+   - The regularization parameter :math:`\alpha` controls the amount of shrinkage.
