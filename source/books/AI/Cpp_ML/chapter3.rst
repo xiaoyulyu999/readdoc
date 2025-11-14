@@ -406,4 +406,9 @@ Loss values when a model was trained ideally.
    .. image:: images/3_8.jpg
 
 
-
+Regularization
+~~~~~~~~~~~~~~~~
+It is a technique that is used to reduce model overfitting.
+2 main approaches:
+   - Training data preprocessing. [ Add more distinct training samples. ]
+   - Loss function modification. [ Modify the loss function thereby leading to significant variance. ]
