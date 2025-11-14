@@ -397,11 +397,13 @@ Variance is a prediction characteristic that tells us about the variability of m
 Normal training
 ~~~~~~~~~~~~~~~~
 
-.. admonition:: Predictions when a model was trained ideally
+Predictions when a model was trained ideally
 
    .. image:: images/3_7.jpg
 
-   Loss values when a model was trained ideally.
+Loss values when a model was trained ideally.
+
    .. image:: images/3_8.jpg
+
 
 
