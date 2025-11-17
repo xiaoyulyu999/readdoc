@@ -600,6 +600,7 @@ The grid is used to generate a reasonable number of distinct parameter sets quic
 
 mlpack example
 ~~~~~~~~~~~~~~
+The mlpack library contains a special HyperParameterTuner class to do hyperparameter searches with different algorithms in both discrete and continuous spaces. The default search algorithm is grid search.
 
 Let’s define a HyperParameterTuner object to search for the best regularization value for the linear ridge regression algorithm. The definition will be the following:
 
