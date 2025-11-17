@@ -613,3 +613,24 @@ Let’s define a HyperParameterTuner object to search for the best regularizatio
        validation_size, samples, labels);
 
 
+how we can generate a training dataset for these examples. It will take the two following steps:
+
+- Generating data that follows some predefined pattern—for example, 2D normally distributed points, plus some noise
+- Data normalization
+
+**Armadillo library**
+.. code-block:: c++
+
+   std::pair<arma::mat, arma::rowvec> GenerateData(
+   size_t num_samples) {
+   arma::mat samples = arma::randn<arma::mat>(1, num_samples);
+   arma::rowvec labels = samples + arma::randn<arma::rowvec(
+    num_samples, arma::distr_param(1.0, 1.5));
+   return {samples, labels};
+   }
+   ...
+   size_t num_samples = 1000;
+   auto [raw_samples, raw_labels] = GenerateData(num_samples);
+
+
+
