@@ -598,4 +598,17 @@ The grid is used to generate a reasonable number of distinct parameter sets quic
 
 - After completing the model training process with each set of parameters from every grid cell, the algorithm chooses the best set of hyperparameter values by comparing the metric’s values and selecting the best one. Usually, the set with the smallest value is the best one.
 
+mlpack example
+~~~~~~~~~~~~~~
+
+Let’s define a HyperParameterTuner object to search for the best regularization value for the linear ridge regression algorithm. The definition will be the following:
+
+.. code-block:: cpp
+
+   double validation_size = 0.2;
+   HyperParameterTuner<LinearRegression,
+     MSE,
+     SimpleCV> parameters_tuner(
+       validation_size, samples, labels);
+
 
