@@ -633,5 +633,5 @@ how we can generate a training dataset for these examples. It will take the two 
    size_t num_samples = 1000;
    auto [raw_samples, raw_labels] = GenerateData(num_samples);
 
- for samples, we used the arma::mat type, and for labels, the arma::rowvec type. So, samples are placed into the matrix entity and labels into a one-dimensional vector correspondingly. Also, we used the arma::randn function to generate normally distributed data and noise.
+for samples, we used the arma::mat type, and for labels, the arma::rowvec type. So, samples are placed into the matrix entity and labels into a one-dimensional vector correspondingly. Also, we used the arma::randn function to generate normally distributed data and noise.
 
