@@ -552,3 +552,12 @@ This approach is common in computer vision (CV). When we can see that the model 
    - If the generated data is too similar to the original data, it can lead to overfitting.
    - It can introduce noise or artifacts into the dataset, which can degrade the quality of the ressulting models.
    - The augmented data may not accurately reflect the real-world distribution of data, leading to a domain shift between the training and test sets. THis can result in poor generalization performance.
+
+Regularization for NNs
+~~~~~~~~~~~~~~~~~~~~~~~
+L1 and L2 regularizations are used to train NNs and called **Weight Decay**. Data augmentation also used in the training processes for NNs. **Drop out** is a pparticular type of regularization that was developed especially for NNs. It makes other nodes more insensitive to the weights of other nodes, which means the model becomes more rebust and stops overfitting.
+
+Model selection with the grid search technique
+----------------------------------------------
+
+There are several approaches we can follow to choose the best set of hyperparameter values. The grid search technique is an automated approach for searching for the best hyperparameter values. It uses the cross-validation technique for model performance estimation.
