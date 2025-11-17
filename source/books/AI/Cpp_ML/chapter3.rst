@@ -583,3 +583,19 @@ where K refers to the number of folds or partitions used to split the dataset Th
    - Repeat this process, making sure that each block is used for validation and the rest are used for training.
    - Average the results of the performance metrics that were calculated for the validation sets on each iteration.
 
+.. image:: images/3_9.jpg
+
+Grid search
+~~~~~~~~~~~
+**create a grid of the most reasonable hyperparameter values**
+
+The grid is used to generate a reasonable number of distinct parameter sets quickly. We should have some prior knowledge about the task domain to initialize the minimum and maximum values for grid generation, or we can initialize the grid with some reasonable broad ranges. However, if the chosen ranges are too broad, the process of searching for parameters can take a long time and will require a significant amount of computational resources.
+
+- **grid  search algorithm** chooses a set of hyperparameter values and trains a model.
+
+- **Training step algorithm** uses the K-fold cross-validation to estimate model performance.
+   - We should also define a single model performance estimation metric for model comparison that the algorithm will calculate at each training step for every model.
+
+- After completing the model training process with each set of parameters from every grid cell, the algorithm chooses the best set of hyperparameter values by comparing the metric’s values and selecting the best one. Usually, the set with the smallest value is the best one.
+
+
