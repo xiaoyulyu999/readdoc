@@ -619,6 +619,7 @@ how we can generate a training dataset for these examples. It will take the two 
 - Data normalization
 
 **Armadillo library**
+
 .. code-block:: c++
 
    std::pair<arma::mat, arma::rowvec> GenerateData(
