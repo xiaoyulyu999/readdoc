@@ -603,7 +603,7 @@ mlpack example
 
 Let’s define a HyperParameterTuner object to search for the best regularization value for the linear ridge regression algorithm. The definition will be the following:
 
-.. code-block:: cpp
+.. code-block:: c++
 
    double validation_size = 0.2;
    HyperParameterTuner<LinearRegression,
