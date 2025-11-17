@@ -561,3 +561,25 @@ Model selection with the grid search technique
 ----------------------------------------------
 
 There are several approaches we can follow to choose the best set of hyperparameter values. The grid search technique is an automated approach for searching for the best hyperparameter values. It uses the cross-validation technique for model performance estimation.
+
+Cross-validation
+~~~~~~~~~~~~~~~~
+**Limited or small training dataset**
+
+If randomly sampling the validation data from original dataset leads to the following problems:
+   - The size of the original dataset is reduced.(The original dataset is small enough, any reduce of the size could lead to big problems).
+
+   - There is the probability of leaving data that is important for validation in the training part.
+
+.. admonition:: How Cross-validation help on this?
+
+   THe main idea behind it is to split the original dataset in such a way that all the data will be used for training the validation. Then, the training and validation proceses are performed for all partitions, and the resulting valiues are averaged.
+
+The most well-known method of cross-validation is **K-fold**.
+where K refers to the number of folds or partitions used to split the dataset The idea is to divide the dataset into K blocks of the same size. Then, we use one of the blocks for validation and the others for training. We repeat this process K times, each time choosing a different block for validation, and in the end, we average all the results. The data splitting scheme during the whole cross-validation cycle looks like this:
+
+   - Divide the dataset into K blocks of the same size.
+   - Select one of the blocks for validation and the remaining K-1 blocks for training.
+   - Repeat this process, making sure that each block is used for validation and the rest are used for training.
+   - Average the results of the performance metrics that were calculated for the validation sets on each iteration.
+
