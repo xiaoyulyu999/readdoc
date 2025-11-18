@@ -642,9 +642,9 @@ for samples, we used the arma::mat type, and for labels, the arma::rowvec type. 
    //StandardScaler from mlpack
 
    data::StandardScaler sample_scaler;
-   sample_scaler.Fit(raw_samples);
+   sample_scaler.Fit(raw_samples); //Function to fit features, to find out the min max and scale.
    arma::mat samples(1, num_samples);
-   sample_scaler.Transform(raw_samples, samples);
+   sample_scaler.Transform(raw_samples, samples); //input=raw_samples, output=samples, adjust with sample_scaler.
    data::StandardScaler label_scaler;
    label_scaler.Fit(raw_labels);
    arma::rowvec labels(num_samples);
