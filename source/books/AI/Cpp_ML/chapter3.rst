@@ -638,6 +638,7 @@ for samples, we used the arma::mat type, and for labels, the arma::rowvec type. 
 **Normalize data**
 
 .. code-block:: cpp
+
    //StandardScaler from mlpack
 
    data::StandardScaler sample_scaler;
