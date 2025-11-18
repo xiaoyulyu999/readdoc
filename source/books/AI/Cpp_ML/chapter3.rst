@@ -650,5 +650,15 @@ for samples, we used the arma::mat type, and for labels, the arma::rowvec type. 
    arma::rowvec labels(num_samples);
    label_scaler.Transform(raw_labels, labels);
 
+**how to prepare the data and how to define the hyperparameter tuner object**
+
+.. code-block:: cpp
+
+   // grid search
+
+   arma::vec lambdas{0.0, 0.001, 0.01, 0.1, 1.0};
+   double best_lambda = 0;
+   std::tie(best_lambda) = parameters_tuner.Optimize(lambdas);
+
 
 
