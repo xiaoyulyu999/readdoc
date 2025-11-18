@@ -658,7 +658,15 @@ for samples, we used the arma::mat type, and for labels, the arma::rowvec type. 
 
    arma::vec lambdas{0.0, 0.001, 0.01, 0.1, 1.0};
    double best_lambda = 0;
-   std::tie(best_lambda) = parameters_tuner.Optimize(lambdas);
+   std::tie(best_lambda) = parameters_tuner.Optimize(lambdas); //return a tuple
 
+   LinearRegression& linear_regression =  parameters_tuner.BestModel();
+
+   size_t num_new_samples = 50;
+   arma::dvec new_samples_values = arma::linspace<arma::dvec>(x_minmax.first, x_minmax.second, num_new_samples);
+   arma::mat new_samples(1, num_new_samples);
+   new_samples.row(0) = arma::trans(new_samples_values);
+   arma::mat norm_new_samples(1, num_new_samples);
+   sample_scaler.Transform(new_samples, norm_new_samples);
 
 
