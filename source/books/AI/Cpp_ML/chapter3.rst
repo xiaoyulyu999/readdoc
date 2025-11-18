@@ -682,4 +682,7 @@ How to use the model with the best parameter we found with the grid search:
 Optuna with Flashlight example
 ------------------------------
 
+There is no support for any hyperparameter tuning algorithms in the Flashlight library, but we can use an external tool named Optuna to deal with ML programs that we want to search the best hyperparameters for. The main idea is to use some **inter-process communication (IPC)** approach to run training with different parameters and get some performance metric values after training.
+
+Optuna also has a **command-line interface (CLI)** that can be used with tools that don’t support Python. Another way to use such tools is to call them from Python, passing their command-line parameters and reading their standard output.
 
