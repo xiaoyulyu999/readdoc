@@ -696,7 +696,7 @@ To use Optuna for hyperparameter tuning, we need to complete the three following
    import optuna
    import subprocess
 
-   def objective(trial: optuna.trial.Trial):
+   def objective(trial: optuna.trial.Trial): #Trial class object that contains a set of hyperparameter distributions
       lr = trial.suggest_float("learning_rate", low=0.01, high=0.05)
       d = trial.suggest_int("polynomial_degree", low=16, high=64)
       bs = trial.suggest_int("batch_size", low=16, high=64)
