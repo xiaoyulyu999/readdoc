@@ -686,3 +686,23 @@ There is no support for any hyperparameter tuning algorithms in the Flashlight l
 
 Optuna also has a **command-line interface (CLI)** that can be used with tools that don’t support Python. Another way to use such tools is to call them from Python, passing their command-line parameters and reading their standard output.
 
+To use Optuna for hyperparameter tuning, we need to complete the three following stages:
+   - Define an objective function for optimization.
+   - Create a study object.
+   - Run optimization process.
+
+.. code-block:: python
+
+   import optuna
+   import subprocess
+
+   def objective(trial: optuna.trial.Trial):
+      lr = trial.suggest_float("learning_rate", low=0.01, high=0.05)
+      d = trial.suggest_int("polynomial_degree", low=16, high=64)
+      bs = trial.suggest_int("batch_size", low=16, high=64)
+      result = subprocess.run(
+         [bibnary_path, str(d), str(lr), str(bs)],
+         stdout = subprocess.PIPE)
+      mse = float(result.stddout)
+      return mse
+
