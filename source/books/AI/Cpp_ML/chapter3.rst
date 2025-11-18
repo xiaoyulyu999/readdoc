@@ -712,6 +712,20 @@ To use Optuna for hyperparameter tuning, we need to complete the three following
 
 We called the run method from the subprocess module; it launches another process in the system. This method takes the array of strings of command-line parameters and some other parameters —in our case, the stdout redirection. This redirection is needed because we want to get the process’s output in a return value of the run method call; you can see this in the last lines as result.stdout, which is converted from string to floating-point values and is interpreted as the MSE.
 
+Define "study" object. It will tell Optuna how to tune hyperparameters.
 
+.. code-block:: python
 
+   search_space = {
+     "learning_rate": [0.01, 0.025, 0.045],],],
+     "polynomial_degree": [8, 14, 16],
+     "batch_size": [16, 32, 64],
+   }
 
+   study = optuna.create_study(
+     study_name="PolyFit",
+     direction="minimize",
+     sampler=optuna.samplers.GridSampler(search_space),
+   )
+
+For the sampler object, we used GridSampler, because we want to implement the grid search approach, and we initialized it with our search space
