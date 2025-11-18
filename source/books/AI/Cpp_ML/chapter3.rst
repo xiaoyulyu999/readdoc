@@ -625,7 +625,7 @@ how we can generate a training dataset for these examples. It will take the two 
    std::pair<arma::mat, arma::rowvec> GenerateData( //mat is a matrix, rowvect is a 1*n matrix
    size_t num_samples) {
    arma::mat samples = arma::randn<arma::mat>(1, num_samples); // this mat is 1 * num_samples matrix [1,2,3...]
-   arma::rowvec labels = samples + arma::randn<arma::rowvec(
+   arma::rowvec labels = samples + arma::randn<arma::rowvec>(
     num_samples, arma::distr_param(1.0, 1.5)); // mean = 1.0, stddev = 1.5
    return {samples, labels};
    }
@@ -634,4 +634,20 @@ how we can generate a training dataset for these examples. It will take the two 
    auto [raw_samples, raw_labels] = GenerateData(num_samples);
 
 for samples, we used the arma::mat type, and for labels, the arma::rowvec type. So, samples are placed into the matrix entity and labels into a one-dimensional vector correspondingly. Also, we used the arma::randn function to generate normally distributed data and noise.
+
+**Normalize data**
+
+.. code-block:: cpp
+   //StandardScaler from mlpack
+
+   data::StandardScaler sample_scaler;
+   sample_scaler.Fit(raw_samples);
+   arma::mat samples(1, num_samples);
+   sample_scaler.Transform(raw_samples, samples);
+   data::StandardScaler label_scaler;
+   label_scaler.Fit(raw_labels);
+   arma::rowvec labels(num_samples);
+   label_scaler.Transform(raw_labels, labels);
+
+
 
