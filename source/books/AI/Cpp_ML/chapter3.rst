@@ -663,10 +663,19 @@ for samples, we used the arma::mat type, and for labels, the arma::rowvec type. 
    LinearRegression& linear_regression =  parameters_tuner.BestModel();
 
    size_t num_new_samples = 50;
-   arma::dvec new_samples_values = arma::linspace<arma::dvec>(x_minmax.first, x_minmax.second, num_new_samples);
+   arma::dvec new_samples_values = arma::linspace<arma::dvec>( //dvec - double vector. arma::linspace function to get a linearly distributed range of data
+                  x_minmax.first,
+                  x_minmax.second,
+                  num_new_samples); //linspace- from first to second, total steps is num_new_samples.
    arma::mat new_samples(1, num_new_samples);
-   new_samples.row(0) = arma::trans(new_samples_values);
+   new_samples.row(0) = arma::trans(new_samples_values); //additional code that transforms this vector into a matrix object
    arma::mat norm_new_samples(1, num_new_samples);
    sample_scaler.Transform(new_samples, norm_new_samples);
 
+How to use the model with the best parameter we found with the grid search:
+
+.. code-block:: cpp
+
+   arma::rowvec predictions(num_new_samples);
+   linear_regression.Predict(norm_new_samples, predictions);
 
