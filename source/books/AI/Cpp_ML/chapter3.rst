@@ -622,11 +622,11 @@ how we can generate a training dataset for these examples. It will take the two 
 
 .. code-block:: c++
 
-   std::pair<arma::mat, arma::rowvec> GenerateData(
+   std::pair<arma::mat, arma::rowvec> GenerateData( //mat is a matrix, rowvect is a 1*n matrix
    size_t num_samples) {
-   arma::mat samples = arma::randn<arma::mat>(1, num_samples);
+   arma::mat samples = arma::randn<arma::mat>(1, num_samples); // this mat is 1 * num_samples matrix [1,2,3...]
    arma::rowvec labels = samples + arma::randn<arma::rowvec(
-    num_samples, arma::distr_param(1.0, 1.5));
+    num_samples, arma::distr_param(1.0, 1.5)); // mean = 1.0, stddev = 1.5
    return {samples, labels};
    }
    ...
