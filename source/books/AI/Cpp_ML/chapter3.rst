@@ -679,3 +679,7 @@ How to use the model with the best parameter we found with the grid search:
    arma::rowvec predictions(num_new_samples);
    linear_regression.Predict(norm_new_samples, predictions);
 
+Optuna with Flashlight example
+------------------------------
+
+
