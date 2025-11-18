@@ -618,7 +618,7 @@ how we can generate a training dataset for these examples. It will take the two 
 - Generating data that follows some predefined pattern—for example, 2D normally distributed points, plus some noise
 - Data normalization
 
-**Armadillo library - mlpack **
+**Armadillo library - mlpack**
 
 .. code-block:: c++
 
