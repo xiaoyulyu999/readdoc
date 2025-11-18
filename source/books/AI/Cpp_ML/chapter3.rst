@@ -728,4 +728,7 @@ Define "study" object. It will tell Optuna how to tune hyperparameters.
      sampler=optuna.samplers.GridSampler(search_space),
    )
 
-For the sampler object, we used GridSampler, because we want to implement the grid search approach, and we initialized it with our search space
+   study.optimize(objective)
+
+For the sampler object, we used GridSampler, because we want to implement the grid search approach, and we initialized it with our search space.
+
