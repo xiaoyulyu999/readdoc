@@ -25,3 +25,5 @@ Here are some popular ones that are used for **numerical properties**:
 
       d^2(x, \bar{x}) = \sum_{i=1}^{n} (x_i - \bar{x}_i)^2
 
+   Squared Euclidean distance has the same properties as Euclidean distance but assigns greater significance (weight) to the distant values than to closer ones.
+
