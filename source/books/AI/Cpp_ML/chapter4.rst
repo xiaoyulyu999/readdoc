@@ -68,5 +68,32 @@ After analyzing clustering results, some correction may be required for the sele
 
 Partition-based clustering algorithms
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   - combine objects into groups
+   - usually require either the number of desired clusters or a threshold that regulates the number of output clusters to be specified explicitly.
+   - The choice of a similarity measure can significantly affect the quality and accuracy of the clusters produced, potentially leading to misinterpretations of data patterns and insights.
+
+Distance-based clustering algorithms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+k-means and k-medoids algorithms.
+
+Take the k input parameter and divide the data space into k clusters so that the similarity between objects in one cluster is maximal.
+
+They take the k input parameter and divide the data space into k clusters so that the similarity between objects in one cluster is maximal. Also, they minimize the similarity between objects of different clusters. The similarity value is calculated as the distance from the object to the cluster center. The main difference between these methods lies in the way the cluster center is defined.
+
+- k-means algorithm, the similarity is proportional to the distance to the cluster center of mass. The cluster center of mass is the average value of cluster objects’ coordinates in the data space.
+   - steps:
+      First, we select k random objects and define each of them as a cluster prototype that represents the cluster’s center of mass. Then, the remaining objects are attached to the cluster with greater similarity. After that, the center of mass of each cluster is recalculated. For each obtained partition, a particular evaluation function is calculated, the values of which at each step form a converging series. This process continues until the specified series converges to its limit value.
+
+   - Pro:
+      The k-means method works well when clusters are compact clouds that are significantly separated from each other. It’s useful for processing large amounts of data.
+   - Con:
+      but It isn’t applicable for detecting clusters of non-convex shapes or clusters with very different sizes. Moreover, the method is susceptible to noise and isolated points since even a small number of such points can significantly affect how the center mass of the cluster is calculated.
+
+
+
+
+
+
+
 
 
