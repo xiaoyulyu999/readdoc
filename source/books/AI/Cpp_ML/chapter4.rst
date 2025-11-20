@@ -49,6 +49,24 @@ Here are some popular ones that are used for **numerical properties**:
 
    Here, we can see that Manhattan distance is the sum of the distances in both dimensions, like walking along city blocks. Euclidean distance is just the length of a straight line. Chebyshev distance is a more flexible alternative to Manhattan distance because diagonal moves are also taken into account.
 
+Types of clustering algorithms
+------------------------------
 
+partition-based, spectral, hierarchical, density-based, and model-based.
+The partition-based group of clustering algorithms can be logically divided into distance-based methods and ones based on graph theory.
+
+.. warning::
+
+   We can split cluster analysis into the following phases:
+   - Selecting objects
+   - Determining the set of object properties that we will use for the metric.
+   - Normalizing property values.
+   - Calculating the metric
+   - Identifying distinct groups of objects based on metric values.
+
+After analyzing clustering results, some correction may be required for the selected metric of the chosen algorithm.
+
+Partition-based clustering algorithms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
