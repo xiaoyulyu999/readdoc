@@ -27,3 +27,11 @@ Here are some popular ones that are used for **numerical properties**:
 
    Squared Euclidean distance has the same properties as Euclidean distance but assigns greater significance (weight) to the distant values than to closer ones.
 
+
+.. admonition:: Manhattan distance
+
+   .. math::
+
+      d_{\text{Manhattan}}(x, \bar{x}) = \sum_{i=1}^{n} |x_i - \bar{x}_i|
+
+   Average difference by coordinates. In most cases, its value gives the same clustering results as Euclidean distance. However, it reduces the significance (weight) of the distant values (outliers).
