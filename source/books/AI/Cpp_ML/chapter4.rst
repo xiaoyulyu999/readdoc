@@ -45,7 +45,7 @@ Here are some popular ones that are used for **numerical properties**:
 
 .. admonition:: Image shows the different distances:
 
-   .. image:: 4_1.jpg
+   .. image:: images/4_1.jpg
 
    Here, we can see that Manhattan distance is the sum of the distances in both dimensions, like walking along city blocks. Euclidean distance is just the length of a straight line. Chebyshev distance is a more flexible alternative to Manhattan distance because diagonal moves are also taken into account.
 
