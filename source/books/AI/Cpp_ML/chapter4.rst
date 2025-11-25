@@ -106,7 +106,7 @@ The advantages of graph clustering algorithms are their excellent visibility, re
 `SRecognizing and Finding Spanning Trees in Graph Theory <https://www.youtube.com/watch?v=b233VKD6udo>`_
 
 Spectral clustering algorithms
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 `Stanford University — Watch on YouTube <https://www.youtube.com/watch?v=uxsDKhZHDcc>`_
 
