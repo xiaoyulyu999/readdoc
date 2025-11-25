@@ -96,6 +96,17 @@ in contrast to the k-means algorithm, uses one of the cluster objects (known as 
 
 The medoid is the object closest to the center of the cluster. The algorithm is poorly scalable for processing large amounts of data, but this problem is solved by the Clustering Large Applications based on RANdomized Search (CLARANS) algorithm, which complements the k-medoids method. CLARANS attempts to address scalability issues by using a randomized search technique to find good solutions more efficiently. Such an approach makes it possible to quickly converge on a good solution without exhaustively searching all possible combinations of medoids. For multidimensional clustering, the Projected Clustering (PROCLUS) algorithm can be used.
 
+Graph theory-based clustering algorithms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Graph vertices correspond to objects, and the edge weights are equal to the distance between vertices.
+
+The advantages of graph clustering algorithms are their excellent visibility, relative ease of implementation, and their ability to make various improvements based on geometrical considerations. The main graph theory concepts used for clustering are selecting connected components, constructing a minimum spanning tree, and multilayer graph clustering.
+
+Recognizing and Finding Spanning Trees in Graph Theory_
+
+.. _Recognizing and Finding Spanning Trees in Graph Theory: https://www.youtube.com/watch?v=b233VKD6udo
+
 
 
 
