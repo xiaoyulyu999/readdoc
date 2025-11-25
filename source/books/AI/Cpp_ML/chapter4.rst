@@ -103,9 +103,7 @@ Graph vertices correspond to objects, and the edge weights are equal to the dist
 
 The advantages of graph clustering algorithms are their excellent visibility, relative ease of implementation, and their ability to make various improvements based on geometrical considerations. The main graph theory concepts used for clustering are selecting connected components, constructing a minimum spanning tree, and multilayer graph clustering.
 
-Recognizing and Finding Spanning Trees in Graph Theory_
-
-.. _Recognizing and Finding Spanning Trees in Graph Theory: https://www.youtube.com/watch?v=b233VKD6udo
+`SRecognizing and Finding Spanning Trees in Graph Theory <https://www.youtube.com/watch?v=b233VKD6udo>`_
 
 Spectral clustering algorithms
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
