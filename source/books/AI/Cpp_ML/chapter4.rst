@@ -110,4 +110,6 @@ Spectral clustering algorithms
 
 `Stanford University — Watch on YouTube <https://www.youtube.com/watch?v=uxsDKhZHDcc>`_
 
+`Graph Theory Meets Machine Learning: Spectral Clustering Tutorial <https://www.youtube.com/watch?v=boj86QKI0zA>`_
+
 
