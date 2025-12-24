@@ -44,7 +44,7 @@ AI Musings - A Tribute to: Ruan Xiaohuan
 
    projects/springboot_microservice/index
    projects/schedulerAIPowered/index
-   projects/wordpress/index
+   projects/django_crm/index
 
 .. toctree::
    :maxdepth: 1
