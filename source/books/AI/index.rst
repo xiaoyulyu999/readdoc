@@ -17,4 +17,5 @@ AI Books
    build_large_model/index
    statQuest/index
    Cpp_ML/index
+   notes/index
 
