@@ -36,7 +36,7 @@ Role of :math:`x_i`:
 to the positive class. Different features in :math:`x_i` increase or decrease
 the predicted probability.
 
-**Role of :math:`y_i`:**
+Role of :math:`y_i`:
 At this step, :math:`y_i` is not yet used. This is purely the model’s
 prediction based on :math:`x_i`.
 
