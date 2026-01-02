@@ -23,7 +23,7 @@ where:
 
    \sigma(z) = \frac{1}{1 + e^{-z}}
 
-**Role of :math:`x_i`:**
+Role of :math:`x_i`:
 
 * :math:`x_i` is the feature vector representing the input sample.
 * The linear combination :math:`w^T x_i + b` computes a raw score for the
