@@ -52,7 +52,7 @@ of the actual label :math:`y_i` with the Bernoulli formula:
 
    P(y_i \mid x_i) = \hat y_i^{y_i} (1 - \hat y_i)^{1 - y_i}
 
-**Role of :math:`y_i`:**
+Role of :math:`y_i`:
 
 * :math:`y_i` acts as a selector:
   - If :math:`y_i = 1`, the probability is :math:`\hat y_i`.
@@ -60,7 +60,7 @@ of the actual label :math:`y_i` with the Bernoulli formula:
 * This ensures that we only “care” about the probability assigned to the
   correct class.
 
-**Role of :math:`x_i`:**
+Role of :math:`x_i`:
 
 * :math:`x_i` indirectly affects this probability because it determined
   :math:`\hat y_i` in Step 1.
@@ -83,13 +83,13 @@ Assuming samples are independent:
 
    L(w,b) = \prod_{i=1}^{n} P(y_i \mid x_i)
 
-**Role of :math:`y_i`:**
+Role of :math:`y_i`:
 
 * Each label :math:`y_i` selects the correct term in the product for its
   sample.
 * Misclassified samples drastically reduce the total likelihood.
 
-**Role of :math:`x_i`:**
+Role of :math:`x_i`:
 
 * :math:`x_i` affects how large :math:`P(y_i \mid x_i)` is.
 * Samples with features that are hard to classify contribute more strongly
@@ -113,13 +113,13 @@ Step 4 — Take Log to Get Log-Likelihood
 * Converts the product of probabilities into a sum for numerical stability.
 * Each sample’s contribution is now additive, making optimization easier.
 
-**Role of :math:`y_i`:**
+Role of :math:`y_i`:
 
 * :math:`y_i` still selects which term contributes to the sum.
 * If :math:`y_i = 1`, the term is :math:`\ln \hat y_i`.
 * If :math:`y_i = 0`, the term is :math:`\ln (1 - \hat y_i)`.
 
-**Role of :math:`x_i`:**
+Role of :math:`x_i`:
 
 * :math:`x_i` influences :math:`\hat y_i`, which in turn determines
   the log-probability contribution.
@@ -140,13 +140,13 @@ The negative log-likelihood (what we actually minimize) is:
 
    \ell_i = - \Big[y_i \ln \hat y_i + (1 - y_i) \ln (1 - \hat y_i)\Big]
 
-**Role of :math:`y_i`:**
+Role of :math:`y_i`:
 
 * Determines which side of the loss is active:
   - :math:`y_i = 1` → penalizes the model if :math:`\hat y_i` is small.
   - :math:`y_i = 0` → penalizes the model if :math:`\hat y_i` is large.
 
-**Role of :math:`x_i`:**
+Role of :math:`x_i`:
 
 * :math:`x_i` affects :math:`\hat y_i` via the model.
 * Hard-to-classify samples (features that do not strongly indicate the
