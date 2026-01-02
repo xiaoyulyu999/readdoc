@@ -171,7 +171,7 @@ of the observed data under a Bernoulli model:
 
 **Summary of roles:**
 
-* :math:'x_i' → determines the predicted probability :math:`\hat y_i`.
+* :math:`x_i` → determines the predicted probability :math:`\hat y_i`.
 * :math:`y_i` → selects which probability counts as “correct” in the
   likelihood.
 * The loss penalizes the model when :math:`x_i` leads to a prediction that
