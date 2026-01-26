@@ -231,6 +231,7 @@ To fix this:
         x = F.relu(self.conv2(x))
         x = self.pool(x)
         x = self.pool(x) <--
+   Too shallow, The model will learn nothing. The result accuracy is 50% means it just guesses.
 
 .. note::
 
@@ -252,3 +253,16 @@ To fix this:
       ])
       //////////////////////////
       self.fc1 = nn.Linear(16 * 5 * 5, 120)
+   The size of images is smaller but loss a lot of detail
+
+
+The best choice can be change the model from LeNet (designed for 32 * 32) to ResNet18 (convolutional neural network designed for 224×224 images)
+
+.. code-block:: python
+
+   import torchvision.models as models
+   device = "mps" if torch.backends.mps.is_available() else "cpu"
+
+   model = models.resnet18(pretrained=True)
+   model.fc = nn.Linear(512, 2)
+   model = model.to(device)
