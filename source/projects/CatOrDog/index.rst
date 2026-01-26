@@ -209,3 +209,46 @@ After 20 epochs, the model reached:
 This shows that even a simple CNN like LeNet can effectively perform
 binary image classification on cats and dogs when combined with
 proper preprocessing and training.
+
+Problem
+--------
+
+.. code-block:: python
+
+   self.fc1 = nn.Linear(16 * 53 * 53, 120)
+
+The first fc has 5, 393, 280 parameters! The LeNet was designed for reading the image size 32 * 32
+To fix this:
+
+.. note::
+
+   Add more pooling
+
+   .. code-block:: python
+
+        x = F.relu(self.conv1(x))
+        x = self.pool(x)
+        x = F.relu(self.conv2(x))
+        x = self.pool(x)
+        x = self.pool(x) <--
+
+.. note::
+
+   Resize images to 32 * 32.
+
+   .. code-block:: python
+
+      transform.Resize((32, 32))
+      //////////////////////////
+
+      train_transforms = transforms.Compose([
+          transforms.Resize([32, 32]),   # <- change here
+          transforms.ToTensor(),
+      ])
+
+      test_transforms = transforms.Compose([
+          transforms.Resize([32, 32]),   # <- change here
+          transforms.ToTensor(),
+      ])
+      //////////////////////////
+      self.fc1 = nn.Linear(16 * 5 * 5, 120)
