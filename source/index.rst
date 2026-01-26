@@ -41,6 +41,7 @@ AI Musings - A Tribute to: Ruan Xiaohuan
 .. toctree::
    :maxdepth: 1
    :caption: Projects
+
    projects/CatOrDog/index
    projects/schedulerAIPowered/index
    projects/django_crm/index
