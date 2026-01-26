@@ -256,7 +256,7 @@ To fix this:
    The size of images is smaller but loss a lot of detail
 
 
-The best choice can be change the model from LeNet (designed for 32 * 32) to ResNet18 (convolutional neural network designed for 224×224 images)
+The best choice can be changing the model from LeNet (designed for 32 * 32) to ResNet18 (convolutional neural network designed for 224×224 images)
 
 .. code-block:: python
 
