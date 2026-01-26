@@ -266,3 +266,84 @@ The best choice can be changing the model from LeNet (designed for 32 * 32) to R
    model = models.resnet18(pretrained=True)
    model.fc = nn.Linear(512, 2)
    model = model.to(device)
+
+Epoch 1
+loss: 0.831960 [0/480]
+loss: 0.327696 [400/480]
+Accuracy: 100.0%, Avg loss: 0.13268096558749676
+Epoch 2
+loss: 0.142731 [0/480]
+loss: 0.200979 [400/480]
+Accuracy: 100.0%, Avg loss: 0.06832013993213575
+Epoch 3
+loss: 0.027676 [0/480]
+loss: 0.037132 [400/480]
+Accuracy: 100.0%, Avg loss: 0.042580808202425637
+Epoch 4
+loss: 0.015773 [0/480]
+loss: 0.159375 [400/480]
+Accuracy: 100.0%, Avg loss: 0.02732905512675643
+Epoch 5
+loss: 0.145204 [0/480]
+loss: 0.076785 [400/480]
+Accuracy: 100.0%, Avg loss: 0.02395119732245803
+Epoch 6
+loss: 0.085170 [0/480]
+loss: 0.084924 [400/480]
+Accuracy: 100.0%, Avg loss: 0.020820383230845133
+Epoch 7
+loss: 0.006454 [0/480]
+loss: 0.005942 [400/480]
+Accuracy: 100.0%, Avg loss: 0.015191611143139501
+Epoch 8
+loss: 0.078428 [0/480]
+loss: 0.009044 [400/480]
+Accuracy: 100.0%, Avg loss: 0.010916504779985795
+Epoch 9
+loss: 0.038217 [0/480]
+loss: 0.061903 [400/480]
+Accuracy: 100.0%, Avg loss: 0.014720110261502365
+Epoch 10
+loss: 0.007591 [0/480]
+loss: 0.063153 [400/480]
+Accuracy: 100.0%, Avg loss: 0.012034913327079266
+Epoch 11
+loss: 0.798543 [0/480]
+loss: 0.013305 [400/480]
+Accuracy: 100.0%, Avg loss: 0.011147843091748655
+Epoch 12
+loss: 0.025731 [0/480]
+loss: 1.220648 [400/480]
+Accuracy: 100.0%, Avg loss: 0.009033751945632199
+Epoch 13
+loss: 0.047058 [0/480]
+loss: 0.709167 [400/480]
+Accuracy: 100.0%, Avg loss: 0.00851133301621303
+Epoch 14
+loss: 0.017307 [0/480]
+loss: 0.891749 [400/480]
+Accuracy: 100.0%, Avg loss: 0.010462252660848511
+Epoch 15
+loss: 1.194395 [0/480]
+loss: 0.013166 [400/480]
+Accuracy: 100.0%, Avg loss: 0.013428901451212975
+Epoch 16
+loss: 0.013937 [0/480]
+loss: 0.001417 [400/480]
+Accuracy: 100.0%, Avg loss: 0.0060176165619244175
+Epoch 17
+loss: 0.019566 [0/480]
+loss: 0.018773 [400/480]
+Accuracy: 100.0%, Avg loss: 0.006776365474797786
+Epoch 18
+loss: 0.001461 [0/480]
+loss: 0.053924 [400/480]
+Accuracy: 100.0%, Avg loss: 0.006957509882825738
+Epoch 19
+loss: 0.009045 [0/480]
+loss: 0.002122 [400/480]
+Accuracy: 100.0%, Avg loss: 0.006715904110266516
+Epoch 20
+loss: 0.002422 [0/480]
+loss: 0.001453 [400/480]
+Accuracy: 100.0%, Avg loss: 0.011973593776929192
