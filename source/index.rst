@@ -43,6 +43,7 @@ AI Musings - A Tribute to: Ruan Xiaohuan
    :caption: Projects
 
    projects/CatOrDog/index
+   projects/MNIST/index
    projects/schedulerAIPowered/index
    projects/django_crm/index
 
