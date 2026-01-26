@@ -6,13 +6,13 @@ It is based on a practical deep learning workflow including data preprocessing, 
 construction, training, and evaluation.
 
 Project Info
-============
+----------------------------
 - Series: *Deep Learning 100 Examples – PyTorch Edition*
 - Dataset: https://pan.baidu.com/s/1YREL1omT9YJrp9B1PBPTfQ
 - Extraction Code: ionw
 
 Environment
-===========
+----------------------------
 
 - Python 3.8
 - Jupyter Lab
@@ -20,7 +20,7 @@ Environment
 - torchvision==0.11.1+cu113
 
 Import Libraries
-================
+----------------------------
 
 .. code-block:: python
 
@@ -34,7 +34,7 @@ Import Libraries
    import numpy as np
 
 Dataset and Preprocessing
-=========================
+----------------------------
 
 Dataset directories:
 
@@ -83,7 +83,7 @@ Transforms
    ])
 
 Dataset Loading
-===============
+----------------------------
 
 .. code-block:: python
 
@@ -101,7 +101,7 @@ Sample batch shape:
    y: [4]
 
 Model Architecture
-==================
+----------------------------
 
 The model is based on **LeNet**, adapted for RGB images and 224×224 resolution.
 
@@ -136,7 +136,7 @@ The model is based on **LeNet**, adapted for RGB images and 224×224 resolution.
    model = LeNet().to(device)
 
 Loss Function and Optimizer
-==========================
+----------------------------
 
 .. code-block:: python
 
@@ -144,7 +144,7 @@ Loss Function and Optimizer
    optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
 
 Training Function
-=================
+----------------------------
 
 .. code-block:: python
 
@@ -166,7 +166,7 @@ Training Function
                print(f"loss: {loss:>7f} [{current}/{size}]")
 
 Testing Function
-================
+----------------------------
 
 .. code-block:: python
 
@@ -188,7 +188,7 @@ Testing Function
        print(f"Accuracy: {100*correct:.1f}%, Avg loss: {test_loss}")
 
 Training Process
-================
+----------------------------
 
 .. code-block:: python
 
@@ -199,7 +199,7 @@ Training Process
        test(test_loader, model, loss_fn)
 
 Final Result
-============
+----------------------------
 
 After 20 epochs, the model reached:
 
