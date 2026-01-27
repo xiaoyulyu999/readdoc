@@ -236,3 +236,22 @@ Evaluate
 
    # Test Accuracy: 96.71%
 
+Can make it better?
+-------------------
+
+1. MLP loses spatial information:
+
+   28 × 28 image → 784 vector → Linear layers → output
+
+   - Every pixel is treated as an independent feature
+
+   - The model does not know which pixels are next to each other
+
+   - Local patterns like vertical/horizontal strokes are not explicitly detected
+
+   - The network has to learn relationships from scratch, which is harder
+
+2. CNN preserves spatial structure:
+
+   Conv2d + ReLU → detects edges and small patterns
+   Pooling → focuses on important regions
