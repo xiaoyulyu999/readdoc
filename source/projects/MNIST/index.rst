@@ -139,23 +139,6 @@ This maps the 64 high-level features into **10 output values**, one for each dig
 These values are called **logits** and represent how strongly the model believes the input belongs to each digit class.
 The class with the highest logit is chosen as the predicted digit.
 
-
-Why This Architecture Works
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The network gradually reduces dimensionality::
-
-    784 → 128 → 64 → 10
-
-This allows the model to:
-
-- Extract meaningful features
-- Remove irrelevant information
-- Perform robust classification
-
-The architecture is small enough to avoid overfitting, but deep enough to learn the important patterns in MNIST.
-
-
 Intuition
 ~~~~~~~~~~~~~
 
