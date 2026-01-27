@@ -33,3 +33,134 @@ Data Loader
       transforms.ToTensor(),
       transforms.Normalize((0.5,), (0.5,))
       ])
+
+   # Download the dataset
+   train_dataset = torchvision.datasets.MNIST(root='./data', train=True, download=True, transform=transform)
+   test_dataset = torchvision.datasets.MNIST(root='./data', train=False, download=True, transform=transform)
+
+   # dataloader
+   train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
+   test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
+
+MLP
+---
+
+.. code-block:: python
+
+   class MNISTModel(nn.Module):
+       def __init__(self):
+           super().__init__()
+           self.flatten = nn.Flatten()
+           self.fc1 = nn.Linear(28 * 28, 128)
+           self.fc2 = nn.Linear(128, 64)
+           self.fc3 = nn.Linear(64, 10)
+           self.relu = nn.ReLU()
+
+       def forward(self, x):
+           x = self.flatten(x)
+           x = self.relu(self.fc1(x))
+           x = self.relu(self.fc2(x))
+           x = self.fc3(x)
+           return x
+
+
+This model is a **Multi-Layer Perceptron (MLP)** designed to classify handwritten digits from the MNIST dataset.
+Each MNIST image has size **28 × 28** pixels and is converted into a vector of **784 values** before being processed by the network.
+
+The goal of the model is to learn a mapping from an input image to one of the **10 digit classes (0–9)**.
+
+Overall structure::
+
+    Image → Vector → Feature Extraction → Digit Classification
+
+
+Flatten Layer
+-------------
+
+The MNIST images are provided in the shape::
+
+    (batch_size, 1, 28, 28)
+
+MLP layers only accept 1D vectors, so the input is flattened into::
+
+    (batch_size, 784)
+
+Each pixel becomes one input feature to the neural network.
+
+
+First Fully Connected Layer (fc1)
+--------------------------------
+
+The first linear layer is defined as::
+
+    nn.Linear(28*28, 128)
+
+This layer maps **784 input pixels** to **128 learned features**.
+Each neuron learns a weighted combination of pixels, allowing the network to detect simple patterns such as:
+
+- Vertical strokes
+- Horizontal strokes
+- Bright regions
+- Edges and curves
+
+This is the first stage of feature extraction.
+
+
+ReLU Activation
+---------------
+
+After each linear layer, a ReLU activation is applied::
+
+    ReLU(x) = max(0, x)
+
+ReLU introduces **non-linearity**, which allows the network to model complex shapes and patterns.
+Without ReLU, the entire network would behave like a single linear transformation and would not be powerful enough to recognize digits.
+
+
+Second Fully Connected Layer (fc2)
+---------------------------------
+
+The second linear layer is::
+
+    nn.Linear(128, 64)
+
+This layer compresses the 128 extracted features into **64 more abstract features**.
+These neurons learn higher-level digit components such as loops, corners, and curves by combining the simpler features learned in the first layer.
+
+
+Output Layer (fc3)
+-----------------
+
+The final layer is::
+
+    nn.Linear(64, 10)
+
+This maps the 64 high-level features into **10 output values**, one for each digit (0–9).
+These values are called **logits** and represent how strongly the model believes the input belongs to each digit class.
+The class with the highest logit is chosen as the predicted digit.
+
+
+Why This Architecture Works
+---------------------------
+
+The network gradually reduces dimensionality::
+
+    784 → 128 → 64 → 10
+
+This allows the model to:
+
+- Extract meaningful features
+- Remove irrelevant information
+- Perform robust classification
+
+The architecture is small enough to avoid overfitting, but deep enough to learn the important patterns in MNIST.
+
+
+Intuition
+---------
+
+The model can be understood as::
+
+    784 pixel sensors → 128 pattern detectors → 64 digit components → 10 digit scores
+
+This hierarchical processing is why this MLP achieves around **97% accuracy** on MNIST.
