@@ -75,7 +75,7 @@ Overall structure::
 
 
 Flatten Layer
--------------
+~~~~~~~~~~~~~
 
 The MNIST images are provided in the shape::
 
@@ -89,7 +89,7 @@ Each pixel becomes one input feature to the neural network.
 
 
 First Fully Connected Layer (fc1)
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The first linear layer is defined as::
 
@@ -107,7 +107,7 @@ This is the first stage of feature extraction.
 
 
 ReLU Activation
----------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After each linear layer, a ReLU activation is applied::
 
@@ -118,7 +118,7 @@ Without ReLU, the entire network would behave like a single linear transformatio
 
 
 Second Fully Connected Layer (fc2)
----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The second linear layer is::
 
@@ -129,7 +129,7 @@ These neurons learn higher-level digit components such as loops, corners, and cu
 
 
 Output Layer (fc3)
------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The final layer is::
 
@@ -141,7 +141,7 @@ The class with the highest logit is chosen as the predicted digit.
 
 
 Why This Architecture Works
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The network gradually reduces dimensionality::
 
@@ -157,10 +157,69 @@ The architecture is small enough to avoid overfitting, but deep enough to learn 
 
 
 Intuition
----------
+~~~~~~~~~~~~~
 
 The model can be understood as::
 
     784 pixel sensors → 128 pattern detectors → 64 digit components → 10 digit scores
 
 This hierarchical processing is why this MLP achieves around **97% accuracy** on MNIST.
+
+Define loss function and optimizer
+----------------------------------
+
+.. code-block:: python
+
+   criterion = nn.CrossEntropyLoss()
+   optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+Training the Model
+------------------
+
+.. code-block:: python
+
+   device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+   model.to(device)
+
+   epochs = 5
+   for epoch in range(epochs):
+       model.train()
+       running_loss = 0.0
+       for images, labels in train_loader:
+           images, labels = images.to(device), labels.to(device)
+
+           optimizer.zero_grad()           # 1
+           outputs = model(images)         # 2
+           loss = criterion(outputs, labels)  # 3
+           loss.backward()                 # 4
+           optimizer.step()                # 5
+
+           running_loss += loss.item()
+
+       print(f"Epoch [{epoch+1}/{epochs}], Loss: {running_loss/len(train_loader):.4f}")
+
+.. admonition:: 1.
+
+   PyTorch accumulates gradients by default. If you don't clear them:
+   - gradients pile up
+   - learning becomes wrong
+
+.. admonition:: 2.
+
+   runs in the model: images → flatten → fc1 → ReLU → fc2 → ReLU → fc3 → logits
+
+.. admonition:: 3.
+
+   inputs : logits & ture labels
+   - logits -> softmax -> log -> compare with labels
+   - Loss answers: How wrong is the model right now?
+
+.. admonition:: 4.
+
+   This is where learning signals are computed. Computes gradients for every weight.
+
+.. admonition:: 5.
+
+   - new_weight = old_weight - learning_rate * gradient
+   - This is actual learning step. Learning rate is adaptive. Momentum is applied.
+
