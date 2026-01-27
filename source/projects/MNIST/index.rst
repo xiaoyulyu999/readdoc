@@ -206,3 +206,33 @@ Training the Model
    - new_weight = old_weight - learning_rate * gradient
    - This is actual learning step. Learning rate is adaptive. Momentum is applied.
 
+.. code-block:: python
+   '''
+   Epoch [1/5], Loss: 0.3845
+   Epoch [2/5], Loss: 0.1809
+   Epoch [3/5], Loss: 0.1325
+   Epoch [4/5], Loss: 0.1036
+   Epoch [5/5], Loss: 0.0880
+   '''
+
+Evaluate
+---------
+
+.. code-block:: python
+
+   model.eval()
+   correct = 0
+   total = 0
+
+   with torch.no_grad():
+       for images, labels in test_loader:
+           images, labels = images.to(device), labels.to(device)
+           outputs = model(images)
+           _, predicted = torch.max(outputs, 1)
+           total += labels.size(0)
+           correct += (predicted == labels).sum().item()
+
+   print(f"Test Accuracy: {100 * correct / total:.2f}%")
+
+   # Test Accuracy: 96.71%
+
