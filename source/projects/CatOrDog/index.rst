@@ -348,3 +348,8 @@ The best choice can be changing the model from LeNet (designed for 32 * 32) to R
    loss: 0.001453 [400/480]
    Accuracy: 100.0%, Avg loss: 0.011973593776929192
    '''
+
+.. warning:: NOT GOOD
+
+   ResNet18 is showing 100% training and test accuracy after just a few epochs. While that looks impressive, it’s a classic sign of overfitting or a dataset/setup issue, not necessarily a perfect model.
+
