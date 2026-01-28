@@ -255,3 +255,33 @@ Can make it better?
 
    Conv2d + ReLU → detects edges and small patterns
    Pooling → focuses on important regions
+
+.. code-block:: python
+
+   import torch.nn.functional as F
+
+   class CNN(nn.Module):
+       def __init__(self):
+           super(CNN, self).__init__()
+           # assuming MNIST: 1x28x28
+           self.conv1 = nn.Conv2d(1, 32, 3)   # no padding, 32 filters of size 3×3 sliding over input.
+           self.conv2 = nn.Conv2d(32, 64, 3)  # Takes the 32 maps and learns 64 deeper ones.
+           self.pool = nn.MaxPool2d(3, 3)     # Takes the max value in every 3×3 block.
+           self.dropout = nn.Dropout(0.5)     # Randomly zeroes 50% of neurons during training.
+
+           # compute size:
+           # 28 → 26 → 24 → pool(3) → 8
+           self.fc1 = nn.Linear(64 * 8 * 8, 250)
+           self.fc2 = nn.Linear(250, 10)
+
+       def forward(self, x):
+           x = F.relu(self.conv1(x))   # (B,32,26,26)
+           x = F.relu(self.conv2(x))   # (B,64,24,24)
+           x = self.pool(x)            # (B,64,8,8)
+           x = self.dropout(x)
+           x = x.view(x.size(0), -1)
+           x = torch.sigmoid(self.fc1(x))
+           x = self.fc2(x)             # logits
+           return x
+
+Don't need padding since the number is at center of the image.
