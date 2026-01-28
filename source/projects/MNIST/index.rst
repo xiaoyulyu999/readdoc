@@ -284,4 +284,6 @@ Can make it better?
            x = self.fc2(x)             # logits
            return x
 
+   # Test Accuracy: 98.58%
+
 Don't need padding since the number is at center of the image.
