@@ -263,7 +263,7 @@ Can make it better?
    class CNN(nn.Module):
        def __init__(self):
            super(CNN, self).__init__()
-           # assuming MNIST: 1x28x28
+           # MNIST: 1x28x28
            self.conv1 = nn.Conv2d(1, 32, 3)   # no padding, 32 filters of size 3×3 sliding over input.
            self.conv2 = nn.Conv2d(32, 64, 3)  # Takes the 32 maps and learns 64 deeper ones.
            self.pool = nn.MaxPool2d(3, 3)     # Takes the max value in every 3×3 block.
