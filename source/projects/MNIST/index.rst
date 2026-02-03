@@ -287,3 +287,35 @@ Can make it better?
    # Test Accuracy: 98.58%
 
 Don't need padding since the number is at center of the image.
+
+Why does CNN work better in here?
+=================================
+
+1. What Conv layers do:
+   - Learn local pattern: edges, corners, strokes.
+   - Use shared weights: the same filter scans the whole image.
+   - Preserve spatial relationships.
+   It learns "This shape looks like a curve -> part of digit 3."
+
+2. Hierarchical feature learning.
+
+   conv1 1 -> 32: learns edges, lines, blobs.
+   conv2 32 -> 64: Combines those into curves, corners, digit parts (loop of "6")
+   Just like human vision works: pixels -> edges -> shapes -> objects.
+MLP can't do this naturally.
+
+3. Less overfitting, parameter efficiency.
+   - MLP 400,00 params
+   - CNN: conv1 32 * (1 * 3 * 3) = 288, conv2: 64 * (32 * 3 * 3) = 18k
+
+4. Pooling gives translation invariance.
+   - If a stroke shifts slightly left/right. The feature still survives.
+   - The model doesn't care about the position, only shape.
+   - People don't write in the exact same spot, right?
+
+5. Dropout fights overfitting.
+   - Randomly removes 50% of neurons, forces network to not rely on single features.
+
+6. Relu, Nonlinearity after every stage.
+   - Without ReLu:
+   - The whole network collapses into a linear function. Can't model complex shapes.
