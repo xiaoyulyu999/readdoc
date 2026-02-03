@@ -292,6 +292,7 @@ Why does CNN work better in here?
 =================================
 
 1. What Conv layers do:
+
    - Learn local pattern: edges, corners, strokes.
    - Use shared weights: the same filter scans the whole image.
    - Preserve spatial relationships.
@@ -305,17 +306,21 @@ Why does CNN work better in here?
 MLP can't do this naturally.
 
 3. Less overfitting, parameter efficiency.
+
    - MLP 400,00 params
    - CNN: conv1 32 * (1 * 3 * 3) = 288, conv2: 64 * (32 * 3 * 3) = 18k
 
 4. Pooling gives translation invariance.
+
    - If a stroke shifts slightly left/right. The feature still survives.
    - The model doesn't care about the position, only shape.
    - People don't write in the exact same spot, right?
 
 5. Dropout fights overfitting.
+
    - Randomly removes 50% of neurons, forces network to not rely on single features.
 
 6. Relu, Nonlinearity after every stage.
+
    - Without ReLu:
    - The whole network collapses into a linear function. Can't model complex shapes.
