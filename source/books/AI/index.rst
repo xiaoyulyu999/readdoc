@@ -14,6 +14,7 @@ AI Books
 .. toctree::
    :maxdepth: 2
 
+   Deep_Learning_with_R/index
    build_large_model/index
    statQuest/index
    Cpp_ML/index

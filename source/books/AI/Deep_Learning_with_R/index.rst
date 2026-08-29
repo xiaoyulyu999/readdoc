@@ -1,0 +1,32 @@
+
+.. figure:: images/deep-learning-with-r-second-edition-9781638350781_hr.jpg
+   :alt: A sample figure
+   :width: 500px
+   :align: center
+
+----
+
+
+Deep Learning with R
+===========================================
+
+Author:
+J.J. Allaire, Francois Chollet
+
+.. important::
+
+   Disclaimer
+   This work is a personal analysis and annotation of the book [Deep Learning with R], created solely for educational and non-commercial purposes. All original content remains the property of the respective authors and publishers. No copyright infringement is intended. The content presented here is intended to support learning and academic discussion only.
+
+   免责声明
+   本作品仅为个人对《Deep Learning with R》的分析与备注，目的仅限于学习和非商业用途。所有原始内容的版权归原作者及出版方所有，本文无意侵犯版权。所呈现内容仅用于学习与学术交流。
+
+
+Welcome to this guide...
+
+- Version: 1.0
+- Date: June 2025
+
+.. toctree::
+   :maxdepth: 2
+
