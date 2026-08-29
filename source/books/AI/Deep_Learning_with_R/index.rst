@@ -30,3 +30,7 @@ Welcome to this guide...
 .. toctree::
    :maxdepth: 2
 
+   chapter1
+   chapter2
+   chapter3
+   chapter4
