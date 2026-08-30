@@ -1,7 +1,7 @@
 Chapter 2. Before we begin: the mathematical building blocks of neural networks
 ===============================================================================
 
-Start with MNIST dataset in Keras. (Of course!)
+#Start with MNIST dataset in Keras. (Of course!)
 
 .. code-block:: R
 
@@ -71,7 +71,7 @@ Preparing the image data.
    train_images <- array_reshape(train_images, c(60000, 28 * 28)) # reshape a Matrix into an array.
    train_images <- train_images / 255 # Normalization
 
-   test_images <- array_reshape(test_images, c(60000, 28 * 28))
+   test_images <- array_reshape(test_images, c(10000, 28 * 28))
    test_images <- test_images / 255
 
 Preparing the labels.
@@ -85,3 +85,39 @@ Preparing the labels.
 
    Our output layer looks like : [0.01, 0.02, 0.01, 0.03, 0.02, 0.85, 0.01, 0.02, 0.02, 0.03] -> prediction is 5. (0.85). VS Actual: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0], then optimizer will change weights base on this loss. Moreover, we choosed "categorical_crossentropy" as loss function from beginning.
 
+RUN
+
+.. code-block:: R
+
+   network %>% fit(train_images, train_labels, epochs = 5, batch_size = 128)
+   /*
+   Epoch 1/5
+   469/469 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9222 - loss: 0.2688
+   469/469 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9222 - loss: 0.2688
+   Epoch 2/5
+   469/469 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9673 - loss: 0.1102
+   469/469 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9673 - loss: 0.1102
+   Epoch 3/5
+   469/469 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9785 - loss: 0.0715
+   469/469 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9785 - loss: 0.0715
+   Epoch 4/5
+   469/469 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9844 - loss: 0.0517
+   469/469 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9844 - loss: 0.0517
+   Epoch 5/5
+   469/469 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9884 - loss: 0.0390
+   469/469 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9884 - loss: 0.0390 */
+
+   metrics <- network %>% evaluate(test_images, test_labels)
+   metrics
+   /*
+   $accuracy
+   [1] 0.9811
+
+   $loss
+   [1] 0.06619187
+   */
+
+##Data representations for neural networks
+
+- What is tensor?
+Tensors are a generalization of vectors and matrices to an arbitrary number of dimensions (note that in the context of tensors, a *dimension* is often called an *axis*). In R, vectors are used to create and manipulate 1D tensors, and matrices are used for 2D tensors. For higher-level dimensions, *array* objects (which support any number of dimensions) are used.
