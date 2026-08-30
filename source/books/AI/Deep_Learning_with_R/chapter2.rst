@@ -83,7 +83,5 @@ Preparing the labels.
 
 .. important:: Why we need this step?
 
-   Our output layer looks like : [0.01, 0.02, 0.01, 0.03, 0.02,
- 0.85, 0.01, 0.02, 0.02, 0.03] -> prediction is 5. (0.85). VS Actual:
-   [0, 0, 0, 0, 0, 1, 0, 0, 0, 0], then optimizer will change weights base on this loss. Moreover, we choosed "categorical_crossentropy" as loss function from beginning.
+   Our output layer looks like : [0.01, 0.02, 0.01, 0.03, 0.02, 0.85, 0.01, 0.02, 0.02, 0.03] -> prediction is 5. (0.85). VS Actual: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0], then optimizer will change weights base on this loss. Moreover, we choosed "categorical_crossentropy" as loss function from beginning.
 
