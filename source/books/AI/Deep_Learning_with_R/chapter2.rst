@@ -1,7 +1,8 @@
 Chapter 2. Before we begin: the mathematical building blocks of neural networks
 ===============================================================================
 
-#Start with MNIST dataset in Keras. (Of course!)
+Start with MNIST dataset in Keras. (Of course!)
+------------------------------------------------
 
 .. code-block:: R
 
@@ -117,7 +118,8 @@ RUN
    [1] 0.06619187
    */
 
-##Data representations for neural networks
+Data representations for neural networks
+----------------------------------------
 
 - What is tensor?
 Tensors are a generalization of vectors and matrices to an arbitrary number of dimensions (note that in the context of tensors, a *dimension* is often called an *axis*). In R, vectors are used to create and manipulate 1D tensors, and matrices are used for 2D tensors. For higher-level dimensions, *array* objects (which support any number of dimensions) are used.
