@@ -4,6 +4,7 @@ Chapter 2. Before we begin: the mathematical building blocks of neural networks
 Start with MNIST dataset in Keras. (Of course!)
 
 .. code-block:: R
+
    library(keras3)
 
    # Loading the MNIST dataset from Keras3
