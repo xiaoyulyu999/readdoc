@@ -123,3 +123,11 @@ Data representations for neural networks
 
 - What is a tensor?
 Tensors are a generalization of vectors and matrices to an arbitrary number of dimensions (note that in the context of tensors, a *dimension* is often called an *axis*). In R, vectors are used to create and manipulate 1D tensors, and matrices are used for 2D tensors. For higher-level dimensions, *array* objects (which support any number of dimensions) are used.
+
+.. note:: Real-world examples of data tensors
+
+   - Vector data—2D tensors of shape (samples, features).
+   - Timeseries data or sequence data—3D tensors of shape (samples, timesteps, features).
+   - Images—4D tensors of shape (samples, height, width, channels) or (samples, channels, height, width).
+   - Video—5D tensors of shape (samples, frames, height, width, channels) or (samples, frames, channels, height, width).
+
