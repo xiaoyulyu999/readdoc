@@ -143,7 +143,9 @@ Whenever time matters in your data (or the notion of sequence order), it makes s
 
 .. image:: c2/2.png
 
-:mark:`The time axis is always the second axis, by convention.`
+.. role:: highlight-box
+
+   :highlight-box:`The time axis is always the second axis, by convention.`
 
 - 1. A dataset of stock prices. Every minute, we store the current price of the stock, the highest price in the past minute, and the lowest price in the past minute. Thus, every minute is encoded as a 3D vector, an entire day of trading is encoded as a 2D tensor of shape (390, 3) (there are 390 minutes in a trading day), and 250 days’ worth of data can be stored in a 3D tensor of shape (250, 390, 3). Here, each sample would be one day’s worth of data.
 
