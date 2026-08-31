@@ -159,6 +159,8 @@ Images typically have three dimensions: height, width, and color depth. Although
 .. image:: c2/3.png
 
 There are two conventions for shapes of images tensors:
+
 - the channels-last convention (used by TensorFlow).(samples, height, width, color_depth)
+
 - the channels-first convention (used by Theano).(samples, color_depth, height, width)
 
