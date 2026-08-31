@@ -151,3 +151,14 @@ Whenever time matters in your data (or the notion of sequence order), it makes s
 
 - 2. A dataset of tweets, where we encode each tweet as a sequence of 140 characters out of an alphabet of 128 unique characters. In this setting, each character can be encoded as a binary vector of size 128 (an all-zeros vector except for a 1 entry at the index corresponding to the character). Then each tweet can be encoded as a 2D tensor of shape (140, 128), and a dataset of 1 million tweets can be stored in a tensor of shape (1000000, 140, 128).
 
+Image data
+~~~~~~~~~~
+
+Images typically have three dimensions: height, width, and color depth. Although grayscale images (like our MNIST digits) have only a single color channel and could thus be stored in 2D tensors, by convention image tensors are always 3D, with a one-dimensional color channel for grayscale images. A batch of 128 grayscale images of size 256 × 256 could thus be stored in a tensor of shape (128, 256, 256, 1), and a batch of 128 color images could be stored in a tensor of shape (128, 256, 256, 3).
+
+.. image:: c2/3.png
+
+There are two conventions for shapes of images tensors:
+- the channels-last convention (used by TensorFlow).(samples, height, width, color_depth)
+- the channels-first convention (used by Theano).(samples, color_depth, height, width)
+
