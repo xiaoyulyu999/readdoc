@@ -164,3 +164,42 @@ There are two conventions for shapes of images tensors:
 
 - the channels-first convention (used by Theano).(samples, color_depth, height, width)
 
+Video data
+~~~~~~~~~~~
+Video data is one of the few types of real-world data for which you’ll need 5D tensors. A video can be understood as a sequence of frames, each frame being a color image. Because each frame can be stored in a 3D tensor (height, width, color_depth), a sequence of frames can be stored in a 4D tensor (frames, height, width, color_depth), and thus a batch of different videos can be stored in a 5D tensor of shape (samples, frames, height, width, color_depth).
+
+For instance, a 60-second, 144 × 256 YouTube video clip sampled at 4 frames per second would have 240 frames. A batch of four such video clips would be stored in a tensor of shape (4, 240, 144, 256, 3). That’s a total of 106,168,320 values! If the data type of the tensor is double, then each value is stored in 64 bits, so the tensor would represent 810 MB. Heavy! Videos you encounter in real life are much lighter, because they aren’t stored as double and they’re typically compressed by a large factor (such as in the MPEG format).
+
+Element-wise operations
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+relu
+
+.. code-block:: R
+
+   naive_relu <- function(x){
+      for (i in nrow(x)) {
+         for (j in ncol(x){
+         x[i, j] <- max(x[i, j], 0)
+         }
+      }
+      x
+   }
+
+In practice, when dealing with R arrays, these operations are available as well-optimized built-in R functions, which themselves delegate the heavy lifting to a BLAS implementation (Basic Linear Algebra Subprograms) if you have one installed (which you should). BLAS are low-level, highly parallel, efficient tensor-manipulation routines typically implemented in Fortran or C.
+
+.. code-block:: R
+
+   z <- x + y                1
+   z <- pmax(z, 0)           2
+   # 1. Element-wise addition
+   # 2. Element-wise relu
+
+Operations involving tensors of different dimensions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The R sweep() function enables you to perform operations between higher-dimension tensors and lower-dimension tensors. With sweep(), we could perform the matrix plus vector addition described earlier as follows:
+
+.. code-block:: R
+
+   sweep(x, 2, y, `+`)
