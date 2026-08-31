@@ -131,3 +131,18 @@ Tensors are a generalization of vectors and matrices to an arbitrary number of d
    - Images—4D tensors of shape (samples, height, width, channels) or (samples, channels, height, width).
    - Video—5D tensors of shape (samples, frames, height, width, channels) or (samples, frames, channels, height, width).
 
+Vector data
+~~~~~~~~~~~
+
+This is the most common case. In such a dataset, each single data point can be encoded as a vector, and thus a batch of data will be encoded as a 2D tensor (that is, an array of vectors), where the first axis is the samples axis and the second axis is the features axis.
+
+Timeseries data or sequence data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Whenever time matters in your data (or the notion of sequence order), it makes sense to store it in a 3D tensor with an explicit time axis. Each sample can be encoded as a sequence of vectors (a 2D tensor), and thus a batch of data will be encoded as a 3D tensor.
+
+.. image:: c2/2.png
+
+:mark:`The time axis is always the second axis, by convention.`
+
+
