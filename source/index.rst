@@ -34,6 +34,12 @@ AI Musings - A Tribute to: Ruan Xiaohuan
 
 .. toctree::
    :maxdepth: 1
+   :caption: Blog
+
+   blogs/paper/index
+
+.. toctree::
+   :maxdepth: 1
    :caption: AWS
 
    AWS/AWS Certified Machine Learning Engineer Associate/index
@@ -53,9 +59,5 @@ AI Musings - A Tribute to: Ruan Xiaohuan
 
 
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Blog
 
-   blogs/tech/index
 

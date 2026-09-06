@@ -203,3 +203,13 @@ The R sweep() function enables you to perform operations between higher-dimensio
 .. code-block:: R
 
    sweep(x, 2, y, `+`)
+
+.. note::
+
+   sweep(x, 2, y, `+`)
+         │  │  │    │
+         │  │  │    └── 做什么运算：加法
+         │  │  └─────── 要加的值 y
+         │  └────────── 沿着 x 的第 2 个维度
+         └───────────── 原始 array x
+
