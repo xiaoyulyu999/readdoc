@@ -1,5 +1,5 @@
 论文研读
-=============
+=======
 
 .. toctree::
    :maxdepth: 2
@@ -7,6 +7,3 @@
    bootstrap/index
 
 
-.. toctree::
-   :maxdepth: 2
-   :caption: 蛋白质 医药 化学
