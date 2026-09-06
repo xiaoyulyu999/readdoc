@@ -1,6 +1,3 @@
-from pathlib import Path
-
-rst = r"""
 Efron (1979): Bootstrap Methods — 全文知识点总结
 ================================================
 
