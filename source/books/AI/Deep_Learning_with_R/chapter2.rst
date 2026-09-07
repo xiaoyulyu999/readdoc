@@ -1546,14 +1546,6 @@ Epoch
 如果这十个问题都能回答，通常就已经理解了这个 neural network 的基本训练逻辑。
 """
 
-out = Path("/mnt/data/deep_learning_chapter2_summary.rst")
-out.write_text(rst, encoding="utf-8")
-print(f"Created: {out}")
-print(f"Lines: {len(rst.splitlines())}")
-
-STDOUT/STDERR
-Created: /mnt/data/deep_learning_chapter2_summary.rst
-Lines: 1345
 
 31. Why ``dz/dw1 = x1`` in Gradient Descent?
 =============================================
