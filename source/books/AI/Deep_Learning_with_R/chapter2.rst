@@ -1554,3 +1554,348 @@ print(f"Lines: {len(rst.splitlines())}")
 STDOUT/STDERR
 Created: /mnt/data/deep_learning_chapter2_summary.rst
 Lines: 1345
+
+31. Why ``dz/dw1 = x1`` in Gradient Descent?
+=============================================
+
+Consider a single neuron before applying the activation function:
+
+.. math::
+
+   z = w_1x_1 + w_2x_2 + b
+
+where:
+
+``x1, x2``
+   Input features.
+
+``w1, w2``
+   Trainable weights.
+
+``b``
+   Bias.
+
+``z``
+   The neuron's linear output before the activation function.
+
+
+Partial Derivative with Respect to ``w1``
+------------------------------------------
+
+We want to know:
+
+.. math::
+
+   \frac{\partial z}{\partial w_1}
+
+This means:
+
+**If ``w1`` changes slightly, how much will ``z`` change?**
+
+When taking the partial derivative with respect to ``w1``, all other variables are treated as constants:
+
+.. math::
+
+   \frac{\partial z}{\partial w_1}
+   =
+   \frac{\partial}{\partial w_1}
+   (w_1x_1 + w_2x_2 + b)
+
+Separate the terms:
+
+.. math::
+
+   \frac{\partial z}{\partial w_1}
+   =
+   \frac{\partial(w_1x_1)}{\partial w_1}
+   +
+   \frac{\partial(w_2x_2)}{\partial w_1}
+   +
+   \frac{\partial b}{\partial w_1}
+
+Because ``x1`` is treated as a constant:
+
+.. math::
+
+   \frac{\partial(w_1x_1)}{\partial w_1}
+   =
+   x_1
+   \frac{\partial w_1}{\partial w_1}
+
+and:
+
+.. math::
+
+   \frac{\partial w_1}{\partial w_1} = 1
+
+Therefore:
+
+.. math::
+
+   \frac{\partial(w_1x_1)}{\partial w_1}
+   =
+   x_1
+
+The other terms do not contain ``w1``:
+
+.. math::
+
+   \frac{\partial(w_2x_2)}{\partial w_1} = 0
+
+and:
+
+.. math::
+
+   \frac{\partial b}{\partial w_1} = 0
+
+Therefore:
+
+.. important::
+
+   .. math::
+
+      \boxed{
+      \frac{\partial z}{\partial w_1} = x_1
+      }
+
+
+Intuitive Example
+-----------------
+
+Suppose:
+
+.. math::
+
+   z = 3w_1 + 2w_2 + 1
+
+and keep:
+
+.. math::
+
+   w_2 = 4
+
+Then:
+
+.. math::
+
+   z = 3w_1 + 9
+
+Try different values of ``w1``:
+
+.. code-block:: text
+
+   w1 = 1  ->  z = 12
+
+   w1 = 2  ->  z = 15
+
+   w1 = 3  ->  z = 18
+
+Every time ``w1`` increases by ``1``, ``z`` increases by ``3``.
+
+Therefore the slope of ``z`` with respect to ``w1`` is:
+
+.. math::
+
+   \frac{\partial z}{\partial w_1} = 3
+
+Because:
+
+.. math::
+
+   x_1 = 3
+
+we again get:
+
+.. math::
+
+   \boxed{
+   \frac{\partial z}{\partial w_1} = x_1
+   }
+
+
+Meaning in a Neural Network
+---------------------------
+
+The equation:
+
+.. math::
+
+   \frac{\partial z}{\partial w_1} = x_1
+
+tells us how sensitive the neuron's output ``z`` is to changes in the weight ``w1``.
+
+If:
+
+.. math::
+
+   x_1 = 100
+
+then:
+
+.. math::
+
+   \frac{\partial z}{\partial w_1} = 100
+
+A small change in ``w1`` can cause a relatively large change in ``z``.
+
+But if:
+
+.. math::
+
+   x_1 = 0
+
+then:
+
+.. math::
+
+   \frac{\partial z}{\partial w_1} = 0
+
+because:
+
+.. math::
+
+   w_1x_1 = w_1(0) = 0
+
+Changing ``w1`` has no immediate effect on ``z`` through this connection.
+
+
+Connection to Gradient Descent
+------------------------------
+
+Gradient Descent is usually not directly interested in:
+
+.. math::
+
+   \frac{\partial z}{\partial w_1}
+
+Instead, it needs:
+
+.. math::
+
+   \frac{\partial Loss}{\partial w_1}
+
+because the goal of training is to determine:
+
+**How should ``w1`` change in order to reduce the loss?**
+
+The computation follows the path:
+
+.. code-block:: text
+
+   w1
+    |
+    v
+   z = w1*x1 + w2*x2 + b
+    |
+    v
+   Activation Function
+    |
+    v
+   Prediction
+    |
+    v
+   Loss
+
+
+Chain Rule
+----------
+
+Because ``w1`` affects ``z``, ``z`` affects the prediction, and the prediction affects the loss,
+we use the **chain rule**:
+
+.. math::
+
+   \frac{\partial Loss}{\partial w_1}
+   =
+   \frac{\partial Loss}{\partial prediction}
+   \times
+   \frac{\partial prediction}{\partial z}
+   \times
+   \frac{\partial z}{\partial w_1}
+
+We already know:
+
+.. math::
+
+   \frac{\partial z}{\partial w_1} = x_1
+
+Therefore:
+
+.. math::
+
+   \frac{\partial Loss}{\partial w_1}
+   =
+   \frac{\partial Loss}{\partial prediction}
+   \times
+   \frac{\partial prediction}{\partial z}
+   \times
+   x_1
+
+
+Updating the Weight
+-------------------
+
+Once the gradient has been calculated, Gradient Descent updates ``w1``:
+
+.. math::
+
+   w_1^{new}
+   =
+   w_1^{old}
+   -
+   \eta
+   \frac{\partial Loss}{\partial w_1}
+
+where:
+
+``η``
+   Learning rate.
+
+``∂Loss/∂w1``
+   The gradient telling us how changing ``w1`` affects the loss.
+
+The minus sign means that the weight moves in the direction opposite to the gradient,
+because Gradient Descent attempts to reduce the loss.
+
+
+Key Idea
+--------
+
+.. important::
+
+   For
+
+   .. math::
+
+      z = w_1x_1 + w_2x_2 + b
+
+   we have:
+
+   .. math::
+
+      \frac{\partial z}{\partial w_1} = x_1
+
+   because ``x1`` is constant with respect to ``w1``, while
+   ``w2*x2`` and ``b`` do not depend on ``w1``.
+
+This forms one small part of the larger Backpropagation process:
+
+.. code-block:: text
+
+   Weight
+     ↓
+   Linear operation
+     ↓
+   Activation
+     ↓
+   Prediction
+     ↓
+   Loss
+     ↓
+   Chain Rule
+     ↓
+   Gradient
+     ↓
+   Gradient Descent
+     ↓
+   Update Weight
