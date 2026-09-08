@@ -28,7 +28,7 @@ Welcome to this guide...
 - Date: June 2025
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    chapter1
    chapter2
