@@ -1856,3 +1856,333 @@ Standardization
 #. Validation set 用来调模型，Test set 用来做最终评价。
 #. Machine learning 的目标不只是降低 training loss，而是获得好的 generalization。
 """
+
+3.7 三大 Loss Function（考试高频）
+===================================
+
+这一章最重要的三种 ``loss function``：
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 30 35
+
+   * - 任务（Task）
+     - 最后一层（Output）
+     - Loss Function
+   * - Binary classification
+     - Sigmoid（1 unit）
+     - Binary Crossentropy
+   * - Single-label Multiclass classification
+     - Softmax（N units）
+     - Categorical Crossentropy
+   * - Regression
+     - Linear（1 unit）
+     - Mean Squared Error (MSE)
+
+记忆口诀：
+
+.. code-block:: text
+
+   Binary      → Sigmoid → Binary Crossentropy
+
+   Multiclass  → Softmax → Categorical Crossentropy
+
+   Regression  → Linear  → MSE
+
+
+3.7.1 Binary Crossentropy
+--------------------------
+
+**Binary Crossentropy（二分类交叉熵）** 用于 ``Binary classification``。
+
+模型最后通常使用：
+
+.. code-block:: text
+
+   Dense(1)
+      ↓
+   Sigmoid
+      ↓
+   Probability
+      ↓
+   Binary Crossentropy
+
+Sigmoid 会输出：
+
+.. math::
+
+   \hat y \in (0,1)
+
+表示属于 **Class 1** 的概率。
+
+数学公式：
+
+.. math::
+
+   L=-
+   \left[
+   y\log(\hat y)
+   +(1-y)\log(1-\hat y)
+   \right]
+
+其中：
+
+``y``
+   真实标签（0 或 1）。
+
+``ŷ``
+   模型预测的概率。
+
+理解：
+
+如果真实标签：
+
+.. math::
+
+   y=1
+
+则：
+
+.. math::
+
+   L=-\log(\hat y)
+
+因此：
+
+.. list-table::
+   :header-rows: 1
+
+   * - Prediction
+     - Loss
+   * - 0.99
+     - 很小
+   * - 0.90
+     - 小
+   * - 0.50
+     - 中等
+   * - 0.10
+     - 很大
+   * - 0.01
+     - 非常大
+
+考试重点：
+
+- Prediction 越接近正确答案，Loss 越小。
+- **模型越自信地预测错，惩罚越大。**
+
+一句话记忆：
+
+   Binary Crossentropy 衡量预测概率与二分类真实标签之间的差距。
+
+
+3.7.2 Categorical Crossentropy
+-------------------------------
+
+**Categorical Crossentropy（类别交叉熵）** 用于：
+
+**Single-label Multiclass Classification**
+
+即：
+
+- 有多个类别；
+- 每个样本只能属于一个类别。
+
+典型结构：
+
+.. code-block:: text
+
+   Dense(N)
+      ↓
+   Softmax
+      ↓
+   Probability Distribution
+      ↓
+   Categorical Crossentropy
+
+例如：
+
+.. code-block:: text
+
+   Sports
+   Finance
+   Technology
+
+真实标签（One-Hot Encoding）：
+
+.. code-block:: text
+
+   [0,1,0]
+
+模型预测：
+
+.. code-block:: text
+
+   [0.10,0.80,0.10]
+
+公式：
+
+.. math::
+
+   L=
+   -\sum_i
+   y_i
+   \log(\hat y_i)
+
+由于 One-Hot 中只有正确类别为 1，因此实际上只有正确类别参与计算。
+
+例如：
+
+.. math::
+
+   L=-\log(0.8)
+
+考试重点：
+
+- Softmax 输出所有类别的概率。
+- 所有概率之和等于 1。
+- Loss 主要取决于模型给**正确类别**分配了多少概率。
+
+Master 补充：
+
+如果标签不是 One-Hot，而是整数标签：
+
+.. code-block:: text
+
+   0
+   1
+   2
+   ...
+
+通常使用：
+
+``sparse_categorical_crossentropy``
+
+二者数学目标相同，只是标签表示方式不同。
+
+一句话记忆：
+
+   正确类别概率越高，Categorical Crossentropy 越小。
+
+
+3.7.3 Mean Squared Error (MSE)
+------------------------------
+
+**Mean Squared Error（均方误差）** 是 Regression 最常见的 ``loss function``。
+
+模型最后通常使用：
+
+.. code-block:: text
+
+   Dense(1)
+      ↓
+   Linear Output
+      ↓
+   MSE
+
+数学公式：
+
+.. math::
+
+   MSE=
+   \frac1N
+   \sum_i
+   (y_i-\hat y_i)^2
+
+计算步骤：
+
+#. 计算每个样本的 Error。
+#. 对 Error 做平方。
+#. 对所有平方误差取平均。
+
+例子：
+
+.. list-table::
+   :header-rows: 1
+
+   * - Target
+     - Prediction
+     - Error²
+   * - 20
+     - 18
+     - 4
+   * - 30
+     - 31
+     - 1
+   * - 40
+     - 37
+     - 9
+
+因此：
+
+.. math::
+
+   MSE=\frac{4+1+9}{3}=4.67
+
+为什么要平方？
+
+**原因一：避免正负误差互相抵消。**
+
+例如：
+
+.. math::
+
+   +5,\ -5
+
+直接平均会得到 0，但平方后变成：
+
+.. math::
+
+   25,\ 25
+
+**原因二：更严重地惩罚大误差。**
+
+例如：
+
+.. math::
+
+   2^2=4
+
+但：
+
+.. math::
+
+   10^2=100
+
+因此 MSE 对 **large errors** 更敏感。
+
+考试重点：
+
+- Regression 通常使用 Linear Output。
+- MSE 是最常见的训练 Loss。
+- MAE 常作为更容易解释的 Evaluation Metric。
+
+
+3.7.4 三种 Loss 的对比（必背）
+-------------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 22 22 34
+
+   * - Loss
+     - Output
+     - 适用任务
+     - 核心特点
+   * - Binary Crossentropy
+     - Sigmoid
+     - Binary Classification
+     - 自信预测错误时惩罚更大
+   * - Categorical Crossentropy
+     - Softmax
+     - Single-label Multiclass
+     - 正确类别概率越高，Loss 越小
+   * - MSE
+     - Linear
+     - Regression
+     - 对大误差惩罚更强
+
+考试快速判断：
+
+- ``Sigmoid + Binary Crossentropy`` → Binary Classification
+- ``Softmax + Categorical Crossentropy`` → Single-label Multiclass Classification
+- ``Linear + MSE`` → Regression
