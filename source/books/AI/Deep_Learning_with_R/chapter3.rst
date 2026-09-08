@@ -1,18 +1,6 @@
 Chapter 3 — Getting Started with Neural Networks
 ================================================
 
-使用说明
---------
-
-这份笔记按 **Master's level** 和 **考试复习** 的标准整理。
-
-原则：
-
-* 必要的学术词汇保留英文，例如 ``layer``、``loss function``、``optimizer``、``gradient``、``overfitting``。
-* 其余解释尽量使用中文，便于理解和记忆。
-* 重点不是背代码，而是理解每一部分“为什么这样设计”。
-* 软件安装和旧版 backend 等历史细节不是核心，考试优先掌握长期有效的概念。
-
 本章主要学习三类任务：
 
 #. Binary classification（二分类）
