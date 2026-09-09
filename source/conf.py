@@ -45,4 +45,25 @@ html_theme_options = {
     'collapse_navigation': False,  # <--- This is the key!
     'navigation_depth': 4,         # Optional: how deep to show nested items
 }
+# -- Options for LaTeX / PDF output -----------------------------------------
 
+latex_engine = 'xelatex'
+
+latex_elements = {
+    'papersize': 'a4paper',
+    'pointsize': '10pt',
+
+    'fontpkg': r'''
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}
+''',
+
+    'preamble': r'''
+\usepackage{xeCJK}
+\setCJKmainfont{Noto Serif CJK SC}
+\setCJKsansfont{Noto Sans CJK SC}
+''',
+}
+
+latex_show_urls = 'footnote'
