@@ -511,30 +511,472 @@ Keras 等现代框架通常采用 **inverted dropout**：训练时对保留下�
    并非数学等价**，在类别极度不平衡等场景下可能出现背离，需要
    额外关注（例如引入 focal loss 等针对性损失函数）。
 
-6. 本章要点小结
+6. Master 学术扩展：从教材工作流到研究级实验设计
+=====================================================
+
+本节是在原章核心内容基础上的研究生层级扩展。原章解决的是“如何建立一个可靠的
+机器学习工作流”，而 Master 阶段还需要进一步回答：**如何证明实验设计本身可靠，
+模型改进真实存在，而且结果可以复现。**
+
+6.1 更完整的学习范式
+----------------------
+
+经典四分法仍然重要，但现代机器学习实践中还应认识 **半监督学习
+（Semi-supervised Learning）**。它利用少量有标签数据和大量无标签数据共同训练，
+特别适用于人工标注昂贵的领域，例如医学影像、遥感和工业检测。
+
+现代视角下，可以把常见范式理解为：
+
+.. list-table::
+   :header-rows: 1
+   :widths: 24 38 38
+
+   * - 范式
+     - 监督信号
+     - 典型任务/方法
+   * - Supervised
+     - 人工或外部提供的标签
+     - 分类、回归、检测、分割
+   * - Unsupervised
+     - 无显式标签
+     - 聚类、降维、密度估计
+   * - Self-supervised
+     - 从数据自身构造训练目标
+     - masked prediction、next-token prediction、contrastive learning
+   * - Semi-supervised
+     - 少量标签 + 大量无标签数据
+     - pseudo-labeling、consistency regularization
+   * - Reinforcement Learning
+     - 环境反馈的 reward
+     - sequential decision making、control
+
+.. important::
+   **Self-supervised Learning 的核心不是“没有 target”，而是 target 不需要人工标注。**
+   现代深度学习常先通过 self-supervised pretraining 学习 representation，再针对
+   downstream task 进行 fine-tuning。
+
+6.2 Evaluation Protocol：不只是随机切分
+-----------------------------------------
+
+Hold-out 和 K-fold 是基础，但研究级实验必须根据数据结构选择切分方式。
+
+.. list-table::
+   :header-rows: 1
+   :widths: 28 36 36
+
+   * - 方法
+     - 适用场景
+     - 关键目的
+   * - Hold-out
+     - 数据量较充足
+     - 简单、计算成本低
+   * - Stratified split / K-fold
+     - 类别比例不均衡
+     - 保持各 fold 类别分布相近
+   * - Group split / Group K-fold
+     - 同一 subject/patient/user 有多个样本
+     - 防止同一实体跨 train/test
+   * - Time-series split
+     - 时间序列或未来预测
+     - 保证训练数据早于验证/测试数据
+   * - Nested cross-validation
+     - 小数据且需要严格模型选择
+     - 将 hyperparameter tuning 与最终性能估计分离
+
+**核心原则：数据集“互不相交”不仅意味着 row 不重复，还要考虑产生这些 row 的实体。**
+
+例如医学影像中，一个 patient 可能有多张 X-ray：
+
+::
+
+   Patient A
+   ├── image_1
+   ├── image_2
+   └── image_3
+
+如果 ``image_1`` 在 training set，而 ``image_2`` 在 test set，即使文件不同，
+模型仍可能利用 patient-specific information，导致性能被高估。因此应优先考虑
+**patient-level / group-level splitting**。
+
+6.3 Data Leakage Taxonomy
+---------------------------
+
+Data leakage 是 Master 级实验设计中必须系统掌握的概念。
+
+.. list-table::
+   :header-rows: 1
+   :widths: 28 72
+
+   * - 类型
+     - 例子
+   * - Train-test contamination
+     - 测试样本或其复制品进入训练过程
+   * - Preprocessing leakage
+     - 使用完整数据计算 normalization 的 mean/std
+   * - Feature-selection leakage
+     - 在划分数据前利用所有样本选择特征
+   * - Group leakage
+     - 同一 patient/user 的不同记录进入不同 split
+   * - Temporal leakage
+     - 使用未来数据预测过去或当前
+   * - Benchmark contamination
+     - 模型预训练或开发过程已经接触 benchmark test information
+
+推荐把整个 preprocessing pipeline 看成模型训练的一部分：
+
+::
+
+   Training data
+        │
+        ├── fit imputer
+        ├── fit scaler
+        ├── fit feature selection / PCA
+        └── fit model
+
+   Validation / Test data
+        │
+        └── transform only using training-fitted parameters
+
+.. warning::
+   **任何从 validation/test data 学到的参数，都可能造成 leakage。**
+   这不仅包括模型 weights，也包括 mean、standard deviation、PCA components、
+   feature-selection thresholds 等。
+
+6.4 Missing Data：从“填 0”到缺失机制
+--------------------------------------
+
+将 missing value 设为 0 是某些神经网络场景中的可行策略，但不是普遍最佳实践。
+研究中应先理解缺失的来源，并选择合理处理方法。
+
+常见 missingness mechanism：
+
+- **MCAR (Missing Completely At Random)**：缺失与已观察和未观察变量都无系统关系；
+- **MAR (Missing At Random)**：在给定已观察变量后，缺失机制可解释；
+- **MNAR (Missing Not At Random)**：缺失与未观察值本身仍有关。
+
+常见处理策略包括 mean/median imputation、mode imputation、KNN/model-based
+imputation、missing-indicator，以及深度学习中的 masking。
+
+.. important::
+   Imputation 也必须遵循训练/测试隔离原则。例如 median 应只从 training set
+   估计，再应用于 validation/test set。
+
+6.5 Feature Engineering 与 Representation Learning
+----------------------------------------------------
+
+传统 Feature Engineering 依赖人工先验；Deep Learning 更强调从数据中自动学习
+representation。二者并非互斥。
+
+::
+
+   Raw Data
+      │
+      ├── Human-designed transformation
+      │        └── Feature Engineering
+      │
+      └── Learned transformation
+               └── Representation Learning
+                         │
+                         └── Pretraining → Fine-tuning
+
+在小数据、tabular data、强领域先验或高可解释性要求下，Feature Engineering
+仍然非常重要；在图像、文本、语音等高维非结构化数据中，Representation Learning
+通常更具优势。
+
+6.6 Bias–Variance Trade-off
+----------------------------
+
+Underfitting / Overfitting 可以进一步用 Bias–Variance 的视角理解：
+
+.. list-table::
+   :header-rows: 1
+   :widths: 28 24 24 24
+
+   * - 情况
+     - Bias
+     - Variance
+     - 典型表现
+   * - 模型过于简单
+     - 高
+     - 较低
+     - Underfitting
+   * - 合理复杂度
+     - 适中
+     - 适中
+     - 较好 generalization
+   * - 模型过于复杂
+     - 较低
+     - 高
+     - Overfitting
+
+这里的重点不是机械追求“更复杂”或“更简单”，而是利用 validation evidence
+寻找能够最好泛化的模型复杂度。
+
+6.7 现代 Regularization 工具箱
+--------------------------------
+
+原章中的更多数据、降低容量、L1/L2 和 Dropout 仍然是核心方法。现代实践还经常使用：
+
+- **Data augmentation**：通过合理变换增加训练数据多样性；
+- **Early stopping**：validation performance 不再改善时停止训练；
+- **Label smoothing**：降低分类模型对 hard target 的过度自信；
+- **Weight decay / AdamW**：现代 optimizer 中常见的参数约束方式。
+
+.. note::
+   Batch Normalization 的主要目的不是 regularization，而是改善网络训练行为；
+   它在某些设置下可能产生 regularizing effect，但不应简单等同于 Dropout/L2。
+
+.. note::
+   对普通 SGD，L2 penalty 与 weight decay 有紧密关系；对 Adam 等 adaptive
+   optimizer，两者并不应简单视为完全等价。AdamW 的关键思想正是将 weight decay
+   与梯度更新解耦。
+
+6.8 Loss Function 与 Evaluation Metric
+---------------------------------------
+
+**Loss 是训练信号；Metric 是评价标准。两者相关，但不是同一个概念。**
+
+::
+
+   Prediction + Target
+          │
+          ├── Loss
+          │     └── differentiable → backpropagation → optimizer
+          │
+          └── Metric
+                └── evaluate whether the model meets the task objective
+
+常见指标：
+
+.. list-table::
+   :header-rows: 1
+   :widths: 28 72
+
+   * - 任务
+     - 常见 metrics
+   * - Binary / Multiclass classification
+     - Accuracy, Precision, Recall, Specificity, F1, ROC-AUC, PR-AUC
+   * - Imbalanced classification
+     - Precision, Recall, F1, PR-AUC, balanced metrics
+   * - Multilabel classification
+     - Micro-F1, Macro-F1, mAP, per-class AUROC
+   * - Regression
+     - MAE, MSE, RMSE, :math:`R^2`
+
+.. important::
+   Accuracy 在严重 class imbalance 下可能具有误导性。例如 95% 样本属于 negative
+   class 时，一个永远预测 negative 的模型也可以得到 95% accuracy。
+
+6.9 Baseline：研究不是只看一个最终分数
+----------------------------------------
+
+一个模型“表现不错”并不足以证明方法有效。研究中需要建立有意义的 baseline。
+
+常见 baseline 层次：
+
+1. Random baseline；
+2. Majority-class / simple heuristic baseline；
+3. Classical ML baseline；
+4. Standard deep-learning baseline；
+5. Published baseline / previous method。
+
+研究问题通常不是：
+
+   “我的模型 AUROC 是多少？”
+
+而是：
+
+   “在相同数据、相同 evaluation protocol 下，我的方法是否稳定优于合理 baseline？”
+
+6.10 Reproducibility 与 Experimental Rigour
+--------------------------------------------
+
+可复现性（reproducibility）是学术实验的重要组成部分。实验记录至少应包含：
+
+- random seed；
+- dataset version 与 inclusion/exclusion criteria；
+- train/validation/test split 方法；
+- preprocessing pipeline；
+- model architecture；
+- optimizer、learning rate、batch size、epochs；
+- hyperparameter search strategy；
+- software/library versions；
+- 必要时记录 hardware；
+- 多次实验的 mean ± standard deviation，而不是只挑最好的一次。
+
+.. warning::
+   **Single run ≠ strong experimental evidence.**
+   深度学习训练受到 initialization、batch ordering、augmentation 等随机因素影响。
+   两个模型之间非常小的性能差异不一定代表真实改进。
+
+6.11 Ablation Study
+--------------------
+
+如果提出一个包含多个新组件的方法，仅比较“完整新模型 vs baseline”无法证明每个
+组件是否真正有效。Ablation Study 通过逐个移除或加入组件来回答这个问题。
+
+例如：
+
+.. list-table::
+   :header-rows: 1
+   :widths: 55 45
+
+   * - Model
+     - Validation AUROC
+   * - CNN baseline
+     - 0.840
+   * - + Attention
+     - 0.860
+   * - + Feature Fusion
+     - 0.880
+   * - + Proposed Loss
+     - 0.890
+
+这类实验可以回答：
+
+- improvement 来自哪个 component？
+- 多个 component 是否存在互补作用？
+- 模型复杂度增加是否值得？
+
+6.12 Error Analysis、Robustness 与 Uncertainty
+-----------------------------------------------
+
+最终 aggregate metric 不能解释模型为什么失败。研究阶段还应检查：
+
+- 哪些 classes 最容易预测错误？
+- false positive 与 false negative 的模式是什么？
+- 是否存在特定 subgroup 性能下降？
+- 模型对 distribution shift 是否敏感？
+- 高 confidence 的错误预测有哪些？
+- probability 是否经过合理 calibration？
+
+这些分析把“训练出一个模型”提升为“理解模型行为”。
+
+7. Master Research Workflow
+============================
+
+在原章 7-step universal workflow 的基础上，可以扩展为更适合 dissertation /
+research project 的工作流：
+
+.. list-table::
+   :header-rows: 1
+   :widths: 8 32 60
+
+   * - Step
+     - 阶段
+     - 核心问题
+   * - 1
+     - Define research question
+     - 明确 prediction task、研究假设和预期贡献
+   * - 2
+     - Dataset & target
+     - 数据是否能够回答研究问题？标签质量如何？
+   * - 3
+     - Define baselines
+     - 建立 random / classical / deep-learning / published baseline
+   * - 4
+     - Evaluation design
+     - 设计 leakage-free split、metrics 和最终 held-out test
+   * - 5
+     - Preprocessing pipeline
+     - 所有需要 fit 的步骤仅使用 training data
+   * - 6
+     - Build baseline model
+     - 验证任务具有可学习性
+   * - 7
+     - Scale until overfitting
+     - 确认模型容量边界
+   * - 8
+     - Regularize & tune
+     - 在 validation set 上进行模型选择
+   * - 9
+     - Ablation study
+     - 验证 proposed components 的独立贡献
+   * - 10
+     - Error & robustness analysis
+     - 分析失败模式、subgroup、distribution shift 和 uncertainty
+   * - 11
+     - Final evaluation
+     - 锁定模型后仅在 held-out test set 上进行最终评价
+   * - 12
+     - Report & reproduce
+     - 报告方法、结果、随机性、limitations 和 reproducibility 信息
+
+8. 本章核心知识图
 ==================
 
-1. 明确问题与数据：先收集/标注数据，再谈建模。
-2. 选定成功度量指标，它将决定损失函数的设计方向。
-3. 确定评估协议（hold-out / K 折 / 迭代 K 折），并划分好训练/验证/测试集，
-   全程警惕**信息泄漏**、**时间箭头**、**数据冗余**三大陷阱。
-4. 先开发一个"优于基线"的模型，确认问题本身具有"统计可学习性"。
-5. 主动把模型训练到过拟合，从而摸清容量的上界。
-6. 通过正则化（降容量、L1/L2、Dropout 等）系统性地收缩模型，
-   在欠拟合与过拟合之间找到最佳平衡点。
-7. 全流程贯穿一个核心纪律：**验证集用于调参、测试集只用于最终一次性
-   评估**，这是保证你汇报的泛化性能真实可信的根本保证。
+::
+
+   Machine Learning Problem
+            │
+            ▼
+   Define X, Y and task
+            │
+            ▼
+   Choose success metric
+            │
+            ▼
+   Design leakage-free evaluation
+            │
+            ▼
+   Prepare data
+   ├── Vectorization
+   ├── Normalization
+   ├── Missing-data handling
+   └── Feature / Representation Learning
+            │
+            ▼
+   Establish baseline
+            │
+            ▼
+   Train and optimize
+            │
+            ▼
+   Underfitting ─── Appropriate Capacity ─── Overfitting
+            │                 │
+            │                 ▼
+            │            Generalization
+            │                 │
+            └──── Regularization / Tuning
+                              │
+                              ▼
+                    Final held-out evaluation
+                              │
+                              ▼
+                 Error / Robustness Analysis
+                              │
+                              ▼
+                  Reproducible Research Report
+
+9. 本章要点小结
+================
+
+1. Machine Learning 的最终目标不是最小化 training loss，而是获得可靠的
+   **generalization**。
+2. Training / validation / test 的职责必须严格分离；任何间接使用 validation/test
+   information 的行为都可能造成 **data leakage**。
+3. Evaluation protocol 必须匹配数据结构：分类比例、group/patient、时间顺序都可能
+   决定正确的 split 方法。
+4. Preprocessing 也是学习过程的一部分；scaling、imputation、PCA、feature selection
+   等参数只能从 training data 估计。
+5. Feature Engineering 与 Representation Learning 是两种不同但互补的表示构建方式。
+6. Underfitting / Overfitting 可以通过 model capacity、regularization 以及
+   Bias–Variance Trade-off 统一理解。
+7. Loss Function 用于 optimization；Evaluation Metric 用于判断模型是否满足任务目标。
+8. 一个研究结果必须与合理 baseline 比较，而不是孤立报告 accuracy/AUROC。
+9. Master 层级的实验还应关注 reproducibility、ablation study、error analysis、
+   robustness 和 uncertainty。
+10. 最终 test set 应在模型和 hyperparameters 锁定后使用，尽量保持真正的
+    **held-out evaluation**。
 
 .. seealso::
-   **面向 Master 学生的延伸阅读方向**：
+   **建议继续深入的研究生主题**
 
-   - 偏差-方差权衡（Bias-Variance Tradeoff）与本章"欠拟合/过拟合"的
-     统计学习理论对应关系（可参考 *Elements of Statistical Learning*）。
-   - 现代正则化手段：Batch/Layer Normalization、残差连接、
-     标签平滑（Label Smoothing）、数据增强（Data Augmentation）、
-     混合精度与权重衰减解耦的 AdamW 优化器。
-   - 大模型时代的评估范式演进：预训练-微调-对齐（RLHF）三阶段中，
-     每一阶段如何重新定义"训练/验证/测试"边界与信息泄漏风险
-     （如 benchmark contamination 问题）。
-   - 时间序列与在线学习场景下，"时间箭头"原则如何演化为
-     walk-forward validation、滚动窗口回测等更精细的评估协议。
+   - Bias–Variance decomposition 与 statistical learning theory；
+   - Nested cross-validation 与 hyperparameter optimization；
+   - Calibration、Brier score 与 Expected Calibration Error (ECE)；
+   - Bootstrap confidence intervals 与模型性能比较；
+   - Distribution shift、domain adaptation 与 out-of-distribution detection；
+   - Explainable AI (XAI) 与模型解释可靠性；
+   - Dataset shift、benchmark contamination 与 foundation-model evaluation。
+
