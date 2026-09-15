@@ -1,10 +1,16 @@
-论文研读
-=======
+Research Paper Library
+======================
+
+This section contains my reading notes and reviews of research papers.
 
 .. toctree::
    :maxdepth: 2
-   :caption: 数学 计算机 数据 模型
 
+   xai/index
+   medical_ai/index
+   deep_learning/index
+   transformers/index
+   generative_ai/index
    bootstrap/index
 
 
