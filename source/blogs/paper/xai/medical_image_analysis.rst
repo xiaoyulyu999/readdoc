@@ -210,6 +210,7 @@ for predicting a disease is an example of local explanation.
 
 For chest X-ray classification::
 
+
     Chest X-ray
         |
         v
@@ -367,6 +368,8 @@ Examples include:
 * Testing with Concept Activation Vectors (TCAV)
 
 For medical imaging, a system could potentially produce:
+
+.. code-block:: R
 
     Chest X-ray
          |
