@@ -407,6 +407,64 @@ towards:
 
     concept-level explanation
 
+.. note::
+
+   Shen et al. (2019) used what they called a hierarchical seman-
+   tic CNN to predict malignancy of lung nodules on CT. They clas-
+   sified five textual descriptions of image characteristics represen-
+   tative of lung nodule malignancy that are typically assessed by a
+
+   radiologist. The task of finding textual descriptions was combined
+   with the main task of classifying lung nodule malignancy. Although
+   their hierarchical semantic CNN did not significantly outperform a
+
+   normal CNN in predicting nodule malignancy, the method did pro-
+   vide human-interpretable characteristics of the nodules.
+
+XAI 的目标不一定是提高 accuracy，而是让模型的预测过程更容易被人理解。
+
+普通 CNN：
+
+.. code-block:: R
+
+   CT nodule
+    ↓
+   CNN
+    ↓
+   Malignant / Benign
+
+而 hierarchical semantic CNN 更像：
+
+.. code-block:: R
+
+                  CT Nodule
+                     ↓
+                    CNN
+                     ↓
+          Learned Representation
+              ↙              ↘
+             ↓                ↓
+      Semantic features      Malignancy
+                ↓             prediction
+        characteristic 1
+        characteristic 2
+        characteristic 3
+        characteristic 4
+        characteristic 5
+
+也就是说，它不仅回答：
+
+“Is this nodule malignant?”
+
+还试图告诉医生：
+
+“What characteristics does this nodule have?”
+
+.. important::
+
+   “the method did provide human-interpretable characteristics of the nodules.”
+
+这些 characteristics 是放射科医生本身会评估的影像学特征，所以模型输出和医生熟悉的医学概念之间建立了联系。
 
 3.3 Example-based Explanation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
