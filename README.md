@@ -38,3 +38,35 @@ pip install sphinx sphinx-pdj-theme
  
 # 5. code tabs
 pip install sphinx_code_tabs
+
+[//]: # (.. toctree::)
+
+[//]: # (   :maxdepth: 1)
+
+[//]: # (   :caption: AWS)
+
+[//]: # ()
+[//]: # (   AWS/AWS Certified Machine Learning Engineer Associate/index)
+
+[//]: # ()
+[//]: # (.. toctree::)
+
+[//]: # (   :maxdepth: 1)
+
+[//]: # (   :caption: Projects)
+
+[//]: # ()
+[//]: # (   projects/CatOrDog/index)
+
+[//]: # (   projects/MNIST/index)
+
+[//]: # (   projects/schedulerAIPowered/index)
+
+[//]: # (   projects/django_crm/index)
+
+[//]: # ()
+[//]: # (.. toctree::)
+
+[//]: # (   :maxdepth: 1)
+
+[//]: # (   :caption: Tools and Resources)
