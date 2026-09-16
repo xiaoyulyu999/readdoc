@@ -12,5 +12,6 @@ This section contains my reading notes and reviews of research papers.
    transformers/index
    generative_ai/index
    bootstrap/index
+   research/index
 
 
