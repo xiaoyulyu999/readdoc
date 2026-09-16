@@ -3,7 +3,7 @@ Explainable Reconstruction-Free Deep Learning for Diagnosis from CT Projection D
 ================================================================================
 
 :Author: Xiaoyu Lyu
-:Document type: PhD-level research report and proposal
+:Document type: research report and proposal
 :Version: 1.0
 :Date: 16 September 2026
 :Keywords: computed tomography, sinogram, projection-domain learning,
