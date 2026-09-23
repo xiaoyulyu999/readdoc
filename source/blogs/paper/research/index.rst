@@ -6,3 +6,4 @@ research report and proposal
    :maxdepth: 1
 
    reconstruction_free_ct_research_report
+   proteinMPNN
