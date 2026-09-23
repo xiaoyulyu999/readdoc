@@ -17,7 +17,7 @@ Executive Summary
 
 本项目提出采用**低秩自适应（Low-Rank Adaptation, LoRA）**对 ProteinMPNN 实施参数高效微调（PEFT），在完全冻结 3D 结构编码器的前提下，仅微调解码器前馈层极小比例（< 0.2%）的参数。同时，引入**中心核对齐（CKA）**与**积分梯度（Captum Integrated Gradients）**构建双重可解释性（XAI）特征诊断流水线，并结合 **ESMFold** 回测系统，建立“参数轻量注入 - 隐层表征对齐 - 特征归因诊断 - 结构自洽验证”的完整闭环评估体系。
 
-.. figure:: _static/framework_overview.png
+.. figure:: image/framework_overview.png
    :align: center
    :alt: Methodological Framework Overview
 
@@ -201,7 +201,7 @@ Work Breakdown Structure & Research Roadmap
 
 在利用深度生成模型进行逆向蛋白质设计（Inverse Protein Design）时，将通用预训练模型（如 ProteinMPNN）适配到特定的下游生物物理任务（例如极端热稳定性优化、宿主表达偏好改造）是极其关键的研究方向[cite: 2]。然而，直接对模型实施传统的**全参数微调（Full Fine-Tuning）**会面临严重的物理先验破坏与结构崩溃风险。
 
-.. figure:: _static/representational_drift_diagram.png
+.. figure:: image/representational_drift_diagram.png
    :align: center
    :alt: Catastrophic Forgetting vs Parameter-Efficient Adaptation
 
