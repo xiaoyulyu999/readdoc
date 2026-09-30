@@ -33,11 +33,11 @@ Theoretical Implications of Direct PDB Training and Catastrophic Forgetting.
 
   * Crucially, this dense empirical consensus serves as the theoretical origin explaining why subsequent unconstrained full parameter fine-tuning inevitably triggers catastrophic forgetting.
 
-.. pull-quote::
+.. blockquote::
 
-   **Verbatim Citation from Source / 论文原文摘录 (Page 8)**[cite: 1]:
+   Verbatim Citation from Source / 论文原文摘录 (Page 8) [cite: 1]:
 
-   *"While deep learning methods lack the physical transparency of methods like Rosetta, they are trained directly to find the most probable amino acid for a protein backbone given all the examples in the PDB, and hence such ambiguities do not arise, making sequence design more robust and less dependent on the judgement of a human expert."*[cite: 1]
+   "While deep learning methods lack the physical transparency of methods like Rosetta, they are trained directly to find the most probable amino acid for a protein backbone given all the examples in the PDB, and hence such ambiguities do not arise, making sequence design more robust and less dependent on the judgement of a human expert."[cite: 1]
 
 ----------------------------------------------------------------------------------------------------
 
