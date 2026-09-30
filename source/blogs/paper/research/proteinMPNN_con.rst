@@ -1,12 +1,6 @@
-.. =============================================================================
-.. Title: Theoretical Defects of ProteinMPNN and the LoRA-Based PEFT Paradigm
-.. Subtitle: Comprehensive Academic Analysis for Doctoral Examination & Research
-.. =============================================================================
-
-==============================================================================
+===================================================================
 Theoretical Defects of ProteinMPNN and the LoRA-Based PEFT Paradigm
-ProteinMPNN 的理论缺陷剖析与基于 LoRA 的参数高效微调范式
-==============================================================================
+====================================================================
 
 .. contents:: Table of Contents / 目录导航
    :depth: 3
@@ -16,7 +10,7 @@ ProteinMPNN 的理论缺陷剖析与基于 LoRA 的参数高效微调范式
 
 1. Inherent Theoretical Defects and Empirical Pathologies of ProteinMPNN
 一、 ProteinMPNN 的本质理论缺陷与实证病态
-==============================================================================
+------------------------------------------------------------------------------
 
 1.1 Defect 1: Decoupling Between In Silico Optimization and Biophysical Foldability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -74,7 +68,7 @@ ProteinMPNN 的理论缺陷剖析与基于 LoRA 的参数高效微调范式
 
 2. Deep Mathematical and Biophysical Root Causes of Pathologies
 二、 缺陷发生的深层数理与生物物理机制
-==============================================================================
+------------------------------------------------------------------------------
 
 2.1 Likelihood Maximization vs. Physical Free-Energy Landscape
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -122,7 +116,7 @@ ProteinMPNN 的理论缺陷剖析与基于 LoRA 的参数高效微调范式
 
 3. The LoRA-Based PEFT Paradigm and Step-by-Step Resolution
 三、 基于 LoRA 的参数高效微调范式与逐步实施方案
-==============================================================================
+------------------------------------------------------------------------------
 
 3.1 Strategic Rationale for Adopting LoRA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -201,7 +195,7 @@ ProteinMPNN 的理论缺陷剖析与基于 LoRA 的参数高效微调范式
 
 4. Comprehensive Examination and Defense Synthesis Matrix
 四、 综合学术考核答辩对照矩阵
-==============================================================================
+------------------------------------------------------------------------------
 
 .. list-table:: Comprehensive Academic Benchmark Comparison
    :widths: 20 25 25 30
@@ -229,5 +223,6 @@ ProteinMPNN 的理论缺陷剖析与基于 LoRA 的参数高效微调范式
    * - **对非理想骨架的鲁棒性**
        *(Backbone Robustness)*
      - 未加噪模型易过拟合晶体精修原子记忆[cite: 1]。
+     - 细微亚埃级侧链反力微调暗含了原始残基特征。
      - 细微亚埃级侧链反力微调暗含了原始残基特征。
      - 100% 冻结已加噪训练的 Encoder，完整继承其抗噪鲁棒性[cite: 1]。
