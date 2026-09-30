@@ -200,28 +200,59 @@ Theoretical Defects of ProteinMPNN and the LoRA-Based PEFT Paradigm
    :widths: 20 25 25 30
    :header-rows: 1
 
-   * - 核心考察维度 (Criterion)
-     - 原生 ProteinMPNN 及温度调节表现[cite: 1]
+   * - 核心考察维度
+       *(Criterion)*
+     - 原生 ProteinMPNN 及温度调节表现
+       *(Native ProteinMPNN & Temperature Scaling)*
      - 产生该缺陷的底层深层机理
+       *(Underlying Mathematical/Biophysical Mechanism)*
      - LoRA 架构体系的针对性解决方案
+       *(Proposed LoRA Adaptation Architecture)*
+
    * - **生化任务特化能力**
        *(Biophysical Specialization)*
-     - 无特定功能偏好认知，无法定向引入耐热/宿主偏好[cite: 1]。
-     - MLE 损失仅拟合常温天然进化序列，无外加功能热力学约束。
-     - 通过低秩增量矩阵 :math:`\Delta W` 向解码器注入各向异性生物偏置。
+     - 无特定功能偏好认知，无法定向引入耐热/宿主偏好。
+
+       *Lacks target biophysical awareness; cannot inject thermostable or host-specific preferences.*
+     - 最大似然估计（MLE）损失仅拟合常温天然进化序列，无外加功能热力学约束。
+
+       *Maximum Likelihood Estimation (MLE) solely optimizes for evolutionary frequencies without thermodynamic constraints.*
+     - 通过低秩增量矩阵 :math:`\Delta W = \frac{\alpha}{r} B \cdot A` 向解码器注入各向异性生物偏置。
+
+       *Injects task-directed anisotropic biophysical biases into decoder projections via low-rank residuals.*
+
    * - **推断多样性调节机制**
        *(Diversity Modulation)*
-     - 依赖各向同性温度缩放（:math:`z/T`）[cite: 1]。
-     - 标量除法均等改变概率方差，属于无序热噪声注入。
-     - 潜空间重构条件分布，在 :math:`T=0.1` 极低熵下直接输出功能基序[cite: 1]。
+     - 依赖各向同性温度缩放（:math:`z / T`）调节。
+
+       *Relies strictly on isotropic temperature scaling (:math:`z / T`) during rollout[cite: 1].*
+     - 标量除法均等改变概率方差，属于无序热噪声注入，无方向性。
+
+       *Scalar division uniformly scales categorical variance, representing undirected stochastic thermal noise.*
+     - 潜空间重构条件分布，在 :math:`T = 0.1` 极低熵下直接输出功能基序[cite: 1]。
+
+       *Reconstructs the latent conditional manifold, directly sampling functional motifs under low entropy (:math:`T = 0.1`)[cite: 1].*
+
    * - **可折叠性与多样性权衡**
        *(Foldability Trade-off)*
      - 高温提高多样性，但导致恢复率下降与折叠崩溃风险[cite: 1]。
-     - 熵膨胀促使模型探索高能量势垒的不利位阻构象。
+
+       *High temperature amplifies diversity at the expense of sequence recovery and folding stability[cite: 1].*
+     - 熵膨胀促使模型探索高能量势垒的不利位阻与电荷冲突构象。
+
+       *Entropy inflation forces the sampler to populate energetically unfavorable steric and electrostatic clashes.*
      - 锁定主干并在极低温采样，兼具极高折叠成功率与特异性功能[cite: 1]。
+
+       *Freezes structural backbone and preserves high-confidence sampling, achieving simultaneous foldability and specialization[cite: 1].*
+
    * - **对非理想骨架的鲁棒性**
        *(Backbone Robustness)*
-     - 未加噪模型易过拟合晶体精修原子记忆[cite: 1]。
-     - 细微亚埃级侧链反力微调暗含了原始残基特征。
-     - 细微亚埃级侧链反力微调暗含了原始残基特征。
+     - 未加噪模型易过拟合晶体精修原子记忆，对计算骨架脆弱[cite: 1]。
+
+       *Models trained without noise overfit to crystallographic coordinate artifacts, failing on de novo backbones[cite: 1].*
+     - 细微亚埃级侧链反力微调暗含了原始残基特征，造成伪记忆泄露[cite: 1]。
+
+       *Sub-angstrom crystallographic refinement imprints sidechain memory into backbone coordinates, causing false leakage[cite: 1].*
      - 100% 冻结已加噪训练的 Encoder，完整继承其抗噪鲁棒性[cite: 1]。
+
+       *Strictly freezes the noise-hardened SE(3) Encoder, preserving topological noise resilience without degradation[cite: 1].*
