@@ -33,7 +33,7 @@ Theoretical Implications of Direct PDB Training and Catastrophic Forgetting.
 
   * Crucially, this dense empirical consensus serves as the theoretical origin explaining why subsequent unconstrained full parameter fine-tuning inevitably triggers catastrophic forgetting.
 
-.. blockquote::
+.. pull-quote::
 
    Verbatim Citation from Source / 论文原文摘录 (Page 8) [cite: 1]:
 
